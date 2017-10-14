@@ -1,0 +1,111 @@
+package edu.bupt.dmg.algorithm.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import edu.bupt.dmg.algorithm.TopologySimplifyAlgorithm;
+import edu.bupt.dmg.formbean.Table;
+
+/**
+ * 在社团发现算法之后使用
+ * 
+ * Project Name: VisAna<br>
+ * File Name: TopologySimplifyAlgorithmImpl.java<br>
+ * Package Name: edu.bupt.dmg.algorithm.impl<br>
+ * Creator: @author Ruitong Chai & Bohao Wang<br>
+ * Create Time：2017年5月12日<br>
+ * Version: @version 0.0.1
+ */
+public class TopologySimplifyAlgorithmImpl extends CommunityDetectAlgorithmHelper implements TopologySimplifyAlgorithm {
+
+	@Override
+	public ArrayList<Table> excecute(ArrayList<Table> tableList) {
+		Table rawNodes = tableList.get(1);
+		boolean[][] adjMatrix = getMatrixByEdge(tableList);
+		Map<String, ArrayList<Integer>> communities = parseCommunities(rawNodes);
+		Table newNodes = parseNewNodeTable(communities);
+		Table newEdges = parseNewEdgeTable(communities, adjMatrix);
+		ArrayList<Table> newTableList = new ArrayList<Table>();
+		newTableList.add(newEdges);
+		newTableList.add(newNodes);
+		return newTableList;
+	}
+
+	private Map<String, ArrayList<Integer>> parseCommunities(Table rawNodes) {
+		Map<String, ArrayList<Integer>> communities = new HashMap<String, ArrayList<Integer>>();
+		for (int i = 0; i < rawNodes.getContent().size(); i++) {
+			Map<String, String> node = rawNodes.getContent().get(i);
+			String group = node.get("group");
+			if (group != null) {
+				ArrayList<Integer> community = communities.get(group);
+				if (community == null) {
+					community = new ArrayList<Integer>();
+					communities.put(group, community);
+				}
+				community.add(i);
+			}
+		}
+		return communities;
+	}
+
+	private Table parseNewNodeTable(Map<String, ArrayList<Integer>> communities) {
+		Table newNodes = new Table();
+		Map<String, String> headType = new LinkedHashMap<>();
+		headType.put("name", "attr");
+		headType.put("value", "measure");
+		newNodes.setHeadType(headType);
+
+		ArrayList<Map<String, String>> content = new ArrayList<Map<String, String>>();
+		for (String key : communities.keySet()) {
+			Map<String, String> node = new LinkedHashMap<String, String>();
+			node.put("name", key);
+			Integer value = communities.get(key).size();
+			node.put("value", value.toString());
+			content.add(node);
+		}
+		newNodes.setData(content);
+		return newNodes;
+	}
+
+	private Table parseNewEdgeTable(Map<String, ArrayList<Integer>> communities, boolean[][] adjMatrix) {
+		Table newEdges = new Table();
+		Map<String, String> headType = new LinkedHashMap<>();
+		headType.put("source", "measure");
+		headType.put("target", "measure");
+		headType.put("value", "measure");
+		newEdges.setHeadType(headType);
+		ArrayList<Map<String, String>> content = new ArrayList<Map<String, String>>();
+		System.out.println("communityCnt:" + communities.keySet().size());
+		Integer m = 0;
+		for (String key1 : communities.keySet()) {
+			Integer n = 0;
+			for (String key2 : communities.keySet()) {
+				if (n > m) {
+					Integer edgeCnt = 0;
+					ArrayList<Integer> sourceCommunity = communities.get(key1);
+					ArrayList<Integer> targetCommunity = communities.get(key2);
+					for (Integer i : sourceCommunity) {
+						for (Integer j : targetCommunity) {
+							if (adjMatrix[i][j]) {
+								edgeCnt++;
+							}
+						}
+					}
+					if (edgeCnt != 0) {
+						Map<String, String> edge = new LinkedHashMap<String, String>();
+						edge.put("source", String.valueOf(m));
+						edge.put("target", String.valueOf(n));
+						edge.put("value", edgeCnt.toString());
+						content.add(edge);
+					}
+				}
+				n++;
+			}
+			m++;
+		}
+		newEdges.setData(content);
+		return newEdges;
+	}
+}

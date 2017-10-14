@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>极坐标下的层叠柱状图</title>
+
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../theme/slider/css/bootstrap-slider.min.css" />
+		<link rel="stylesheet" href="../theme/css/edva.css" />
+
+		<style>
+			.roseLegend {
+				color: #FFFFFF;
+				font-family: "微软雅黑";
+			}
+			
+			.slider.slider-vertical {
+				height: 1100px;
+			}
+			
+			.slider-tick-label {
+				color: #FFFFFF;
+			}
+		</style>
+
+	</head>
+
+	<body style="overflow: hidden;font-family: '微软雅黑';">
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">电力数据可视化</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav navbar-right ">
+						<li><a href="/dva-mvn/html/EMap.html">电力地图</a></li>
+						<li><a href="/dva-mvn/html/matrix.html">行业相关矩阵</a></li>
+						<li><a href="/dva-mvn/html/force.html">行业相关网路</a></li>
+						<li><a href="/dva-mvn/html/CourtPredict.html">线路用电预测</a></li>
+						<li><a href="/dva-mvn/html/cluster.html">居民用电聚类</a></li>
+						<li class="active"><a href="/dva-mvn/html/sensityana.html">用电敏感因素分析</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="container-fluid" style="background-image: url(../static/img/bk-right-foot.png); background-size: 100% auto;">
+			<div class="row" style="height: 25px;"></div>
+			<ul class="nav nav-tabs" role="tablist" id="myTab" style="width: 95%; margin-left: 15px;">
+				<li id="businessButton" class="active"><a href="#business" role="tab" data-toggle="tab" style="font-size: 10px;">商业用电敏感因素分析</a></li>
+				<li id="residentButton"><a href="#resident" role="tab" data-toggle="tab" style="font-size: 10px;">居民用电敏感因素分析</a></li>
+			</ul>
+			<div class="row" style="height: 600px;">
+				<div class="tab-content" style="height: 600px; margin: 0 auto;">
+					<div class="tab-pane active" id="business">
+						<div class="container" id="businessRose" style="height: 600px;"></div>
+					</div>
+					<div class="tab-pane" id="resident">
+						<div class="container" id="residentRose" style="height: 600px;"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/g2/index.js"></script>
+		<script type="text/javascript" src="../js/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../theme/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../theme/slider/js/bootstrap-slider.min.js"></script>
+		<script type="text/javascript" src="../app/sensityana/sensdata_new.js"></script>
+
+		<script>
+			businessRose();
+
+			function cleanWorkSpace(workspace) {
+				$('#businessRose').empty();
+				$('#residentRose').empty();
+			}
+			$('#businessButton').on("click", function() {
+				cleanWorkSpace();
+				businessRose();
+			});
+			$('#residentButton').on("click", function() {
+				cleanWorkSpace();
+				residentRose();
+			});
+
+			function businessRose() {
+				var colors = ['rgba(161, 80, 207, 1)', 'rgba(0, 68, 54, 1)', 'rgba(162, 86, 0, 1)', 'rgba(129, 20, 20, 1)', 'rgba(17, 81, 112, 1)', 'rgba(0, 195,156, 1)', 'rgba(191, 77,0, 1)'];
+				var businessRoseChart = new G2.Chart({
+					id: 'businessRose',
+					width: 1000,
+					height: 500,
+					plotCfg: {
+						margin: [100, 10, 12, 8]
+					}
+				});
+				businessRoseChart.source(businessData);
+				businessRoseChart.coord('plus', {
+					radius: 1,
+					inner: 0.1
+				});
+				businessRoseChart.intervalStack().position('cname*value').color('敏感因子', colors).size(80);
+				businessRoseChart.axis('cname', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							fill: '#fff',
+							'font-size': 10
+						}
+					}
+				});
+				businessRoseChart.axis('value', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							fill: '#fff',
+							'font-size': 10
+						}
+					}
+				});
+				businessRoseChart.legend('敏感因子', {
+					position: 'left',
+					title: {
+						fill: 'white',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'font-size': '10'
+					}
+				});
+				businessRoseChart.tooltip({
+					title: {
+						fill: 'white',
+						'font-family': '微软雅黑',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'line-height': '22',
+						'font-family': '微软雅黑',
+						'font-size': '10'
+					}
+				});
+				businessRoseChart.render();
+			}
+
+			function residentRose() {
+				var colors = ['rgba(161, 80, 207, 1)', 'rgba(0, 68, 54, 1)', 'rgba(162, 86, 0, 1)', 'rgba(129, 20, 20, 1)', 'rgba(17, 81, 112, 1)', 'rgba(0, 195,156, 1)', 'rgba(255, 166,194, 1)'];
+				var residentRoseChart = new G2.Chart({
+					id: 'residentRose',
+					width: 1000,
+					height: 600,
+					plotCfg: {
+						margin: [50, 10, 15, 8]
+					}
+				});
+				residentRoseChart.source(residentData);
+				residentRoseChart.coord('plus', {
+					radius: 1,
+					inner: 0.1
+				});
+				residentRoseChart.intervalStack().position('resident*value').color('敏感因子', colors).size(100);
+				residentRoseChart.axis('resident', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							fill: '#fff',
+							'font-size': 10
+						}
+					}
+				});
+				residentRoseChart.axis('value', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							fill: '#fff',
+							'font-size': 10
+						}
+					}
+				});
+				residentRoseChart.tooltip({
+					title: {
+						fill: 'white',
+						'font-family': '微软雅黑',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'line-height': '22',
+						'font-family': '微软雅黑',
+						'font-size': '10'
+					}
+				});
+				residentRoseChart.legend('敏感因子', {
+					position: 'left',
+					title: {
+						fill: 'white',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'font-size': '10'
+					}
+				});
+				residentRoseChart.render();
+			}
+		</script>
+	</body>
+
+</html>

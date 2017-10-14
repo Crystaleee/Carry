@@ -1,0 +1,330 @@
+/**
+ * Created by storm on 2016/5/30.
+ */
+function handleFile(e) {
+    var f = e.target.files[0];
+    var textType = f.name.split('.')[1];
+    $("#file-name").val(f.name.split('.')[0]);
+
+    if (textType.toUpperCase() == "CSV") {
+        readCSV(f);
+    } else if (textType.toUpperCase() == "XLS") {
+        readExcel(f);
+    } else if (textType.toUpperCase() == "TXT") {
+        readCSV(f);
+    }
+}
+
+function readCSV(f) {
+    var fileName = f.name;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var content = e.target.result;
+        var file = parseCSV2Table(fileName, content);
+        showFileInTable(file)
+    };
+    reader.readAsText(f, 'gbk');
+}
+
+function readExcel(f) {
+    var fileName = f.name;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var data = e.target.result;
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+        var first_sheet_name = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[first_sheet_name];
+        var content = XLSX.utils.sheet_to_csv(worksheet);
+
+        var file = parseCSV2Table(fileName, content);
+        showFileInTable(file);
+    };
+    reader.readAsBinaryString(f);
+}
+
+function parseCSV2Table(fileName, content) {
+    var result = $.csv.toArrays(content);
+    var files = {};
+    files.name = fileName;
+    files.headers = result[0];
+    files.columns = [];
+
+    result[1].forEach(function (elem) {
+        if ($.isNumeric(elem)) {
+            files.columns.push({
+                type: "numeric",
+                format: "0.0000"
+            });
+        } else if (moment(elem).isValid()) {
+            files.columns.push({
+                type: "date",
+                format: "MM/DD/YYYY"
+            });
+        } else {
+            files.columns.push({
+                type: "text"
+            });
+        }
+    });
+
+    files.contents = result.slice(1);
+
+    return files;
+}
+
+function showFileInTable(file) {
+    $("#file-contents").handsontable({
+        data: file.contents,
+        stretchH: 'all',
+        width: 800,
+        height: 400,
+        colHeaders: file.headers,
+        columns: file.columns,
+        columnSorting: true,
+        sortIndicator: true,
+        contextMenu: true,
+        afterGetColHeader: function (col, TH) {
+            var instance = this;
+            var menu = buildMenu(file.columns[col].type);
+            var button = buildButton();
+            addButtonMenuEvent(button, menu);
+            Handsontable.Dom.addEvent(menu, 'click', function (event) {
+                if (event.target.nodeName == 'LI') {
+                    setColumnType(file.columns, col, event.target.data['colType'], instance);
+                }
+            });
+            if (TH.firstChild.lastChild.nodeName === 'BUTTON') {
+                TH.firstChild.removeChild(TH.firstChild.lastChild);
+            }
+            TH.firstChild.appendChild(button);
+            TH.style['white-space'] = 'normal';
+        }
+    });
+
+    colHeaderRename();
+}
+
+function addButtonMenuEvent(button, menu) {
+    Handsontable.Dom.addEvent(button, 'click', function (event) {
+        var changeTypeMenu, position, removeMenu;
+        document.body.appendChild(menu);
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        changeTypeMenu = document.querySelectorAll('.changeTypeMenu');
+        for (var i = 0, len = changeTypeMenu.length; i < len; i++) {
+            changeTypeMenu[i].style.display = 'none';
+        }
+        menu.style.display = 'block';
+        position = button.getBoundingClientRect();
+        menu.style.top = (position.top + (window.scrollY || window.pageYOffset)) + 2 + 'px';
+        menu.style.left = (position.left) + 'px';
+        removeMenu = function (event) {
+            if (event.target.nodeName == 'LI' && event.target.parentNode.className.indexOf('changeTypeMenu') !== -1) {
+                if (menu.parentNode) {
+                    menu.parentNode.removeChild(menu);
+                }
+            }
+        };
+        Handsontable.Dom.removeEvent(document, 'click', removeMenu);
+        Handsontable.Dom.addEvent(document, 'click', removeMenu);
+    });
+}
+
+function buildMenu(activeCellType) {
+    var menu = document.createElement('UL'),
+        types = ['text', 'numeric', 'date'],
+        item;
+    menu.className = 'changeTypeMenu';
+    for (var i = 0, len = types.length; i < len; i++) {
+        item = document.createElement('LI');
+        if ('innerText' in item) {
+            item.innerText = types[i];
+        } else {
+            item.textContent = types[i];
+        }
+        item.data = {
+            'colType': types[i]
+        };
+        if (activeCellType == types[i]) {
+            item.className = 'active';
+        }
+        menu.appendChild(item);
+    }
+    return menu;
+}
+
+function buildButton() {
+    var button = document.createElement('BUTTON');
+    button.innerHTML = '\u25BC';
+    button.className = 'changeType';
+    return button;
+}
+
+function setColumnType(columns, i, type, instance) {
+    columns[i].type = type;
+    instance.updateSettings({
+        columns: columns
+    });
+    instance.validateCells(function () {
+        instance.render();
+    });
+}
+
+function colHeaderRename() {
+    var hotInstance = $("#file-contents").handsontable('getInstance');
+    var session;
+    $("th").dblclick(function (e) {
+        e.preventDefault();
+        var a = hotInstance.getSelected();
+        var b = hotInstance.getColHeader(a[1], a[2]);
+        var headers = hotInstance.getColHeader();
+        var value;
+        if ($("th").find("input[name='id']").val()) {
+            value = $("th").find("input[name='id']").val();
+            headers[session] = value;
+            session = a[1];
+            headers[a[1]] = "<input name='id' type='text' value=" + b + "/>";
+            hotInstance.updateSettings({
+                colHeaders: headers
+            });
+        } else {
+            session = a[1];
+            headers[a[1]] = "<input name='id' type='text' value=" + b + "/>";
+            hotInstance.updateSettings({
+                colHeaders: headers
+            });
+            $(this).find("input[name='id']").focus();
+        }
+    });
+    $("th").change(function (e) {
+        e.preventDefault();
+        var a = hotInstance.getSelected();
+        var b = hotInstance.getColHeader(a[1], a[2]);
+        var headers = hotInstance.getColHeader();
+        var value = $(this).find("input[name='id']").val();
+        headers[a[1]] = value;
+        hotInstance.updateSettings({
+            colHeaders: headers
+        });
+    });
+}
+
+function parseFile2Json(fileName, headers, headersType, content) {
+    return {
+        title: fileName,
+        headers: headers,
+        headersType: headersType,
+        content: content
+    };
+}
+
+function uploadFile() {
+    var hotInstance = $("#file-contents").handsontable('getInstance');
+
+    var selectedRange = hotInstance.getSelected();
+    console.log(selectedRange);
+    console.log(hotInstance.getSelectedRange());
+
+    var fileName = $("#file-name").val();
+    var headers = hotInstance.getColHeader();
+    var headersType = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var type = {text: "attr", numeric: "measure", date: 'date'};
+        headersType.push(type[hotInstance.getDataType(1, i)]);
+    }
+    var data = hotInstance.getData();
+
+    var jsonFile = parseFile2Json(fileName, headers, headersType, data);
+
+    $.ajax({
+        type: 'post',
+        url: '/dva-mvn/file/uploadJson.do',
+        cache: false,
+        data: {
+            fileName: fileName,
+            jsonFiles: JSON.stringify([jsonFile])
+        },
+        success: function (result) {
+            if (result.resultCode == 1) {
+                console.log("upload success");
+                window.location.href = "/dva-mvn/html/main.html";
+            } else {
+                alert(result.resultTips);
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function connectDB() {
+    var dbType = $("#dbType").val(),
+        ipAddress = $("#ipAddress").val(),
+        port = $("#port").val(),
+        dbName = $("#dbName").val(),
+        userName = $("#userName").val(),
+        password = $("#password").val();
+
+    $.ajax({
+        type: "post",
+        url: '/dva-mvn/db/getTables.do',
+        cache: false,
+        data: {
+            dbType: dbType,
+            ipAddress: ipAddress,
+            port: port,
+            dbName: dbName,
+            userName: userName,
+            password: password
+        },
+        success: function (result) {
+            var resultMessage = result.resultMessage;
+            if (resultMessage.resultCode == 1) {
+                var tables = result.tables;
+                $("#dbConnect").modal('hide');
+                $("#db a:first").tab('show');
+                var dbTables = $("#dbTables");
+                tables.forEach(function (table) {
+                    var tableEle = $('<label><input type="checkbox" name="table" value="' + table + '">' + table + '</label>');
+                    dbTables.append(tableEle);
+                });
+            } else {
+                alert(resultMessage.resultTips);
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function saveTables() {
+    var tables = [];
+    $('input[name="table"]:checked').each(function () {
+        tables.push($(this).val());
+    });
+
+    $.ajax({
+        type: "post",
+        url: '/dva-mvn/db/saveTables.do',
+        cache: false,
+        data: {
+            dbType: $("#dbType").val(),
+            ipAddress: $("#ipAddress").val(),
+            port: $("#port").val(),
+            dbName: $("#dbName").val(),
+            tables: tables,
+            userName: $("#userName").val(),
+            password: $("#password").val()
+        },
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}

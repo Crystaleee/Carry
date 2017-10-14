@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>电力地图</title>
+
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../theme/css/edva.css" />
+		<link rel="stylesheet" href="../js/geo/openlayer/ol.css" />
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">电力数据可视化</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav navbar-right ">
+						<li class="active"><a href="/dva-mvn/html/EMap.html">电力地图</a></li>
+						<li><a href="/dva-mvn/html/matrix.html">行业相关矩阵</a></li>
+						<li><a href="/dva-mvn/html/force.html">行业相关网路</a></li>
+						<li><a href="/dva-mvn/html/CourtPredict.html">线路用电预测</a></li>
+						<li><a href="/dva-mvn/html/cluster.html">居民用电聚类</a></li>
+						<li><a href="/dva-mvn/html/sensityana.html">用电敏感因素分析</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="container-fluid" >
+			<div class="row" style="background-image: url(../static/img/bk-right-content.png); background-size: 100% auto;">
+				<ul class="nav nav-tabs" id="myTab">
+					<li id="poibtn" class="active"><a href="#poi" data-toggle="tab">定位图</a></li>
+					<li id="densitybtn"><a href="#density" data-toggle="tab">分级统计图</a></li>
+					<li id="heatbtn"><a href="#heat" data-toggle="tab">热力图</a></li>
+				</ul>
+				
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="poi">
+						<div id="poiSearch" style="width: 100%; height: 610px;"></div>
+					</div>
+					<div class="tab-pane fade in" id="density">
+						<iframe src="densiMapLf.html" height="610px" width="100%" frameborder="0"></iframe>
+					</div>
+					<div class="tab-pane fade in" id="heat">
+						<iframe src="heatMapLf.html" height="610px" width="100%" frameborder="0"></iframe>
+					</div>
+				</div>				
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../theme/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../js/geo/openlayer/ol.js"></script>
+
+		<script>
+			var userFill = new ol.style.Fill({
+				color: 'red'
+			});
+			var iconStyle = {
+				'transf': new ol.style.Style({
+					image: new ol.style.Icon({
+						src: '../static/lbs/lbs_red.png',
+						anchor: [0.5, 1],
+					})
+				}),
+				'users': new ol.style.Style({
+					image: new ol.style.Circle({
+						radius: 2,
+						fill: userFill
+					})
+				}),
+				'eline': new ol.style.Style({
+					image: new ol.style.Icon({
+						src: '../static/lbs/lbs_red.png',
+						anchor: [0.5, 1]
+					})
+				})
+			}
+			var regionStyle = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'white',
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'gray',
+					width: 1,
+				})
+			});
+			var styleFunction = function(feature) {
+				if (feature.getId() == 'district') {
+					regionStyle.getFill().setColor('rgb(225, 225, 225)');
+				} else if (feature.get("name") == 'natural') {
+					regionStyle.getFill().setColor('rgb(163, 255, 115)');
+				} else if (feature.get("name") == 'water') {
+					regionStyle.getStroke().setColor('rgb(115, 178, 255)');
+				} else {
+					regionStyle.getStroke().setColor('rgb(255, 255, 255)');
+				}
+				return regionStyle;
+			};
+			var baseLayer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../app/poiSearch/pdBorder.json',
+					format: new ol.format.GeoJSON()
+				}),
+				style: styleFunction
+			});
+			var naturalLayer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../app/poiSearch/natural_new.json',
+					format: new ol.format.GeoJSON()
+				}),
+				style: styleFunction
+			});
+			var waterLayer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../app/poiSearch/waterways_new.json',
+					format: new ol.format.GeoJSON()
+				}),
+				style: styleFunction
+			});
+			var roadLayer = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../app/poiSearch/roads_new.json',
+					format: new ol.format.GeoJSON()
+				}),
+				style: styleFunction
+			});
+			var iconLayer = new ol.layer.Vector({
+				source: new ol.source.Vector()
+			});
+			var map = new ol.Map({
+				controls: ol.control.defaults({
+					attribution: false
+				}),
+				layers: [
+					baseLayer,
+					naturalLayer,
+					waterLayer,
+					roadLayer,
+					iconLayer
+				],
+				target: 'poiSearch',
+				view: new ol.View({
+					center: [32000, -15000],
+					zoom: 10,
+					minZoom: 10
+				})
+			});
+			/**
+			 * render the point of machine and user
+			 * 
+			 * @arg points {'transf': [[x, y]], 'users': [[x1, y1], [x2, y2], [x3, y3]], 'eline': [[x, y]]}
+			 */
+			function renderPoint(points) {
+				// points = $.parseJSON(points[0]);
+				console.log(points);
+				if (iconLayer.getSource().getFeatures()) {
+					iconLayer.getSource().clear();
+				}
+				var iconFeatures = [];
+				for (var type in points) {
+					points[type].forEach(function(e) {
+						var feat = new ol.Feature({
+							geometry: new ol.geom.Point([e[0] + 10000, e[1] - 80000])
+						});
+						feat.setStyle(iconStyle[type]);
+						iconFeatures.push(feat);
+					});
+				}
+				iconLayer.getSource().addFeatures(iconFeatures);
+			}
+
+			function renderPointTest() {
+				var points = {
+					'transf': [
+						[2000, 80000]
+					],
+					'users': [
+						[1626.232758, 84531.356388]
+					]
+				};
+				renderPoint(points);
+			}
+			renderPointTest();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,206 @@
+package edu.bupt.dmg.algorithm.impl;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import edu.bupt.dmg.algorithm.CommunityDetectAlgorithm;
+import edu.bupt.dmg.formbean.Table;
+class TreeNode {
+	public TreeNode(int index, TreeNode rightChild, TreeNode leftChild) {
+		this.index = index;
+		this.rightChild = rightChild;
+		this.leftChild = leftChild;
+	}
+	int index;// 树的叶子节点为网络节点索引值，非叶子节点为-1
+	TreeNode rightChild;// 叶子节点为null
+	TreeNode leftChild;// 叶子节点为null
+}
+
+public class FastNewman extends CommunityDetectAlgorithmHelper implements CommunityDetectAlgorithm {
+
+	@Override
+	public ArrayList<Table> excecute(ArrayList<Table> tableList) {
+		// 获得邻接矩阵
+		boolean[][] adjMatrix = getMatrixByEdge(tableList);
+		// 计算节点数
+		int nodeCnt = getNodeCnt(tableList);
+		// 计算边数
+		int edgeCnt = getEdgeCnt(tableList);
+		// 初始化树的叶子节点
+		ArrayList<TreeNode> nodeList = initNodeList(nodeCnt);
+		// 记录最佳模块度时的节点结构
+		double maxModularity = 0;
+		ArrayList<TreeNode> maxModularityNodeList = null;
+		int cnt = 0;
+
+		while (nodeList.size() != 1) {
+			// 计算边权重矩阵 e[i][j]为节点之间连边的数目在网络总变数的百分比
+			double[][] eTable = parseETable(edgeCnt, adjMatrix, nodeList);
+			// 计算a[i] a[i]=sum(e[i])
+			double[] aList = parseAList(eTable);
+			// 计算模块度
+			double modularity = computeModularity(eTable, aList);
+			// 若此时模块度比最大值更大，则记录
+			if (maxModularity < modularity) {
+				maxModularity = modularity;
+				maxModularityNodeList = new ArrayList<TreeNode>();
+				maxModularityNodeList.addAll(nodeList);
+			}
+			// 计算模块都增量矩阵
+			double[][] qTable = parseQTable(eTable, aList);
+			// 合并模块都增量最大的节点
+			nodeList = mergeNode(nodeList, qTable);
+
+			cnt++;
+			System.out.println(cnt);
+		}
+		// 组织数据
+		Table nodeTable = null;
+		if (tableList.size() < 2) {
+			nodeTable = new Table();
+			nodeTable.getHeadType().put("name", "measure");
+			for (int i = 0; i < nodeCnt; i++) {
+				Map<String, String> node = new LinkedHashMap<>();
+				node.put("name", String.valueOf(i));
+				nodeTable.getContent().add(node);
+			}
+			tableList.add(nodeTable);
+		} else {
+			nodeTable = tableList.get(1);
+		}
+		if (nodeTable.getHeadType().get("group") == null) {
+			nodeTable.getHeadType().put("group", "measure");
+			for (int i = 0; i < maxModularityNodeList.size(); i++) {
+				TreeNode treeNode = maxModularityNodeList.get(i);
+				if (treeNode.index == -1) {
+					ArrayList<Integer> indexList = getIndexListByTreeNode(treeNode);
+					for (Integer index : indexList) {
+						nodeTable.getContent().get(index).put("group", String.valueOf(i + 1));
+					}
+				} else {
+					break;
+				}
+			}
+		}
+		return tableList;
+	}
+
+	private ArrayList<TreeNode> initNodeList(int nodeCnt) {
+		ArrayList<TreeNode> treeNodes = new ArrayList<TreeNode>();
+		for (int i = 0; i < nodeCnt; i++) {
+			treeNodes.add(new TreeNode(i, null, null));
+		}
+		return treeNodes;
+	}
+
+	private ArrayList<Integer> getIndexListByTreeNode(TreeNode treeNode) {
+		ArrayList<Integer> indexList = new ArrayList<Integer>();
+		if (treeNode.leftChild == null && treeNode.leftChild == null) {
+			// 叶子节点
+			indexList.add(treeNode.index);
+		} else {
+			// 非叶子节点
+			indexList.addAll(getIndexListByTreeNode(treeNode.rightChild));
+			indexList.addAll(getIndexListByTreeNode(treeNode.leftChild));
+		}
+		return indexList;
+	}
+
+	private double[][] parseETable(int edgeCnt, boolean[][] adjMatrix, ArrayList<TreeNode> nodeList) {
+		double[][] eTable = new double[nodeList.size()][nodeList.size()];
+		for (int i = 0; i < nodeList.size(); i++) {
+			for (int j = i; j < nodeList.size(); j++) {
+				eTable[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < nodeList.size(); i++) {
+			TreeNode rowNode = nodeList.get(i);
+			for (int j = i; j < nodeList.size(); j++) {
+				TreeNode colNode = nodeList.get(j);
+				ArrayList<Integer> rowIndexList = getIndexListByTreeNode(rowNode);
+				ArrayList<Integer> colIndexList = getIndexListByTreeNode(colNode);
+				int edge = 0;
+				for (Integer rowIndex : rowIndexList) {
+					for (Integer colIndex : colIndexList) {
+						if (adjMatrix[rowIndex][colIndex]) {
+							edge++;
+						}
+						double q = (double) edge / (double) (2 * edgeCnt);
+						eTable[i][j] = q;
+						eTable[j][i] = q;
+					}
+				}
+			}
+		}
+		return eTable;
+	}
+
+	private double[] parseAList(double[][] eTable) {
+		double[] aList = new double[eTable.length];
+		for (int i = 0; i < eTable.length; i++) {
+			double sum = 0;
+			for (int j = 0; j < eTable[i].length; j++) {
+				sum += eTable[i][j];
+			}
+			aList[i] = sum;
+		}
+		return aList;
+	}
+
+	private double[][] parseQTable(double[][] eTable, double[] aList) {
+		double[][] qTable = new double[eTable.length][eTable.length];
+		for (int i = 0; i < qTable.length; i++) {
+			for (int j = i + 1; j < qTable[i].length; j++) {
+				if (eTable[i][j] != 0) {
+					double q = 2 * (eTable[i][j] - aList[i] * aList[j]);
+					qTable[i][j] = q;
+					qTable[j][i] = q;
+				}
+			}
+		}
+		return qTable;
+	}
+
+	private ArrayList<TreeNode> mergeNode(ArrayList<TreeNode> nodeList, double[][] qTable) {
+		ArrayList<TreeNode> mergedNodeList = new ArrayList<TreeNode>();
+
+		double max = -1;
+		boolean[] isMerged = new boolean[qTable.length];
+		for (int i = 0; i < isMerged.length; i++) {
+			isMerged[i] = false;
+		}
+		for (int i = 0; i < qTable.length; i++) {
+			for (int j = i + 1; j < qTable[i].length; j++) {
+				if (qTable[i][j] > max) {
+					max = qTable[i][j];
+				}
+			}
+		}
+		for (int i = 0; i < qTable.length; i++) {
+			for (int j = i + 1; j < qTable[i].length; j++) {
+				if (qTable[i][j] == max && !isMerged[i] && !isMerged[j]) {
+					TreeNode node = new TreeNode(-1, nodeList.get(j), nodeList.get(i));
+					mergedNodeList.add(node);
+					isMerged[i] = true;
+					isMerged[j] = true;
+				}
+			}
+		}
+		for (int i = 0; i < isMerged.length; i++) {
+			if (!isMerged[i]) {
+				mergedNodeList.add(nodeList.get(i));
+			}
+		}
+		return mergedNodeList;
+	}
+
+	private double computeModularity(double[][] eTable, double[] aList) {
+		double modularity = 0;
+		for (int i = 0; i < eTable.length; i++) {
+			modularity += eTable[i][i];
+			modularity -= aList[i] * aList[i];
+		}
+		return modularity;
+	}
+}

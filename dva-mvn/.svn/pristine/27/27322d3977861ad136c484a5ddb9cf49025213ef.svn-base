@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName">
+
+	<bean id="mds" class="edu.bupt.dmg.algorithm.impl.MDS"></bean>
+	<bean id="pca" class="edu.bupt.dmg.algorithm.impl.PCA"></bean>
+	<bean id="fastnewman" class="edu.bupt.dmg.algorithm.impl.FastNewman"></bean>
+	<bean id="topologySimplifyAlgorithm"
+		class="edu.bupt.dmg.algorithm.impl.TopologySimplifyAlgorithmImpl"></bean>
+	<bean id="slpa" class="edu.bupt.dmg.algorithm.impl.slpa.SLPA">
+		<constructor-arg value="200" />
+		<constructor-arg value="0.5" />
+	</bean>
+	<bean id="dimReductAlgorithmMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="mds" value-ref="mds" />
+				<entry key="pca" value-ref="pca" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="communityDetectAlgorithmMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="fastnewman" value-ref="fastnewman" />
+				<entry key="slpa" value-ref="slpa" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" type="text/css" href="../theme/bootstrap/css/bootstrap.min.css"/>
+<title>403</title>
+<style>
+	/*-----nav-----*/
+	.navbar {
+		background-color: #2C3E50;
+		color: #ECF0F1;
+		font-size: 16px;
+	}
+	.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+		background-color: #34495E;
+		color: #ECF0F1;
+	}
+	.logo {
+		margin-left: 8px;
+	    font-size: 12px;
+	    background: url(../../static/index/logo.png);
+	    background-position: center center;
+	    background-repeat: no-repeat;
+	    background-size: 7em auto;
+	    float: left;
+	    opacity: .9;
+	    -webkit-transition: opacity .2s ease 0s;
+	    transition: opacity .2s ease 0s;
+	    width: 12.5em;
+	}
+	.logo:hover {
+		margin-left: 8px;
+	    font-size: 12px;
+	    background: url(../../static/index/logo-sel.png);
+	    background-position: center center;
+	    background-repeat: no-repeat;
+	    background-size: 7em auto;
+	    float: left;
+	    opacity: .9;
+	    -webkit-transition: opacity .2s ease 0s;
+	    transition: opacity .2s ease 0s;
+	    width: 12.5em;
+	}
+	.navbar-collapse {
+		float: right;
+	}
+	body {
+		font-family: "Source Sans Pro","Helvetica Neue",Arial,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+		font-weight: 400;
+		padding: 5%;
+	}
+	p {
+		font-weight: 500;
+		font-size: 20px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+	.btn-h3 {
+		height: 27px;
+		font-size: 14px;
+		font-weight: 400;
+		color: #0da0fd;
+		border: 1px solid #79bae5;
+		border-radius: 5px;
+		padding: 5px;
+		text-align: center;
+	}
+	.btn-h3:hover, .btn-h3:active ,.btn-h3:checked, .btn-h3:focus {
+		background: #3498DB;
+		border: 1px solid #3498DB;
+		color: #FFFFFF;
+	}
+</style>
+</head>
+<body>
+	<!-- navigation bar -->
+	<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+	    <div class="container">
+	        <div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    </button>
+			    <a class="navbar-brand logo" href="index.html"></a>
+			</div>
+	        <div>
+	            <ul class="nav navbar-nav navbar-right ">
+	                <li><a href="/dva-mvn/html/main.html">数据可视化</a></li>
+	                <li><a href="/dva-mvn/html/upload.html">文件上传</a></li>
+	                <li><a href="#">数据分析</a></li>
+	                <li><a href="#">帮助</a></li>
+	            </ul>
+	        </div>
+	    </div>
+	</nav>
+	<!-- end navigation bar -->
+	<p>对不起，您的权限不够。</p>
+	<btn class="btn-h3">返回上一页</btn>
+	<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+	<script>
+		$('.btn-h3').click(function () {
+		    window.history.forward();
+		});
+	</script>
+</body>
+</html>

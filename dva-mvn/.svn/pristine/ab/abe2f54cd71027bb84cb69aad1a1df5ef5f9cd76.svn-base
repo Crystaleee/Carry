@@ -1,0 +1,244 @@
+package edu.bupt.dmg.action;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.bupt.dmg.commons.ResultMessage;
+import edu.bupt.dmg.domain.UploadFile;
+import edu.bupt.dmg.domain.User;
+import edu.bupt.dmg.formbean.FileVo;
+import edu.bupt.dmg.formbean.Table;
+import edu.bupt.dmg.service.FileService;
+import edu.bupt.dmg.utils.IdGenerator;
+
+/**
+ * 处理文件相关的页面请求
+ * 
+ * Project Name: VisAna<br>
+ * File Name: FileAction.java<br>
+ * Package Name: edu.bupt.dmg.action<br>
+ * Creator: @author Ruitong Chai & Bohao Wang<br>
+ * Create Time：2017年4月6日<br>
+ * Version: @version 0.0.1
+ */
+@Controller
+@RequestMapping(value = "/file")
+public class FileAction {
+
+	@Autowired
+	FileService fileService;
+
+	/**
+	 * 文件上传请求
+	 * 
+	 * @param fileName
+	 *            文件名，该字段非必需，若未指定文件名，将文件的原文件名作为该参数的值
+	 * @param file
+	 *            上传的文件
+	 * @param request
+	 * @return ResultMessage结果信息
+	 * @throws Exception
+	 */
+	@RequiresAuthentication
+	@RequestMapping(value = "/upload")
+	public @ResponseBody ResultMessage upload(String fileName,
+			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request)
+					throws Exception {
+
+		Subject subject = SecurityUtils.getSubject();
+		String userId = subject.getPrincipal().toString();
+
+		if (userId != null && !"".equals(userId) && file != null) {
+			// 寻找根目录
+			String rootPath = request.getServletContext().getRealPath("/upload");
+			// 计算扩展名
+			String extensions = file.getOriginalFilename();
+			extensions = extensions.substring(extensions.lastIndexOf(".") + 1, extensions.length());
+			// 检查文件名是否为空
+			if (fileName == null || fileName.equals("")) {
+				fileName = file.getOriginalFilename();
+				fileName = fileName.substring(0, fileName.lastIndexOf("."));
+			}
+			if (!fileService.isFileNameNotRepeated(fileName, userId)) {
+				return new ResultMessage(-10);
+			}
+			// 生成fileId
+			String fileId = IdGenerator.genGUID();
+			// 生成子目录
+			String childPath = userId;
+			String path = rootPath + File.separator + childPath;
+
+			// 写文件
+			if (fileService.writeFileToDisk(file, path, fileId + "." + extensions)) {
+				// 组装文件并建立数据库映射
+				UploadFile uploadFile = new UploadFile();
+				uploadFile.setFileId(fileId);
+				uploadFile.setFileName(fileName);
+				uploadFile.setExtensions(extensions);
+				User user = new User();
+				user.setUserId(userId);
+				uploadFile.setUser(user);
+				uploadFile.setFilePath(childPath);
+				if (fileService.storeFile(uploadFile)) {
+					return new ResultMessage(1);
+				} else {
+					return new ResultMessage(-3);
+				}
+			} else {
+				return new ResultMessage(-3);
+			}
+		} else if (file == null) {
+			return new ResultMessage(-11);
+		} else {
+			return new ResultMessage(-2);
+		}
+	}
+
+	@RequiresAuthentication
+	@RequestMapping(value = "/uploadJson")
+	public @ResponseBody ResultMessage uploadJson(String fileName, String jsonFiles, HttpServletRequest request)
+			throws Exception {
+
+		Subject subject = SecurityUtils.getSubject();
+		String userId = subject.getPrincipal().toString();
+		if (userId != null && !"".equals(userId)) {
+			if (jsonFiles != null && !jsonFiles.equals("")) {
+				if (fileName != null && !fileName.equals("") && fileService.isFileNameNotRepeated(fileName, userId)) {
+					// 寻找根目录
+					String rootPath = request.getServletContext().getRealPath("/upload");
+					String fileId = IdGenerator.genGUID();
+					String childPath = userId;
+					String path = rootPath + File.separator + childPath;
+					if (fileService.writeJsonFileToDisk(jsonFiles, path, fileId + "." + "json")) {
+						// 组装文件并建立数据库映射
+						UploadFile uploadFile = new UploadFile();
+						uploadFile.setFileId(fileId);
+						uploadFile.setFileName(fileName);
+						uploadFile.setExtensions("json");
+						User user = new User();
+						user.setUserId(userId);
+						uploadFile.setUser(user);
+						uploadFile.setFilePath(childPath);
+						if (fileService.storeFile(uploadFile)) {
+							return new ResultMessage(1);
+						} else {
+							return new ResultMessage(-3);
+						}
+					} else {
+						return new ResultMessage(-3);
+					}
+				} else {
+					return new ResultMessage(-10);
+				}
+			}else{
+				return new ResultMessage(-10);
+			}
+		} else {
+			return new ResultMessage(-2);
+		}
+	}
+
+	/**
+	 * 请求该用户所对应的文件集合,需要用户登录
+	 * 
+	 * @param request
+	 * @return Map<String, Object> 包含两个字段1. resultMessage处理结果字段；2.fileList文件集合字段
+	 * @throws Exception
+	 */
+	@RequiresAuthentication
+	@RequestMapping("/queryFile")
+	public @ResponseBody Map<String, Object> queryFile() throws Exception {
+		// 获取用户信息
+		Subject subject = SecurityUtils.getSubject();
+		String userId = subject.getPrincipal().toString();
+
+		Map<String, Object> responseMap = new HashMap<>();
+		if (userId != null && !"".equals(userId)) {
+			// 获取文件集合
+			List<FileVo> fileList = fileService.findFilesByUserId(userId);
+			// 组织回复数据
+			responseMap.put("resultMessage", new ResultMessage(1));
+			responseMap.put("fileList", fileList);
+		} else {
+			// 用户未登录数据
+			responseMap.put("resultMessage", new ResultMessage(-2));
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 处理删除文件请求
+	 * 
+	 * @param fileId
+	 *            文件Id
+	 * @param request
+	 * @return ResultMessage结果信息
+	 * @throws Exception
+	 */
+	@RequestMapping("/deleteFile")
+	public @ResponseBody ResultMessage deleteFile(String fileId, HttpServletRequest request) throws Exception {
+		// 获取要删除的文件信息
+		UploadFile uploadFile = fileService.findFileById(fileId);
+		// 删除数据库表中记录
+		if (uploadFile != null && fileService.deleteFileByFileId(fileId)) {
+			// 获取文件存储路径
+			String path = request.getServletContext().getRealPath("/upload") + File.separator + uploadFile.getFilePath()
+					+ File.separator + fileId + "." + uploadFile.getExtensions();
+			// 删除磁盘上文件存储
+			fileService.deleteFileOnDisk(path);
+			return new ResultMessage(1);
+		}
+		return new ResultMessage(-6);
+	}
+
+	/**
+	 * 处理读取文件内数据的请求
+	 * 
+	 * @param fileId
+	 *            文件Id
+	 * @param request
+	 * @return Map<String, Object> 包含两个字段1.
+	 *         resultMessage处理结果字段；2.tableList文件内表格集合字段
+	 * @throws Exception
+	 */
+	@RequestMapping("/requestTable")
+	public @ResponseBody Map<String, Object> requestTable(String fileId, HttpServletRequest request) throws Exception {
+		// 获取需要读取的文件信息
+		UploadFile uploadFile = fileService.findFileById(fileId);
+		Map<String, Object> responseMap = new HashMap<>();
+		if (uploadFile != null) {
+			try {
+				// 获取文件存储路径
+				String path = request.getServletContext().getRealPath("/upload") + File.separator
+						+ uploadFile.getFilePath() + File.separator + fileId + "." + uploadFile.getExtensions();
+				// 读取文件
+				ArrayList<Table> tables = fileService.readFileFromDisk(path);
+				// 组织回复数据
+				responseMap.put("tableList", tables);
+				responseMap.put("resultMessage", new ResultMessage(1));
+			} catch (Exception e) {
+				responseMap.put("resultMessage", new ResultMessage(-4));
+			}
+		} else {
+			responseMap.put("resultMessage", new ResultMessage(-4));
+		}
+
+		return responseMap;
+	}
+
+}

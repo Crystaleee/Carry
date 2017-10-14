@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="upload file and connect database">
+    <meta name="author" content="houxue@bupt">
+
+    <title>文件上传</title>
+    <link rel="stylesheet" type="text/css" href="../theme/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../theme/css/upload.css" />
+    <link rel="stylesheet" type="text/css" href="../theme/handsontable/handsontable.full.css"/>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+    <div class="container">
+    	<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand logo" href="/dva-mvn/html/index.html"></a>
+		</div>
+        <div>
+            <ul class="nav navbar-nav navbar-right ">
+                <li><a href="/dva-mvn/html/main.html">数据可视化</a></li>
+                <li class="active"><a href="#">上传文件</a></li>
+                <li><a href="#">数据分析</a></li>
+                <li><a href="#">帮助</a></li>
+                <li><a href="/dva-mvn/html/search.html">搜索文件</a></li>
+                <li><a href="/dva-mvn/html/usercenter.html">个人中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 40px;">
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="list-group" id="text">
+                <h4 class="panel-title"><a>文本文件</a></h4>
+                <a href="#fileUpload" class="list-group-item" data-toggle="tab">Excel</a>
+                <a href="#fileUpload" class="list-group-item" data-toggle="tab">TXT</a>
+                <a href="#fileUpload" class="list-group-item" data-toggle="tab">CSV</a>
+            </div>
+            <div class="list-group" id="db" style="margin-top: 40px;">
+                	<h4 class="list-group-item-heading panel-title">
+                		<a href="#db-content" class="active" data-toggle="tab">数据库连接</a>
+                	</h4>
+                <a href="#dbConnect" class="list-group-item" data-toggle="modal">MySQL</a>
+                <a href="#dbConnect" class="list-group-item" data-toggle="modal">SQLServer</a>
+                <a href="#dbConnect" class="list-group-item" data-toggle="modal">Oracle</a>
+                <a href="#dbConnect" class="list-group-item" data-toggle="modal">PostgreSQL</a>
+            </div>
+        </div>
+
+        <div id="myTabContent" class="col-xs-10 tab-content">
+            <div class="tab-pane fade in active" id="fileUpload">
+                <div class="container col-xs-12">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+
+                            <label class="sr-only" for="file-name">file-name</label>
+                            <input type="text"  oninput="JudgeUserName()" class="form-control" id="file-name" placeholder="请输入文件名">           
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="sr-only" for="inputfile">选择文件</label>
+                            <input type="file" id="inputfile" multiple="multiple">
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" onclick="joinTable('inner-join')" class="btn btn-default">内连接</button>
+                            <button type="button" onclick="joinTable('left-join')" class="btn btn-default">左连接</button>
+                            <button type="button" onclick="joinTable('right-join')" class="btn btn-default">右连接</button>
+                            <button type="button" onclick="joinTable('full-join')" class="btn btn-default">全连接</button>
+                        </div>
+
+
+                    </form>
+                    <p id="showResult" style="float:left"></p>
+                    <hr />
+                    <div id="here">
+                    <div id="file-contents" class="dataTable"></div>
+                    </div>
+                    <div id="here2">
+                        <div id="file-contents2" class="dataTable"></div>
+                    </div>
+                    <hr />
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label class="sr-only" for="file-formula">file-description</label>
+                            <input type="text"  class="form-control" id="file-formula" size="80" placeholder="请输入公式：如a=(b+c)/d" >
+                        </div>
+
+
+                    </form>
+
+
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label class="sr-only" for="file-formula">file-description</label>
+                            <input type="text"  class="form-control" id="file-data" size="80" placeholder="请输入内容，用空格隔开" >
+                        </div>
+                        <button type="button" onclick="JudgeFormula()" class="btn btn-default">确定</button>
+
+                    </form>
+                    <p id="Result" style="float:left"></p>
+                    <hr />
+                    <button type="button" onclick="uploadFile()" class="btn btn-default">上传</button>
+                </div>
+            </div>
+
+            <div class="tab-pane fade in" id="db-content">
+                <div class="checkbox" id="dbTables">
+                </div>
+                <div>
+                    <button class="btn btn-default" id="saveTables" onclick="saveTables()">保存</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 连接数据库 -->
+        <div class="modal fade in" id="dbConnect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4>连接数据库</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-bottom">
+                                <div class="form-group">
+                                    <label class="sr-only" for="connect-name">连接名</label>
+                                    <input type="text" class="form-control" id="connect-name" placeholder="连接名">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="dbType">数据库类型</label>
+                                    <input type="text" class="form-control" id="dbType">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="ipAddress">IP地址</label>
+                                    <input type="text" class="form-control" id="ipAddress" placeholder="IP地址">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="port">端口号</label>
+                                    <input type="text" class="form-control" id="port">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="port">数据库</label>
+                                    <input type="text" class="form-control" id="dbName" placeholder="数据库名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="userName">用户名</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="用户名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="密码">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="connectDB()">连接</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end 连接数据库 -->
+    </div>
+</div>
+
+<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.csv.js"></script>
+<script type="text/javascript" src="../js/js-xlsx/xlsx.core.min.js"></script>
+<script type="text/javascript" src="../js/handsontable/handsontable.full.js"></script>
+<script type="text/javascript" src="../js/moment/moment.min.js"></script>
+<script type="text/javascript" src="../theme/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/custom/upload.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#text > a").click(function () {
+            var textType = $(this).text();
+            var fileExtension = {Excel: '.xls', TXT: '.txt', CSV: '.csv'};
+            $("#inputfile").attr("accept", fileExtension[textType]);
+        });
+        $("#db > a").click(function () {
+            var dbType = $(this).text();
+            var dbPort = {MySQL: 3306, SQLServer: 1433, Oracle: 1521, PostgreSQL: 5432}
+            $("#dbType").val(dbType);
+            $("#port").val(dbPort[dbType]);
+        });
+        $("#inputfile").change(handleFile);
+    });
+</script>
+
+
+</body>
+
+</html>

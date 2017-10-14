@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<meta charset="utf-8">
+		<title>行业相关网络</title>
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="../theme/css/edva.css" />
+	</header>
+
+	<body style="font-family: '微软雅黑';overflow: hidden;">
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">电力数据可视化</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav navbar-right ">
+						<li><a href="/dva-mvn/html/EMap.html">电力地图</a></li>
+						<li><a href="/dva-mvn/html/matrix.html">行业相关矩阵</a></li>
+						<li class="active"><a href="/dva-mvn/html/force.html">行业相关网路</a></li>
+						<li><a href="/dva-mvn/html/CourtPredict.html">线路用电预测</a></li>
+						<li><a href="/dva-mvn/html/cluster.html">居民用电聚类</a></li>
+						<li><a href="/dva-mvn/html/sensityana.html">用电敏感因素分析</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container-fluid" style="background-image: url(../static/img/bk-right-foot.png); background-size: 100% auto;">
+			<div class="row">
+				<div id="force" style="height: 650px; width: 100%; margin-left: 15px;">
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../js/d3/d3.js"></script>
+		<script type="text/javascript" src="../js/special/force_data_new.js"></script>
+
+		<script type="text/javascript">
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('force'));
+			//var c = d3.scale.category20();
+			var colorPool = ['#ff0000', '#804040', '#ea7500', "#00ff00", '#6300C6', '#13B5D7'];
+			var color = function(i) {
+				return colorPool[i % 6];
+			}
+			var blue = d3.rgb(175, 233, 250);
+			var red = d3.rgb(111, 0, 0);
+			var yellow = d3.rgb(255, 176, 98);
+			var compute = function(i) {
+				if (i < 0.4) {
+					return d3.interpolate(blue, yellow)(i * 2.5);
+				} else {
+					return d3.interpolate(yellow, red)((i - 0.4) * 1.67);
+				}
+			}
+			var linear = d3.scale.linear()
+				.domain([0, Math.exp(1.75)])
+				.range([0, 1]);
+			// 指定图表的配置项和数据
+			var option = {
+				//				title: {
+				//					text: '工商业相关网络',
+				//					top: 'top',
+				//					left: 'center',
+				//					textStyle: {
+				//						color: '#fff',
+				//						fontSize: 40
+				//					}
+				//				},
+				tooltip: {
+					trigger: "item",
+					formatter: function(item) {
+						console.log(item);
+						if (item.dataType == 'node') {
+							return item.name + "<br>" + "行业平均用电量: " + item.data.w + "kwh";
+						}
+						if (item.dataType = 'edge') {
+							var arrow;
+							if (item.data.type == '1') {
+								arrow = " <-> ";
+							} else {
+								arrow = " -> ";
+							}
+							return forceData.nodes[item.data.source].name + arrow + forceData.nodes[item.data.target].name + ":" + item.data.value;
+						}
+					},
+					extraCssText: 'line-height:40px'
+				},
+				label: {
+					emphasis: {
+						textStyle: {
+							fontSize: 20
+						}
+					}
+				},
+				legend: [{
+					// selectedMode: 'single',
+					top: 'middle',
+					right: '20px',
+					orient: 'vertical',
+					data: forceData.categories.map(function(a) {
+						return a.name;
+					}),
+					textStyle: {
+						fontSize: 20,
+						color: '#fff'
+					}
+				}],
+				animation: false,
+				series: [{
+					name: '行业相关关系',
+					type: 'graph',
+					layout: 'force',
+					nodes: forceData.nodes.map(function(node) {
+						node.symbolSize = (Math.log(node.w) - 4) * 1.5;
+						return node;
+					}),
+					links: forceData.links.map(function(link, i) {
+						link.lineStyle = {
+							normal: {
+								width: Math.exp(17.5 * (link.value - 0.9)),
+								color: compute(linear(Math.exp(17.5 * (link.value - 0.9))))
+							}
+						}
+						return link;
+					}),
+					focusNodeAdjacency: true,
+					categories: forceData.categories.map(function(category, i) {
+						category.itemStyle = {
+							normal: {
+								color: color(i),
+								borderColor: '#fff',
+								borderWidth: 0.5
+							}
+						}
+						return category;
+					}),
+					roam: true,
+					label: {
+						normal: {
+							position: 'right'
+						},
+						emphasis: {
+							show: true,
+							textStyle: {
+								color: '#fff'
+							},
+							position: 'right'
+						}
+					},
+					edgeLabel: {
+						normal: {
+							formatter: "{a}"
+						}
+					},
+					force: {
+						repulsion: 200
+					}
+				}]
+			};
+			// 使用刚指定的配置项和数据显示图表。
+			myChart.setOption(option);
+		</script>
+	</body>
+
+</html>

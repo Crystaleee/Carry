@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../js/geo/leaflet/leaflet.css" />
+		<link rel="stylesheet" href="../js/geo/openlayer/ol.css" />
+	</head>
+
+	<body>
+		<div class="row">
+			<div class="col-md-6" id="map1" style="height: 700px;"></div>
+			<div class="col-md-6" id="map2" style="height: 700px;"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6" id="map1Tips" style="height: 30px;"></div>
+			<div class="col-md-6" id="map2Tips" style="height: 30px;"></div>
+		</div>
+		
+		<script src="../js/geo/leaflet/leaflet.js"></script>
+		<script src="../js/geo/openlayer/ol.js"></script>
+		<script src="../js/geo/coordtrans/index.js"></script>
+		<script src="../app/poiSearch/district.js"></script>
+		<script type="text/javascript">
+			
+			var baseLayer1 = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../assets/utils/json/latlngline.json',
+					format: new ol.format.GeoJSON()
+				})
+			});
+			
+			var map1 = new ol.Map({
+				controls: ol.control.defaults({
+					attribution: false
+				}),
+				layers: [
+					baseLayer1
+				],
+				target: 'map1',
+				view: new ol.View({
+					center: [3114.731425737986, 12145.252275864362],
+					zoom: 23,
+					minZoom: 10
+				})
+			});
+			
+			var baseLayer2 = new ol.layer.Vector({
+				source: new ol.source.Vector({
+					url: '../assets/utils/json/citycoor.json',
+					format: new ol.format.GeoJSON()
+				})
+			});
+			
+			var map2 = new ol.Map({
+				controls: ol.control.defaults({
+					attribution: false
+				}),
+				layers: [
+					baseLayer2
+				],
+				target: 'map2',
+				view: new ol.View({
+					center: [32000, -15000],
+					zoom: 10,
+					minZoom: 10
+				})
+			});
+		</script>
+	</body>
+
+</html>

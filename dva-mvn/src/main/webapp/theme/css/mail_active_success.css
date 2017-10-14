@@ -1,0 +1,70 @@
+body {
+	overflow-y:scroll;
+	padding-top: 51px;
+	margin-left: 0px;
+	margin-top: 0px;
+	font-family: "Source Sans Pro","Helvetica Neue",Arial,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+	font-weight: 400;
+    font-size: 16px;
+}
+
+/*-----nav-----*/
+.navbar {
+	background-color: #2C3E50;
+	color: #ECF0F1;
+	font-size: 16px;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+	background-color: #34495E;
+	color: #ECF0F1;
+}
+.logo {
+	margin-left: 8px;
+    font-size: 12px;
+    background: url(../../static/index/logo.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 7em auto;
+    float: left;
+    opacity: .9;
+    -webkit-transition: opacity .2s ease 0s;
+    transition: opacity .2s ease 0s;
+    width: 12.5em;
+}
+.logo:hover {
+	margin-left: 8px;
+    font-size: 12px;
+    background: url(../../static/index/logo-sel.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 7em auto;
+    float: left;
+    opacity: .9;
+    -webkit-transition: opacity .2s ease 0s;
+    transition: opacity .2s ease 0s;
+    width: 12.5em;
+}
+.navbar-collapse {
+	float: right;
+}
+p {
+	font-weight: 500;
+	font-size: 20px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.btn-h3 {
+	height: 27px;
+	font-size: 14px;
+	font-weight: 400;
+	color: #0da0fd;
+	border: 1px solid #79bae5;
+	border-radius: 5px;
+	padding: 5px;
+	text-align: center;
+}
+.btn-h3:hover, .btn-h3:active ,.btn-h3:checked, .btn-h3:focus {
+	background: #3498DB;
+	border: 1px solid #3498DB;
+	color: #FFFFFF;
+}
