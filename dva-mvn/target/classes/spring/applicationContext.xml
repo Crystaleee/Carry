@@ -15,7 +15,15 @@
 	<!-- dbcp configuration -->
 	<context:property-placeholder location="classpath:spring/db.properties" />
 	<!-- using dbcp -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="databasehelper" class="edu.bupt.dmg.sqlhelper.DatabaseHelper" init-method="prepareDatabase">
+	    <property name="dbHost" value="${jdbc.host}"/>
+	    <property name="dbPort" value="${jdbc.port}"/>
+	    <property name="dbName" value="${jdbc.name}"/>
+	    <property name="dbUsername" value="${jdbc.username}"/>
+	    <property name="dbPassword" value="${jdbc.password}"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" depends-on="databasehelper"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />

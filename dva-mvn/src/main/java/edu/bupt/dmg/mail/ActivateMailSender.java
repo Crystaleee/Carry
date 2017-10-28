@@ -36,15 +36,19 @@ public class ActivateMailSender {
 	 * @throws Exception
 	 */
 	public void send(User user) throws Exception {
+		System.out.println("here!!!!!!");
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-		helper.setSubject("VisAna Account Activate");
+		helper.setSubject("Account Activate");
 		helper.setFrom(mailSender.getUsername());
 		helper.setTo(user.getEmail());
+		System.out.println(user.getEmail());
 		helper.setText("Dear " + user.getName() + ",<br>Thank you for using VisAna. <br>Please Click <a href='"
-				+ mailActivateAddress + "?userId=" + user.getUserId() + "&enableCode=" + user.getEnableCode()
+				+ mailActivateAddress + "?UserId=" + user.getUserId() + "&EnableCode=" + user.getEnableCode()
 				+ "'>this link</a> to activated your account!", true);
+		System.out.println("where???");
 		mailSender.send(message);
+		System.out.println("here222222!!!!!!");
 	}
 
 }

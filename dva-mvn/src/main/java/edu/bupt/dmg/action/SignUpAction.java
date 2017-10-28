@@ -117,13 +117,16 @@ public class SignUpAction {
 			resultMap.put("errors", errorMap);
 			resultMap.put("resultMessage", new ResultMessage(-8));
 		} else {
+			System.out.println("pipapipa");
 			// 表单验证通过后，组织用户数据
 			user.setAccountNonLocked(true);
 			user.setEnabled(false);
 			user.setEnableCode(IdGenerator.genGUID());
+			System.out.println("pipapipa");
 			// 新增用户
 			if (userService.createUser(user)) {
 				// 发送验证邮件
+				System.out.println("6666sucess!");
 				new ActivateMailSendThread(activateMailSender, user).run();
 				resultMap.put("resultMessage", new ResultMessage(1));
 			} else {
@@ -144,17 +147,27 @@ public class SignUpAction {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/mailActivate")
-	public void mailActivate(String userId, String enableCode, HttpServletResponse response, HttpServletRequest request)
+	public void mailActivate(String UserId, String EnableCode, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
-		if (userId != null && enableCode != null) {
+		System.out.println("hihihihihihihi");
+		if (UserId != null && EnableCode != null) {
 			// 获取用户信息
-			User user = userService.getUserByUserId(userId);
+			
+			User user = userService.getUserByUserId(UserId);
+			System.out.println(user.getUserId());
+			System.out.println(user.getEnableCode());
+			
 			// 判断激活码是否一致
-			if (user.getEnableCode().equals(enableCode)) {
+			if (user.getEnableCode().equals(EnableCode)) {
+				System.out.println("nani???");
 				// 激活用户
 				if (userService.activateUser(user)) {
 					// 重定向至激活成功页面
+					System.out.println("hinhinhinhinhin");
 					response.sendRedirect(request.getContextPath() + "/html/mail_activate_success.html");
+					response.setDateHeader("Expires",0);
+					response.setHeader("Cache-Control","no-cache");
+					response.setHeader("Pragma","no-cache");
 				}
 			} else {
 

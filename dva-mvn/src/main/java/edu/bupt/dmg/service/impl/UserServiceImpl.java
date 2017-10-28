@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean createUser(User user) {
+		System.out.println("here");
 		String newPassword = PasswordEncoder.encode(user.getPassword());
 		user.setPassword(newPassword);
 		Calendar now = Calendar.getInstance();
@@ -50,8 +51,14 @@ public class UserServiceImpl implements UserService {
 		System.out.println("88888888888888888888888888888888888!"+expirationDate);
 		user.setExpirationDate(expirationDate);
 		try {
+			
+			System.out.println(user.getPassword());
+			System.out.println(user.getUserId());
+			System.out.println(user.getName());
 			userDao.insert(user);
 		} catch (Exception e) {
+			System.out.println("error:"+e);
+			
 			return false;
 		}
 		return true;
