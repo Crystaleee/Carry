@@ -1,3 +1,110 @@
+* {
+    font-weight: 100;
+    letter-spacing: 1px;
+}
+
+.side {
+    position: fixed;
+    color: #eee;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    _position: relative;
+    _height: 100%;
+    z-index: 10;
+    zoom: 1;
+    float: left;
+    width: 300px;
+    padding: 70px 30px;
+    margin-right: -300px;
+    background-color: #26333d;
+}
+
+.main {
+    background: #ededed url(/dva-mvn/static/img/texture.png) 0 0 repeat;
+    padding-top: 140px;
+    margin-left: 300px;
+}
+
+.global {
+    min-width: 924px;
+    overflow: hidden;
+    min-height: 680px;
+}
+
+.face {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.face img {
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 6px 2px #6fdaa1;
+}
+
+.nick {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding-top: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.profile {
+    margin-top: 50px;
+}
+
+.profile div {
+    padding: 3px 30px;
+}
+
+.profile div span {
+    padding-left: 15%;
+    text-align: right;
+}
+
+.buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.buttons .btn {
+    width: 70%;
+    margin-bottom: 10px;
+    background: transparent;
+    color: white;
+}
+
+.buttons .btn:hover {
+    background: #6fdaa1;
+    border-color: #6fdaa1;
+}
+
+.rating {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.rating label {
+    font-weight: lighter;
+    font-size: x-small;
+}
+
+.grade span {
+    background: #fff;
+    width: 25px;
+    color: black;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+}
+
 input.ng-dirty.ng-valid, .has-success {
     border-color: #3c763d;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
@@ -27,7 +134,7 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     height: 100%;
     width: 100%;
     position: absolute;
-    background-color: #4c4c4c;
+    background-color: #26333d;
     margin: 0;
 }
 
@@ -47,13 +154,13 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 
 .left {
     color: #eee;
-    background-color: #4c4c4c;
+    background-color: #26333d;
     height: 100%;
     padding-top: 8%;
 }
 
 .right {
-    background-color: #3cdf93;
+    background-color: #6fdaa1;
     color: white;
     padding: 15% 13% 10% 8%;
     height: 100%;
@@ -104,4 +211,9 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 
 .btn-link {
     color: #fff;
+}
+
+input[type=radio] {
+    margin-right: 5px;
+    margin-left: 5px;
 }

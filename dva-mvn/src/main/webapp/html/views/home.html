@@ -1,5 +1,54 @@
-<h1>Hi {{user.username}}!</h1>
-<p>You're logged in!!</p>
+<div class="global">
+    <div class="side">
+        <div class="face">
+            <img src="/dva-mvn/static/img/user.png">
+        </div>
+        <div class="nick">
+            {{user.username}}
+        </div>
+        <div class="rating">
+            <label>Fitness Rating</label>
+            <div class="grade">
+                <span>S</span>
+                <span>A</span>
+                <span>B</span>
+                <span>C</span>
+                <span>F</span>
+            </div>
+        </div>
+        <div class="profile">
+            <div class="info height">
+                <span>Height:</span>
+                <span>{{user.height}}</span>
+            </div>
+            <div class="info weight">
+                <span>Weight:</span>
+                <span>{{user.weight}}</span>
+            </div>
+            <div class="info bmi">
+                <span>BMI:</span>
+                <span>{{user.bmi}}</span>
+            </div>
+            <div class="info bf">
+                <span>BF%:</span>
+                <span>{{user.bf}}</span>
+            </div>
+            <div class="info bmr">
+                <span>BMR:</span>
+                <span>{{user.bmr}}</span>
+            </div>
+        </div>
+        <div class="buttons">
+            <a href="#!/login" class="btn btn-primary">Update</a>
+            <a href="#!/login" class="btn btn-primary">Record</a>
+            <a href="#!/login" class="btn btn-primary">Logout</a>
 
-<p>&nbsp;</p>
-<p><a href="#!/login" class="btn btn-primary">Logout</a></p>
+        </div>
+
+    </div>
+
+
+    <div class="main">
+
+    </div>
+</div>

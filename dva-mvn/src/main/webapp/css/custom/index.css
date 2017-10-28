@@ -27,7 +27,7 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     height: 100%;
     width: 100%;
     position: absolute;
-    background-color: #4c4c4c;
+    background-color: #26333d;
     margin: 0;
 }
 
@@ -47,13 +47,13 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 
 .left {
     color: #eee;
-    background-color: #4c4c4c;
+    background-color: #26333d;
     height: 100%;
     padding-top: 8%;
 }
 
 .right {
-    background-color: #3cdf93;
+    background-color: #6fdaa1;
     color: white;
     padding: 15% 13% 10% 8%;
     height: 100%;
@@ -104,4 +104,9 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 
 .btn-link {
     color: #fff;
+}
+
+input[type=radio] {
+    margin-right: 5px;
+    margin-left: 5px;
 }

@@ -35736,6 +35736,8 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         })();
 
         $scope.login = function() {
+            // AuthenticationService.SetCredentials($scope.loginData.userId);
+            // $location.path('/');
             AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
