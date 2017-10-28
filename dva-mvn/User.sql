@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-10-14 22:37:03
+-- Generation Time: 2017-10-14 20:58:59
 -- 服务器版本： 5.6.36
 -- PHP Version: 5.3.29
 
@@ -32,15 +32,9 @@ CREATE TABLE IF NOT EXISTS `User` (
   `UserPwd` varchar(256) DEFAULT NULL,
   `BirthDate` date DEFAULT NULL,
   `Height` float DEFAULT NULL,
-  `Weight` float DEFAULT NULL,
+  `Weight` float NOT NULL,
   `BMI` float NOT NULL,
-  `BFR` float NOT NULL,
-  `Sex` varchar(256) DEFAULT NULL,
-  `Email` varchar(256) DEFAULT NULL,
-  `AccountNonLocked` binary(1) DEFAULT '\0',
-  `Enabled` binary(1) DEFAULT '\0',
-  `EnableCode` varchar(256) DEFAULT NULL,
-  `ExpirationDate` date DEFAULT NULL
+  `BFR` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

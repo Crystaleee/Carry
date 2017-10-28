@@ -3,6 +3,7 @@ package edu.bupt.dmg.realm;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,6 +15,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.bupt.dmg.domain.Authority;
@@ -67,6 +69,20 @@ public class UserRealm extends AuthorizingRealm {
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userId, user.getPassword(),
 				getName());
 		return authenticationInfo;
+	}
+	
+	public void clearCached(Subject subject){
+		PrincipalCollection principals= subject.getPrincipals();
+		System.out.println("??????"+subject.toString());
+		System.out.println("??????"+principals.toString());
+		System.out.println(">>>>"+getName());
+		System.out.println(">>>"+super.getAuthenticationCacheName());
+		super.getCacheManager().getCache(getName());
+		super.clearCachedAuthorizationInfo(principals);
+		super.doClearCache(principals);
+		super.clearCachedAuthenticationInfo(principals);
+		super.clearCache(principals);
+		System.out.println(">>>>>>>>>>>>>>");
 	}
 
 }

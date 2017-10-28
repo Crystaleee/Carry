@@ -5,15 +5,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="edu.bupt.dmg.dao.UserDao">
 
 	<resultMap type="edu.bupt.dmg.domain.User" id="UserFileMap">
-		<id column="userId" property="userId" />
-		<result column="password" property="password" />
-		<result column="name" property="name" />
-		<result column="sex" property="sex" />
-		<result column="email" property="email" />
-		<result column="accountNonLocked" property="accountNonLocked" />
-		<result column="enabled" property="enabled" />
-		<result column="enableCode" property="enableCode" />
-		<result column="expirationDate" property="expirationDate" />
+		<id column="UserId" property="UserId" />
+		<result column="UserPwd" property="UserPwd" />
+		<result column="UserName" property="UserName" />
+		<result column="UserId" property="UserId" />
+		<result column="Sex" property="Sex" />
+		<result column="Email" property="Email" />
+		<result column="AccountNonLocked" property="AccountNonLocked" />
+		<result column="Enabled" property="Enabled" />
+		<result column="EnableCode" property="EnableCode" />
+		<result column="ExpirationDate" property="ExpirationDate" />
+		<result column="Height" property="Height" />
+		<result column="Weight" property="Weight" />
+		<result column="BirthDate" property="BirthDate" />
+		<result column="BMI" property="BMI" />
+		<result column="BFR" property="BFR" />
 
 		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
 			select="edu.bupt.dmg.dao.UploadFileDao.findByUserId" column="userId">
@@ -26,43 +32,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findById" parameterType="String" resultMap="UserFileMap">
 		SELECT *
-		FROM user WHERE userId = #{userId}
+		FROM user WHERE UserId = #{UserId}
 	</select>
 	
 	<select id="findByEmail" parameterType="String" resultMap="UserFileMap">
 		SELECT *
-		FROM user WHERE email = #{email}
+		FROM user WHERE Email = #{Email}
 	</select>
 	
 	<select id="updatedatebase" >
-		update dva.user SET enabled = '-1'    
-		WHERE  CURRENT_DATE  > str_to_date(`expirationDate`,'%Y-%m-%d')
+		update dvamvn.user SET Enabled = '-1'    
+		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
 	</select>
 
 
 
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
 		insert into
-		user(userId,password,name,sex,email,accountNonLocked,enabled,enableCode,expirationDate)
-		values(#{userId},#{password},#{name},#{sex},#{email},#{accountNonLocked},#{enabled},#{enableCode},#{expirationDate})
+		user(UserId,UserPwd,UserName,Sex,Email,AccountNonLocked,Enabled,EnableCode,ExpirationDate,Height,Weight,BirthDate,BMI,BFR)
+		values(#{UserId},#{UserPwd},#{UserName},#{Sex},#{Email},#{AccountNonLocked},#{Enabled},#{EnableCode},#{ExpirationDate},#{Height},#{Weight},#{BirthDate},#{BMI},#{BFR})
 	</insert>
 
 	<update id="update" parameterType="edu.bupt.dmg.domain.User">
 		update user set
-		password=#{password},
-		name=#{name},
-		sex=#{sex},
-		email=#{email},
-		accountNonLocked=#{accountNonLocked},
-		enabled=#{enabled},
-		enableCode=#{enableCode}
+		UserPwd=#{UserPwd},
+		UserName=#{UserName},
+		Sex=#{Sex},
+		Email=#{Email},
+		AccountNonLocked=#{AccountNonLocked},
+		Enabled=#{Enabled},
+		EnableCode=#{EnableCode},
+		ExpirationDate=#{ExpirationDate},
+		Height=#{Height},
+		Weight=#{Weight},
+		BirthDate=#{BirthDate},
+		BMI=#{BMI},
+		BFR=#{BFR}
 
-		where userId=#{userId}
+		where UserId=#{UserId}
 	</update>
 
 	<delete id="deleteById" parameterType="String">
 		delete FROM user WHERE
-		userId = #{userId}
+		UserId = #{UserId}
 	</delete>
 
 	<select id="findAll" resultMap="UserFileMap">
@@ -74,17 +86,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="UserFileMap">
 		SELECT * from user
 		<where>
-			<if test="userId!=null and userId!=''">
-				and userId like '%${userId}%'
+			<if test="UserId!=null and UserId!=''">
+				and UserId like '%${UserId}%'
 			</if>
-			<if test="name!=null and name!=''">
-				and name like '%${name}%'
+			<if test="Username!=null and Username!=''">
+				and UserName like '%${UserName}%'
 			</if>
-			<if test="sex!=null and sex!=''">
-				and sex = #{sex}
+			<if test="Sex!=null and Sex!=''">
+				and Sex = #{Sex}
 			</if>
-			<if test="email!=null and email!=''">
-				and email like '%${email}%'
+			<if test="Email!=null and Email!=''">
+				and Email like '%${Email}%'
 			</if>
 		</where>
 	</select>
