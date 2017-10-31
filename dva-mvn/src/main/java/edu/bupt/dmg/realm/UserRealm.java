@@ -77,7 +77,6 @@ public class UserRealm extends AuthorizingRealm {
 		System.out.println("??????"+principals.toString());
 		System.out.println(">>>>"+getName());
 		System.out.println(">>>"+super.getAuthenticationCacheName());
-		super.getCacheManager().getCache(getName());
 		super.clearCachedAuthorizationInfo(principals);
 		super.doClearCache(principals);
 		super.clearCachedAuthenticationInfo(principals);

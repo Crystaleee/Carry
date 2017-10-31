@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.inject.New;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.shiro.session.Session;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -34,8 +35,8 @@ import org.apache.shiro.realm.CachingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.util.Nameable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.shiro.web.session.HttpServletSession;
+
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -75,6 +76,7 @@ public class UserAction {
 	public @ResponseBody ResultMessage login(User user, Boolean rememberme, String kaptcha) throws Exception {
 		// 获取验证码真值
 		Subject subject = SecurityUtils.getSubject();
+	
 		String kaptchaCode = (String) subject.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
 		// 判断提交的验证码值与真值是否一致
 		if (kaptcha.equals(kaptchaCode)) {
@@ -98,6 +100,9 @@ public class UserAction {
 		// 获取验证码真值
 		System.out.println("what????????");
 		Subject subject = SecurityUtils.getSubject();
+		System.out.println("lllll"+subject.getSession(false).getId());
+		System.out.println("xixixi:"+subject.isAuthenticated());
+		
 		Map<String, Object>responseMap=new HashMap<>();
         try {
         		String userid=subject.getPrincipal().toString();
@@ -110,10 +115,10 @@ public class UserAction {
         		
         }
         catch (Exception e) {
-        		responseMap.put("resultMessage",new ResultMessage(-2));
+        	responseMap.put("resultMessage",new ResultMessage(-2));
 		}
         return responseMap;
-	
+        
 		
 		
 	}
@@ -125,19 +130,23 @@ public class UserAction {
 	 * @param response
 	 * @throws Exception
 	 */
+
 	@RequestMapping(value = "/logout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 将用户从shiro中注销
+		// 将用户从shiro中注销'
 		System.out.println("6666666666666666666666");
 		Subject subject = SecurityUtils.getSubject();
-		
+		System.out.println("lllll"+subject.getSession().getId());
+		//subject.getSession().stop();;
+		//HttpSession.invalidate();
+		System.out.println("lllll"+subject.getSession(false));
+		//session.setAttribute( "someKey", someValue);
 		//PrincipalCollection principals =subject.getPrincipals();
 //		RealmSecurityManager securityManager =  
 //			     (RealmSecurityManager) SecurityUtils.getSecurityManager();  
 //		UserRealm userRealm = (UserRealm) securityManager.getRealms().iterator().next();  
-//	    userRealm.clearCachedAuthenticationInfo(subject.getPrincipals());  
-//		subject.
-		userRealm.clearCached(subject);
+//	    userRealm.clearCachedAuthenticationInfo(subject.getPrincipals());  .
+		//userRealm.clearCached(subject);
 	    subject.logout();
 	    System.out.println("biubiubiubiu");
 		// 重定向至登录页面
