@@ -39,8 +39,8 @@
             </div>
         </div>
         <div class="buttons">
-            <a href="#!/login" class="btn btn-primary">Update</a>
-            <a href="#!/login" class="btn btn-primary">Record</a>
+            <a class="btn btn-primary" ng-click="selection='update'">Update</a>
+            <a class="btn btn-primary">Record</a>
             <a href="#!/login" class="btn btn-primary">Logout</a>
 
         </div>
@@ -49,6 +49,19 @@
 
 
     <div class="main">
-
+        <div class="animate-switch-container" ng-switch on="selection">
+            <div class="animate-switch" ng-switch-when="update">
+                update1
+                <ng-include src="'/dva-mvn/html/views/home.update.html'"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-when="timeline">
+                timeline1
+                <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-default>
+                default1
+                <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
+            </div>
+        </div>
     </div>
 </div>

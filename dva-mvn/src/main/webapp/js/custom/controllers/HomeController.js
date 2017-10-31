@@ -11,6 +11,7 @@
 
         (function initController() {
             loadCurrentUser();
+            $scope.selection = "timeline";
         })();
 
         function loadCurrentUser() {

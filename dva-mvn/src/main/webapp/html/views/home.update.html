@@ -1,0 +1,35 @@
+<form role="form" name="form">
+    <div class="form-top">
+        <h2>Login</h2>
+    </div>
+    <div class="form-bottom">
+        <div class="form-group">
+            <label for="userId_L">update</label>
+            <input type="text" class="form-control" id="userId_L" ng-model="loginData.userId" placeholder="Username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password_L">Password</label>
+            <input type="password" class="form-control" id="password_L" ng-model="loginData.password" placeholder="Password" required>
+        </div>
+
+        <div class="group-control input-group">
+            <div name="kaptcha">
+                <input type="text" name="kaptcha" id="kaptcha" ng-model="loginData.kaptcha" value="" placeholder="Verification Code" class="validate-password required form-control" required aria-required="true" />
+            </div>
+            <div name="kaptcha-img">
+                <img ng-src={{kaptcha}} ng-click="changeKaptcha()">
+            </div>
+        </div>
+
+        <div class="checkbox">
+            <label> <input type="checkbox" id="remember" ng-model="loginData.rememberme" ng-checked="loginData.rememberme">Remember me！
+</label>
+        </div>
+
+    </div>
+    <div class="form-actions">
+        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" ng-click="login()">Login</button>
+        <a href="#!/signup" class="btn btn-link">Signup</a>
+    </div>
+</form>
