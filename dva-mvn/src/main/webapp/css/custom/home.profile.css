@@ -24,7 +24,7 @@
 
 .main {
     background: #ededed url(/dva-mvn/static/img/texture.png) 0 0 repeat;
-    padding-top: 140px;
+    padding: 5% 10%;
     margin-left: 300px;
     min-height: 725px;
 }

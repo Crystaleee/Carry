@@ -1,35 +1,37 @@
 <form role="form" name="form">
     <div class="form-top">
-        <h2>Login</h2>
+        <h2>Update profile</h2>
     </div>
     <div class="form-bottom">
         <div class="form-group">
-            <label for="userId_L">update</label>
-            <input type="text" class="form-control" id="userId_L" ng-model="loginData.userId" placeholder="Username" required>
+            <label for="userId_L">username</label>
+            <input type="text" class="form-control" id="userId" ng-model="user.newUsername" placeholder="Username">
         </div>
 
         <div class="form-group">
             <label for="password_L">Password</label>
-            <input type="password" class="form-control" id="password_L" ng-model="loginData.password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" ng-model="user.newPassword" placeholder="Password">
         </div>
 
-        <div class="group-control input-group">
-            <div name="kaptcha">
-                <input type="text" name="kaptcha" id="kaptcha" ng-model="loginData.kaptcha" value="" placeholder="Verification Code" class="validate-password required form-control" required aria-required="true" />
-            </div>
-            <div name="kaptcha-img">
-                <img ng-src={{kaptcha}} ng-click="changeKaptcha()">
-            </div>
+        <div class="form-group">
+            <label for="password_L">Age</label>
+            <input type="password" class="form-control" id="age" ng-model="user.newAge" placeholder="Age">
         </div>
 
-        <div class="checkbox">
-            <label> <input type="checkbox" id="remember" ng-model="loginData.rememberme" ng-checked="loginData.rememberme">Remember me！
-</label>
+        <div class="form-group">
+            <label for="password_L">Height</label>
+            <input type="password" class="form-control" id="height" ng-model="user.newHeight" placeholder="Height">
         </div>
+
+        <div class="form-group">
+            <label for="password_L">Weight</label>
+            <input type="password" class="form-control" id="weight" ng-model="user.newWeight" placeholder="Weight">
+        </div>
+
 
     </div>
     <div class="form-actions">
-        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" ng-click="login()">Login</button>
-        <a href="#!/signup" class="btn btn-link">Signup</a>
+        <button type="submit" class="btn btn-primary" ng-click="updateProfile()">Update</button>
+        <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
     </div>
 </form>

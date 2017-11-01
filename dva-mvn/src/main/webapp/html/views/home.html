@@ -17,6 +17,10 @@
             </div>
         </div>
         <div class="profile">
+            <div class="info age">
+                <span>Age:</span>
+                <span>{{user.age}}</span>
+            </div>
             <div class="info height">
                 <span>Height:</span>
                 <span>{{user.height}}</span>
@@ -29,10 +33,6 @@
                 <span>BMI:</span>
                 <span>{{user.bmi}}</span>
             </div>
-            <div class="info bf">
-                <span>BF%:</span>
-                <span>{{user.bf}}</span>
-            </div>
             <div class="info bmr">
                 <span>BMR:</span>
                 <span>{{user.bmr}}</span>
@@ -40,7 +40,7 @@
         </div>
         <div class="buttons">
             <a class="btn btn-primary" ng-click="selection='update'">Update</a>
-            <a class="btn btn-primary">Record</a>
+            <a class="btn btn-primary" ng-click="selection='record'">Record</a>
             <a href="#!/login" class="btn btn-primary">Logout</a>
 
         </div>
@@ -51,15 +51,12 @@
     <div class="main">
         <div class="animate-switch-container" ng-switch on="selection">
             <div class="animate-switch" ng-switch-when="update">
-                update1
                 <ng-include src="'/dva-mvn/html/views/home.update.html'"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-when="timeline">
-                timeline1
                 <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-default>
-                default1
                 <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
             </div>
         </div>
