@@ -37,26 +37,10 @@ ehthumbs.db
 Thumbs.db
 
 #npm
-node_modules/*
+node_modules/
 gulpfile.js
 package.json
 package-lock.json
 scripts.json
 styles.json
-dva-mvn/.DS_Store
 dva-mvn/.project
-dva-mvn/src/.DS_Store
-dva-mvn/src/main/.DS_Store
-dva-mvn/src/main/java/.DS_Store
-dva-mvn/src/main/resources/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/src/main/webapp/.DS_Store
-dva-mvn/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-dva-mvn/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
