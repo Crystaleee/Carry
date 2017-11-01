@@ -9,7 +9,7 @@
 
 # Maven #
 *.project
-MANIFEST.MF.MF
+MANIFEST.MF
 pom.properties
 
 # Packages #
