@@ -7,6 +7,11 @@
 *.o
 *.so
 
+# Maven #
+*.project
+MANIFEST.MF.MF
+pom.properties
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -42,4 +47,3 @@ package.json
 package-lock.json
 scripts.json
 styles.json
-dva-mvn/.project
