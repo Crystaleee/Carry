@@ -35494,6 +35494,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');
             }
+
+            //redirect to home page if already logged in nd trying to access login/signup page
+            if (!restrictedPage && loggedIn) {
+                $location.path('/');
+            }
         });
     }
 
@@ -35692,9 +35697,9 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'AuthenticationService', '$rootScope'];
+    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', '$rootScope'];
 
-    function HomeController($scope, AuthenticationService, $rootScope) {
+    function HomeController($location, $scope, AuthenticationService, $rootScope) {
 
         (function initController() {
             loadCurrentUser();
@@ -35712,13 +35717,18 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             user.bf = user.height - user.weight;
         }
 
+        $scope.logout = function() {
+            AuthenticationService.ClearCredentials();
+            $location.path('/login');
+        }
+
         // $scope.logout = function() {
         //     AuthenticationService.ClearCredentials();
         // }
 
-        $scope.$watch('b', function (newValue) {
-    $scope.a = newValue;
-});
+        $scope.$watch('b', function(newValue) {
+            $scope.a = newValue;
+        });
 
         $scope.updateProfile = function() {
             var user = $scope.user;

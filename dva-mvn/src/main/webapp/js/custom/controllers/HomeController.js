@@ -5,9 +5,9 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'AuthenticationService', '$rootScope'];
+    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', '$rootScope'];
 
-    function HomeController($scope, AuthenticationService, $rootScope) {
+    function HomeController($location, $scope, AuthenticationService, $rootScope) {
 
         (function initController() {
             loadCurrentUser();
@@ -23,6 +23,11 @@
             user.newHeight = user.height;
             user.newWeight = user.weight;
             user.bf = user.height - user.weight;
+        }
+
+        $scope.logout = function() {
+            AuthenticationService.ClearCredentials();
+            $location.path('/login');
         }
 
         // $scope.logout = function() {
