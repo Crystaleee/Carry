@@ -20,6 +20,7 @@
                 type: "post",
                 url: "/dva-mvn/user/login.do",
                 dataType: "text",
+                async: false,
                 data: {
                     userId: userId,
                     password: password,
