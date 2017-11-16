@@ -60,16 +60,11 @@
 }
 
 .profile {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .profile div {
     padding: 3px 30px;
-}
-
-.profile div span {
-    padding-left: 15%;
-    text-align: right;
 }
 
 .buttons {
@@ -106,4 +101,9 @@
     height: 25px;
     line-height: 25px;
     display: inline-block;
+}
+
+.profile table {
+    width: 100%;
+    margin: 0 20px;
 }
