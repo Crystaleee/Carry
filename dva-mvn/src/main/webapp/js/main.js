@@ -35526,6 +35526,7 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                 type: "post",
                 url: "/dva-mvn/user/login.do",
                 dataType: "text",
+                async: false,
                 data: {
                     userId: userId,
                     password: password,
@@ -35586,6 +35587,8 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
+        service.UpdateProfile = UpdateProfile;
+        service.LoadCurrentUser = LoadCurrentUser;
 
         return service;
 
@@ -35602,11 +35605,7 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
@@ -35623,32 +35622,70 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                 success: function(data) {
                     callback(data);
                 },
-                error: function(XMLHttpRequest,
-                    textStatus,
-                    errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console
-                        .log("error");
-                    console
-                        .log(textStatus);
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
+            // $http({
+            //     method: "POST",
+            //     url: '/dva-mvn/signUp/signUp.do',
+            //     data: form
+            //
+            // }).then(function mySuccess(response) {
+            //     console.log(response);
+            //     callback(response);
+            // }, function myError(response) {
+            //
+            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: form
-                    .serializeArray(),
+                data: form.serializeArray(),
                 success: function(data) {
                     callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
+            });
+        }
+
+        function UpdateProfile(form, callback) {
+            console.log(form.serializeArray());
+            $.ajax({
+                type: "post",
+                url: "/dva-mvn/UserInformation/updateProfile.do",
+                dataType: "text",
+                async: false,
+                data: form.serializeArray(),
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadCurrentUser(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUser.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
             });
         }
 
@@ -35678,14 +35715,33 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             return res.data;
         }
 
-        function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+        function handleError(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.readyState +
+                XMLHttpRequest.status +
+                XMLHttpRequest.responseText);
+            console.log("error");
+            console.log(textStatus);
         }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('FigureController', FigureController);
+
+    FigureController.$inject = ['$location', '$scope', 'AuthenticationService'];
+
+    function FigureController($location, $scope, AuthenticationService) {
+        //initilization function
+        (function initController() {
+
+        })();
+
+
     }
 
 })();
@@ -35697,9 +35753,9 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', '$rootScope'];
+    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
 
-    function HomeController($location, $scope, AuthenticationService, $rootScope) {
+    function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         (function initController() {
             loadCurrentUser();
@@ -35707,6 +35763,7 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         })();
 
         function loadCurrentUser() {
+            //$scope.user = UserService.LoadCurrentUser();
             $scope.user = $rootScope.globals.currentUser;
 
             var user = $scope.user;
@@ -35714,7 +35771,7 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             user.newAge = user.age;
             user.newHeight = user.height;
             user.newWeight = user.weight;
-            user.bf = user.height - user.weight;
+            user.newSex = user.sex;
         }
 
         $scope.logout = function() {
@@ -35722,23 +35779,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             $location.path('/login');
         }
 
-        // $scope.logout = function() {
-        //     AuthenticationService.ClearCredentials();
-        // }
-
-        $scope.$watch('b', function(newValue) {
-            $scope.a = newValue;
-        });
-
-        $scope.updateProfile = function() {
-            var user = $scope.user;
-            user.height = user.newHeight;
-            user.weight = user.newWeight;
-            user.age = user.newAge;
-            user.username = user.newUsername;
-
-            $scope.selection = "timeline";
-        }
+        // $scope.$watch('user.weight', function(newValue, oldValue) {
+        //     var user = $scope.user;
+        //     var bmi = newValue / (user.height * user.height);
+        //     user.bmi = (bmi > 0) ? bmi : "Please update";
+        // });
 
         $scope.changeSelection = function(select) {
             $scope.selection = select;
@@ -35800,6 +35845,25 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
     angular
         .module('app')
+        .controller('RecordController', RecordController);
+
+    RecordController.$inject = ['$location', '$scope', 'AuthenticationService'];
+
+    function RecordController($location, $scope, AuthenticationService) {
+        (function initController() {
+
+        })();
+
+
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
         .controller('SignupController', SignupController)
         .filter('split', split);
 
@@ -35828,12 +35892,12 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input userId as valid
-                    $scope.form.userId.$setValidity(result.resultTips, true);
+                    $scope.form.userId.$setValidity("unique", true);
 
                 } else {
                     //set input userId as invalid
-                    $scope.form.userId.$setValidity(result.resultTips, false);
-                    console.log("error");
+                    $scope.form.userId.$setValidity("unique", false);
+                    console.log(result.resultTips);
                 }
             });
         }
@@ -35845,12 +35909,12 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input email as valid
-                    $scope.form.email.$setValidity(result.resultTips, true);
+                    $scope.form.email.$setValidity("unique", true);
 
                 } else {
                     //set input email as invalid
-                    $scope.form.email.$setValidity(result.resultTips, false);
-                    console.log("error");
+                    $scope.form.email.$setValidity("unique", false);
+                    console.log(result.resultTips);
                 }
             });
         }
@@ -35864,6 +35928,64 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
                     $scope.step = 3;
                 }
             });
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('TimelineController', TimelineController);
+
+    TimelineController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
+
+    function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
+
+
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('UpdateProfileController', UpdateProfileController);
+
+    UpdateProfileController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
+
+    function UpdateProfileController($location, $scope, AuthenticationService, UserService, $rootScope) {
+
+        $scope.updateProfile = function() {
+            var form = $('#update-form');
+            UserService.UpdateProfile(form, function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    var user = $scope.user;
+                    user.height = user.newHeight;
+                    user.weight = user.newWeight;
+                    user.age = user.newAge;
+                    user.username = user.newUsername;
+                    user.sex = user.newSex;
+
+                    $scope.changeSelection("timeline");
+                }
+            });
+            //just for development
+            var user = $scope.user;
+            user.height = user.newHeight;
+            user.weight = user.newWeight;
+            user.age = user.newAge;
+            user.username = user.newUsername;
+            user.sex = user.newSex;
+
+            $scope.changeSelection("timeline");
+
         }
     }
 
