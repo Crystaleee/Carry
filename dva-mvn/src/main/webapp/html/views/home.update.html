@@ -1,37 +1,43 @@
-<form role="form" name="form">
+<form role="form" name="form" id="update-form">
     <div class="form-top">
         <h2>Update profile</h2>
     </div>
     <div class="form-bottom">
         <div class="form-group">
-            <label for="userId_L">username</label>
-            <input type="text" class="form-control" id="userId" ng-model="user.newUsername" placeholder="Username">
+            <label for="userId_L">Username</label>
+            <input type="text" name="userId" class="form-control" id="userId" ng-model="user.newUsername" placeholder="Username">
         </div>
 
         <div class="form-group">
             <label for="password_L">Password</label>
-            <input type="password" class="form-control" id="password" ng-model="user.newPassword" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="password" ng-model="user.newPassword" placeholder="Password">
         </div>
 
         <div class="form-group">
-            <label for="password_L">Age</label>
-            <input type="password" class="form-control" id="age" ng-model="user.newAge" placeholder="Age">
+            <label>Sex</label>
+            <input type="radio" id="square-radio-1" name="sex" ng-model="user.newSex" value="male">Male
+            <input type="radio" id="square-radio-2" name="sex" ng-model="user.newSex" value="female">Female
         </div>
 
         <div class="form-group">
-            <label for="password_L">Height</label>
-            <input type="password" class="form-control" id="height" ng-model="user.newHeight" placeholder="Height">
+            <label for="password_L">Age (year)</label>
+            <input type="text" name="age" class="form-control" id="age" ng-model="user.newAge" placeholder="Age">
         </div>
 
         <div class="form-group">
-            <label for="password_L">Weight</label>
-            <input type="password" class="form-control" id="weight" ng-model="user.newWeight" placeholder="Weight">
+            <label for="password_L">Height (meter)</label>
+            <input type="text" name="height" class="form-control" id="height" ng-model="user.newHeight" placeholder="Height">
+        </div>
+
+        <div class="form-group">
+            <label for="password_L">Weight (kg)</label>
+            <input type="text" name="weight" class="form-control" id="weight" ng-model="user.newWeight" placeholder="Weight">
         </div>
 
 
     </div>
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary" ng-click="updateProfile()">Update</button>
+        <button type="button" class="btn btn-primary" ng-click="updateProfile()">Update</button>
         <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
     </div>
 </form>
