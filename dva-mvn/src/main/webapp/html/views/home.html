@@ -63,16 +63,16 @@
     <div class="main">
         <div class="animate-switch-container" ng-switch on="selection">
             <div class="animate-switch" ng-switch-when="update">
-                <ng-include src="'/dva-mvn/html/views/home.update.html'"></ng-include>
+                <ng-include src="'/dva-mvn/html/views/home.update.html'"  ng-controller="UpdateProfileController"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-when="timeline">
-                <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
+                <ng-include src="'/dva-mvn/html/views/home.timeline.html'" ng-controller="TimelineController"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-when="figure">
-                <ng-include src="'/dva-mvn/html/views/home.figure.html'"></ng-include>
+                <ng-include src="'/dva-mvn/html/views/home.figure.html'" ng-controller="FigureController"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-when="record">
-                <ng-include src="'/dva-mvn/html/views/home.record.html'"></ng-include>
+                <ng-include src="'/dva-mvn/html/views/home.record.html'" ng-controller="RecordController"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-default>
                 <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
