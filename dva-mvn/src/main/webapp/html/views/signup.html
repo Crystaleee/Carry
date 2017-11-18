@@ -49,16 +49,8 @@
                             <label class="sr-only" for="repeatPassword">Repeat Password</label>
                             <input type="password" name="repeatPassword" ng-class="{'has-error': password!=repeatPassword}" ng-model="repeatPassword" placeholder="RepeatPassword" class="form-repeat-password form-control" id="repeatPassword" required>
                         </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="height">Height</label>
-                            <input type="text" name="height" ng-model="height" placeholder="Height (m)" class="form-control" id="height" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="weight">Weight</label>
-                            <input type="text" name="weight" ng-model="weight" placeholder="Weight (kg)" class="form-control" id="weight" required>
-                        </div>
                         <div class="form-actions">
-                            <button type="button" ng-disabled="form.userId.$invalid || form.weight.$invalid || form.height.$invalid || form.password.$invalid || password !=repeatPassword" ng-click="step=step+1" class="btn btn-primary btn-next">Next</button>
+                            <button type="button" ng-disabled="form.userId.$invalid || form.password.$invalid || password !=repeatPassword" ng-click="step=step+1" class="btn btn-primary btn-next">Next</button>
                             <a href="#!/login" class="btn btn-link">Cancel</a>
                         </div>
                     </div>
@@ -88,9 +80,17 @@
                                 <input type="radio" id="square-radio-2" name="sex" ng-model="sex" value="female">Female
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="height">Height</label>
+                            <input type="text" name="height" ng-model="height" placeholder="Height (m)" class="form-control" id="height" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="weight">Weight</label>
+                            <input type="text" name="weight" ng-model="weight" placeholder="Weight (kg)" class="form-control" id="weight" required>
+                        </div>
                         <div class="form-actions">
                             <button type="button" class="btn btn-default btn-previous" ng-click="step=step-1">Previous</button>
-                            <button type="button" class="btn btn-primary btn-submit" ng-disabled="form.name.$invalid || form.email.$invalid" ng-click="signup()">Sign up now</button>
+                            <button type="button" class="btn btn-primary btn-submit" ng-disabled="form.name.$invalid || form.height.$invalid || form.weight.$invalid || form.email.$invalid" ng-click="signup()">Sign up now</button>
                         </div>
 
                     </div>
