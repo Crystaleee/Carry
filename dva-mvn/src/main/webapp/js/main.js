@@ -35588,7 +35588,8 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
         service.UpdateProfile = UpdateProfile;
-        service.LoadCurrentUser = LoadCurrentUser;
+        service.LoadUserProfile = LoadUserProfile;
+        service.LoadUserRecord = LoadUserRecord;
 
         return service;
 
@@ -35674,10 +35675,25 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             });
         }
 
-        function LoadCurrentUser(callback) {
+        function LoadUserProfile(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/UserInformation/loadUser.do",
+                url: "/dva-mvn/UserInformation/loadUserProfile.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadUserRecord(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUserRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -35758,20 +35774,26 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
     function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         (function initController() {
-            loadCurrentUser();
+            loadUserProfile();
             $scope.selection = "timeline";
         })();
 
-        function loadCurrentUser() {
-            //$scope.user = UserService.LoadCurrentUser();
-            $scope.user = $rootScope.globals.currentUser;
+        function loadUserProfile() {
+            UserService.LoadUserProfile(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    var user = $scope.user;
+                    user.height = result.resultMessage.height;
+                    user.weight = result.resultMessage.weight;
+                    user.age = result.resultMessage.age;
+                    user.username = result.resultMessage.username;
+                    user.sex = result.resultMessage.sex;
 
-            var user = $scope.user;
-            user.newUsername = user.username;
-            user.newAge = user.age;
-            user.newHeight = user.height;
-            user.newWeight = user.weight;
-            user.newSex = user.sex;
+                    $scope.changeSelection("timeline");
+                }
+            });
+            // $scope.user = $rootScope.globals.currentUser;
         }
 
         $scope.logout = function() {
@@ -35817,20 +35839,20 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         })();
 
         $scope.login = function() {
-            AuthenticationService.SetCredentials($scope.loginData.userId);
-            $location.path('/');
-            // AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
-            //     var result = $.parseJSON(response);
-            //     console.log(result);
-            //     if (result.resultCode == 1) {
-            //         AuthenticationService.SetCredentials($scope.loginData.userId);
-            //         $location.path('/');
-            //
-            //     } else {
-            //         alert(result.resultTips);
-            //         console.log("error");
-            //     }
-            // });
+            // AuthenticationService.SetCredentials($scope.loginData.userId);
+            // $location.path('/');
+            AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultCode == 1) {
+                    AuthenticationService.SetCredentials($scope.loginData.userId);
+                    $location.path('/');
+
+                } else {
+                    alert(result.resultTips);
+                    console.log("error");
+                }
+            });
         }
 
         $scope.changeKaptcha = function(node) {
@@ -35851,10 +35873,18 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
     function RecordController($location, $scope, AuthenticationService) {
         (function initController() {
-
+            loadUserRecord();
         })();
 
+        function loadUserRecord() {
+            UserService.LoadUserRecord(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
 
+                }
+            });
+        }
     }
 
 })();

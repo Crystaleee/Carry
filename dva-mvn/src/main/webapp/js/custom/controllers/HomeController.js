@@ -10,20 +10,26 @@
     function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         (function initController() {
-            loadCurrentUser();
+            loadUserProfile();
             $scope.selection = "timeline";
         })();
 
-        function loadCurrentUser() {
-            //$scope.user = UserService.LoadCurrentUser();
-            $scope.user = $rootScope.globals.currentUser;
+        function loadUserProfile() {
+            UserService.LoadUserProfile(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    var user = $scope.user;
+                    user.height = result.resultMessage.height;
+                    user.weight = result.resultMessage.weight;
+                    user.age = result.resultMessage.age;
+                    user.username = result.resultMessage.username;
+                    user.sex = result.resultMessage.sex;
 
-            var user = $scope.user;
-            user.newUsername = user.username;
-            user.newAge = user.age;
-            user.newHeight = user.height;
-            user.newWeight = user.weight;
-            user.newSex = user.sex;
+                    $scope.changeSelection("timeline");
+                }
+            });
+            // $scope.user = $rootScope.globals.currentUser;
         }
 
         $scope.logout = function() {
