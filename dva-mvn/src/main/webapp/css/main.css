@@ -148,13 +148,14 @@
 }
 
 .content table {
-    width: 100%;
+    width: 90%;
 }
 
 .exercise, .food {
-    max-height: 170px;
+    max-height: 200px;
     width: 49%;
-    padding: 20px;
+    position: relative;
+    padding: 15px 20px;
     -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
     -moz-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
     -ms-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
@@ -169,8 +170,6 @@
 .exercise {
     background-color: #6fdaa1;
     color: #fff;
-    position: relative;
-    left: -5px;
 }
 
 .exercise:after {
@@ -184,8 +183,10 @@
     border-bottom: 25px solid transparent;
 }
 
-caption {
+.caption {
     font-weight: 400;
+    text-align: center;
+    margin-bottom: 3px;
 }
 
 .date {
@@ -193,9 +194,39 @@ caption {
     line-height: 250%;
 }
 
-.wrap {
+.timeline-wrap {
     overflow-y: auto;
-    max-height: 120px;
+    max-height: 125px;
+}
+
+.timeline-wrap td {
+    width: 24%;
+    text-align: center;
+    line-height: 180%;
+}
+
+.timeline-wrap td:nth-child(1) {
+    width: 15%;
+}
+
+td img {
+    width: 20px;
+}
+
+.glyphicon{
+    opacity: 0.5;
+}
+.glyphicon-remove {
+    position: absolute;
+    right: 5%;
+    top: 20px;
+}
+
+.glyphicon-edit {
+    position: absolute;
+    bottom: 15px;
+    right: 5%;
+    top: unset;
 }
 
 
