@@ -1,30 +1,38 @@
 /*Home animation*/
 
-/*.animate-switch-container {
+.animate-switch-container {
     position: relative;
-    background: white;
-    border: 1px solid black;
-    height: 40px;
     overflow: hidden;
-}*/
-
-.animate-switch {
-    padding: 10px;
+    min-height: 600px;
 }
 
-/*.animate-switch.ng-animate {
-    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+.animate-switch.ng-animate {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}*/
-
-.animate-switch.ng-leave.ng-leave-active, .animate-switch.ng-enter {
-    top: -50px;
+    width: 100%;
 }
 
-.animate-switch.ng-leave, .animate-switch.ng-enter.ng-enter-active {
-    top: 0;
+.animate-switch.ng-leave, .animate-switch.ng-enter {
+    -webkit-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -moz-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -ms-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -o-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+
+.animate-switch.ng-enter {
+    left: -150%;
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.animate-switch.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.animate-switch.ng-leave {
+    left: 0;
+}
+
+.animate-switch.ng-leave.ng-leave-active {
+    left: -100%;
 }
