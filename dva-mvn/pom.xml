@@ -134,6 +134,11 @@
 
 		<!-- json -->
 		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.3</version>
@@ -206,7 +211,7 @@
 			<version>1.2.4</version>
 		</dependency>
 
-	<dependency>
+		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-quartz</artifactId>
 			<version>1.2.4</version>
@@ -215,8 +220,8 @@
 					<groupId>org.opensymphony.quartz</groupId>
 					<artifactId>quartz</artifactId>
 				</exclusion>
-			</exclusions>			
-		</dependency> 	
+			</exclusions>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-collections</groupId>
@@ -298,7 +303,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/GANXiSw.jar</systemPath>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
