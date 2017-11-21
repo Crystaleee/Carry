@@ -13,12 +13,9 @@
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
-<<<<<<< HEAD
-=======
         service.UpdateProfile = UpdateProfile;
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 
         return service;
 
@@ -35,11 +32,7 @@
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
@@ -56,33 +49,50 @@
                 success: function(data) {
                     callback(data);
                 },
-                error: function(XMLHttpRequest,
-                    textStatus,
-                    errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console
-                        .log("error");
-                    console
-                        .log(textStatus);
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
+            // $http({
+            //     method: "POST",
+            //     url: '/dva-mvn/signUp/signUp.do',
+            //     data: form
+            //
+            // }).then(function mySuccess(response) {
+            //     console.log(response);
+            //     callback(response);
+            // }, function myError(response) {
+            //
+            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: form
-                    .serializeArray(),
+                data: form.serializeArray(),
                 success: function(data) {
                     callback(data);
-<<<<<<< HEAD
-=======
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function UpdateProfile(form, callback) {
+            console.log(form.serializeArray());
+            $.ajax({
+                type: "post",
+                url: "/dva-mvn/UserInformation/updateProfile.do",
+                dataType: "text",
+                async: false,
+                data: form.serializeArray(),
+                success: function(data) {
+                    callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     handleError(XMLHttpRequest, textStatus, errorThrown);
@@ -116,8 +126,8 @@
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     handleError(XMLHttpRequest, textStatus, errorThrown);
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
                 }
+
             });
         }
 
@@ -147,13 +157,12 @@
             return res.data;
         }
 
-        function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+        function handleError(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.readyState +
+                XMLHttpRequest.status +
+                XMLHttpRequest.responseText);
+            console.log("error");
+            console.log(textStatus);
         }
     }
 

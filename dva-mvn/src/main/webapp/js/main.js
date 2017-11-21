@@ -474,6 +474,11 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');
             }
+
+            //redirect to home page if already logged in nd trying to access login/signup page
+            if (!restrictedPage && loggedIn) {
+                $location.path('/');
+            }
         });
     }
 
@@ -501,6 +506,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                 type: "post",
                 url: "/dva-mvn/user/login.do",
                 dataType: "text",
+                async: false,
                 data: {
                     userId: userId,
                     password: password,
@@ -561,12 +567,9 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
-<<<<<<< HEAD
-=======
         service.UpdateProfile = UpdateProfile;
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 
         return service;
 
@@ -583,11 +586,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
@@ -604,37 +603,40 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                 success: function(data) {
                     callback(data);
                 },
-                error: function(XMLHttpRequest,
-                    textStatus,
-                    errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console
-                        .log("error");
-                    console
-                        .log(textStatus);
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
+            // $http({
+            //     method: "POST",
+            //     url: '/dva-mvn/signUp/signUp.do',
+            //     data: form
+            //
+            // }).then(function mySuccess(response) {
+            //     console.log(response);
+            //     callback(response);
+            // }, function myError(response) {
+            //
+            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: form
-                    .serializeArray(),
+                data: form.serializeArray(),
                 success: function(data) {
                     callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
 
-<<<<<<< HEAD
-=======
         function UpdateProfile(form, callback) {
             console.log(form.serializeArray());
             $.ajax({
@@ -683,7 +685,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             });
         }
 
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         function GetById(id) {
             return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
         }
@@ -710,14 +711,33 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             return res.data;
         }
 
-        function handleError(error) {
-            return function() {
-                return {
-                    success: false,
-                    message: error
-                };
-            };
+        function handleError(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.readyState +
+                XMLHttpRequest.status +
+                XMLHttpRequest.responseText);
+            console.log("error");
+            console.log(textStatus);
         }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('FigureController', FigureController);
+
+    FigureController.$inject = ['$location', '$scope', 'AuthenticationService'];
+
+    function FigureController($location, $scope, AuthenticationService) {
+        //initilization function
+        (function initController() {
+
+        })();
+
+
     }
 
 })();
@@ -729,18 +749,11 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'AuthenticationService', '$rootScope'];
+    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
 
-    function HomeController($scope, AuthenticationService, $rootScope) {
+    function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         (function initController() {
-<<<<<<< HEAD
-            loadCurrentUser();
-        })();
-
-        function loadCurrentUser() {
-            $scope.user = $rootScope.globals.currentUser;
-=======
             loadUserProfile();
             $scope.selection = "timeline";
         })();
@@ -766,12 +779,17 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         $scope.logout = function() {
             AuthenticationService.ClearCredentials();
             $location.path('/login');
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         }
 
-        // $scope.logout = function() {
-        //     AuthenticationService.ClearCredentials();
-        // }
+        // $scope.$watch('user.weight', function(newValue, oldValue) {
+        //     var user = $scope.user;
+        //     var bmi = newValue / (user.height * user.height);
+        //     user.bmi = (bmi > 0) ? bmi : "Please update";
+        // });
+
+        $scope.changeSelection = function(select) {
+            $scope.selection = select;
+        }
     }
 
 })();
@@ -825,7 +843,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
 })();
 
 (function() {
-<<<<<<< HEAD
         'use strict';
 
         angular
@@ -871,15 +888,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                     if (format) {
                         value = parseDate(value);
                     }
-=======
-    'use strict';
-
-    angular
-        .module('app')
-<<<<<<< HEAD
-=======
-        .controller('RecordController', RecordController);
->>>>>>> e24c1aa0f5aa3b8f89e182862078424a1b1872c2
 
                     var timestamp = Date.parse(value);
 
@@ -905,7 +913,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
 
     angular
         .module('app')
->>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         .controller('SignupController', SignupController)
         .filter('split', split);
 
@@ -934,12 +941,12 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input userId as valid
-                    $scope.step1.userId.$setValidity(result.resultTips, true);
+                    $scope.form.userId.$setValidity("unique", true);
 
                 } else {
                     //set input userId as invalid
-                    $scope.step1.userId.$setValidity(result.resultTips, false);
-                    console.log("error");
+                    $scope.form.userId.$setValidity("unique", false);
+                    console.log(result.resultTips);
                 }
             });
         }
@@ -951,12 +958,12 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input email as valid
-                    $scope.step2.email.$setValidity(result.resultTips, true);
+                    $scope.form.email.$setValidity("unique", true);
 
                 } else {
                     //set input email as invalid
-                    $scope.step2.email.$setValidity(result.resultTips, false);
-                    console.log("error");
+                    $scope.form.email.$setValidity("unique", false);
+                    console.log(result.resultTips);
                 }
             });
         }
@@ -974,7 +981,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
     }
 
 })();
-<<<<<<< HEAD
 
 (function() {
     'use strict';
@@ -1045,5 +1051,3 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
     }
 
 })();
-=======
->>>>>>> e24c1aa0f5aa3b8f89e182862078424a1b1872c2
