@@ -69,15 +69,11 @@ public class DatabaseHelper {
             System.out.println("Connected database successfully...");
             System.out.println("Creating table in given database...");
             stmt = connection.createStatement();
-            
-            String sql = "CREATE TABLE REGISTRATION " +
-                         "(id INTEGER not NULL, " +
-                         " first VARCHAR(255), " + 
-                         " last VARCHAR(255), " + 
-                         " age INTEGER, " + 
-                         " PRIMARY KEY ( id ))"; 
-
+            String table_food_rec="CREATE TABLE IF NOT EXISTS Food_record (RecordID varchar(50) NOT NULL,UserID varchar(256) NOT NULL,Date datetime NOT NULL,FoodCategory varchar(30) NOT NULL,Food_weight float NOT NULL,Foodname varchar(50) NOT NULL,Food_cal float NOT NULL) ;";
+            String table_ex_rec = "CREATE TABLE IF NOT EXISTS Ex_record (RecordID varchar(50) NOT NULL, Exercise_time int(11) NOT NULL,UserID varchar(256) NOT NULL, Date date NOT NULL,Exercise_cal float NOT NULL,ExerciseCategory varchar(50) NOT NULL,ExerciseName varchar(50) NOT NULL) ;";
             stmt.executeUpdate(l3);
+            stmt.executeUpdate(table_food_rec);
+            stmt.executeUpdate(table_ex_rec);
             System.out.println("Created table in given database...");
             System.out.println("00000000000000000000");
             statement.close();  
@@ -88,5 +84,3 @@ public class DatabaseHelper {
     }  
 }  
 
-/*0 row(s) affected, 1 warning(s): 1050 Table 'user' already exists
-*/

@@ -43,11 +43,6 @@
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');
             }
-
-            //redirect to home page if already logged in nd trying to access login/signup page
-            if (!restrictedPage && loggedIn) {
-                $location.path('/');
-            }
         });
     }
 

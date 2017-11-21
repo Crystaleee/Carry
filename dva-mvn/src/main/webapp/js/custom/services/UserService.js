@@ -13,8 +13,6 @@
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
-        service.UpdateProfile = UpdateProfile;
-        service.LoadCurrentUser = LoadCurrentUser;
 
         return service;
 
@@ -31,7 +29,11 @@
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                    alert(XMLHttpRequest.readyState +
+                        XMLHttpRequest.status +
+                        XMLHttpRequest.responseText);
+                    console.log("error");
+                    console.log(textStatus);
                 }
             });
         }
@@ -48,70 +50,32 @@
                 success: function(data) {
                     callback(data);
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                error: function(XMLHttpRequest,
+                    textStatus,
+                    errorThrown) {
+                    alert(XMLHttpRequest.readyState +
+                        XMLHttpRequest.status +
+                        XMLHttpRequest.responseText);
+                    console
+                        .log("error");
+                    console
+                        .log(textStatus);
                 }
             });
         }
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
-            // $http({
-            //     method: "POST",
-            //     url: '/dva-mvn/signUp/signUp.do',
-            //     data: form
-            //
-            // }).then(function mySuccess(response) {
-            //     console.log(response);
-            //     callback(response);
-            // }, function myError(response) {
-            //
-            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: form.serializeArray(),
+                data: form
+                    .serializeArray(),
                 success: function(data) {
                     callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
-            });
-        }
-
-        function UpdateProfile(form, callback) {
-            console.log(form.serializeArray());
-            $.ajax({
-                type: "post",
-                url: "/dva-mvn/UserInformation/updateProfile.do",
-                dataType: "text",
-                async: false,
-                data: form.serializeArray(),
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
-                }
-
-            });
-        }
-
-        function LoadCurrentUser(callback) {
-            $.ajax({
-                type: "GET",
-                url: "/dva-mvn/UserInformation/loadUser.do",
-                async: false,
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
-                }
-
             });
         }
 
@@ -141,12 +105,13 @@
             return res.data;
         }
 
-        function handleError(XMLHttpRequest, textStatus, errorThrown) {
-            alert(XMLHttpRequest.readyState +
-                XMLHttpRequest.status +
-                XMLHttpRequest.responseText);
-            console.log("error");
-            console.log(textStatus);
+        function handleError(error) {
+            return function() {
+                return {
+                    success: false,
+                    message: error
+                };
+            };
         }
     }
 

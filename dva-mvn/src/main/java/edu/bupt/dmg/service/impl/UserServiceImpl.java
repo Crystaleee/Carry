@@ -87,6 +87,16 @@ public class UserServiceImpl implements UserService {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean updateProfile(User user) {
+		try {
+			userDao.update(user);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public User getUserByEmail(String email) {

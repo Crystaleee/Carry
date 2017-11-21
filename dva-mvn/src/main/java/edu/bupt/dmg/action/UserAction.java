@@ -3,14 +3,11 @@ package edu.bupt.dmg.action;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.inject.New;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,18 +24,7 @@ import edu.bupt.dmg.realm.UserRealm;
 import edu.bupt.dmg.service.UserService;
 
 
-import org.apache.shiro.authc.LogoutAware;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.CacheManagerAware;
-import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.realm.CachingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.CollectionUtils;
-import org.apache.shiro.util.Nameable;
-import org.apache.shiro.web.session.HttpServletSession;
 
-import java.util.Collection;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 处理用户请求
@@ -154,6 +140,49 @@ public class UserAction {
 //		response.setDateHeader("Expires",0);
 //		response.setHeader("Cache-Control","no-cache");
 //		response.setHeader("Pragma","no-cache");
+	}
+	
+	@RequestMapping(value = "/loadUserProfile")
+	public @ResponseBody Map<String, Object> loadUserProfile() throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+		String userId = subject.getPrincipal().toString();
+		Map<String, Object> responseMap = new HashMap<>();
+		if (userId != null && !"".equals(userId)) {
+			// 获取文件集合
+			User user=userService.getUserByUserId(userId);
+			// 组织回复数据
+			responseMap.put("resultMessage", new ResultMessage(1));
+			responseMap.put("sex", user.getSex());
+			String date=user.getBirthDate();
+			System.out.println(date);
+			responseMap.put("BirthDate",date );
+			responseMap.put("height", user.getHeight());
+			responseMap.put("weight", user.getWeight());
+		} else {
+			// 用户未登录数据
+			responseMap.put("resultMessage", new ResultMessage(-2));
+		}
+		return responseMap;
+	}
+	
+	@RequestMapping(value = "/updateProfile")
+	public @ResponseBody ResultMessage updateProfile(User user) throws Exception {
+		// 获取验证码真值
+		Subject subject = SecurityUtils.getSubject();
+		String userid = subject.getPrincipal().toString();
+		if(userid !=null && !"".equals(userid)) {
+			if(userService.updateProfile(user)){
+				return new ResultMessage(1);
+			}
+			else{
+				return new ResultMessage(-3);
+			}
+			
+		}
+		else {
+			return new ResultMessage(-2);
+		}
+	
 	}
 
 }
