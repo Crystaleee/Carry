@@ -5,11 +5,18 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
+    HomeController.$inject = ['$scope', 'AuthenticationService', '$rootScope'];
 
-    function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
+    function HomeController($scope, AuthenticationService, $rootScope) {
 
         (function initController() {
+<<<<<<< HEAD
+            loadCurrentUser();
+        })();
+
+        function loadCurrentUser() {
+            $scope.user = $rootScope.globals.currentUser;
+=======
             loadUserProfile();
             $scope.selection = "timeline";
         })();
@@ -35,17 +42,12 @@
         $scope.logout = function() {
             AuthenticationService.ClearCredentials();
             $location.path('/login');
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         }
 
-        // $scope.$watch('user.weight', function(newValue, oldValue) {
-        //     var user = $scope.user;
-        //     var bmi = newValue / (user.height * user.height);
-        //     user.bmi = (bmi > 0) ? bmi : "Please update";
-        // });
-
-        $scope.changeSelection = function(select) {
-            $scope.selection = select;
-        }
+        // $scope.logout = function() {
+        //     AuthenticationService.ClearCredentials();
+        // }
     }
 
 })();

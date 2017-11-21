@@ -31,12 +31,12 @@
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input userId as valid
-                    $scope.form.userId.$setValidity("unique", true);
+                    $scope.step1.userId.$setValidity(result.resultTips, true);
 
                 } else {
                     //set input userId as invalid
-                    $scope.form.userId.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.step1.userId.$setValidity(result.resultTips, false);
+                    console.log("error");
                 }
             });
         }
@@ -48,12 +48,12 @@
                 console.log(result);
                 if (result.resultCode == 1) {
                     //set input email as valid
-                    $scope.form.email.$setValidity("unique", true);
+                    $scope.step2.email.$setValidity(result.resultTips, true);
 
                 } else {
                     //set input email as invalid
-                    $scope.form.email.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.step2.email.$setValidity(result.resultTips, false);
+                    console.log("error");
                 }
             });
         }

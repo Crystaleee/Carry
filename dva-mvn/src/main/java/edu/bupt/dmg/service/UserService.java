@@ -68,4 +68,5 @@ public interface UserService {
 	 * @return
 	 */
 	public User getUserByEmail(String email);
+	public boolean updateProfile(User user);
 }
