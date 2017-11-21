@@ -1,0 +1,38 @@
+/*Home animation*/
+
+.animate-switch-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.animate-switch.ng-animate {
+    position: absolute;
+    width: 100%;
+}
+
+.animate-switch.ng-leave, .animate-switch.ng-enter {
+    -webkit-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -moz-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -ms-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -o-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+
+.animate-switch.ng-enter {
+    left: -150%;
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.animate-switch.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.animate-switch.ng-leave {
+    left: 0;
+}
+
+.animate-switch.ng-leave.ng-leave-active {
+    left: -100%;
+}

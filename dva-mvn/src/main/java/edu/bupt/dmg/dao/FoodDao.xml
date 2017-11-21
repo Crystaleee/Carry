@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.FoodDao">
+
+	<resultMap type="edu.bupt.dmg.domain.Food" id="FoodFileMap">
+		<id column="FoodCategory" property="FoodCategory" />
+		<result column="Foodname" property="Foodname" />
+		<result column="Food_weight" property="Food_weight" />
+		<result column="Food_cal" property="Food_cal" />
+		<result column="FoodCategory" property="FoodCategory" />
+
+
+		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
+			select="edu.bupt.dmg.dao.UploadFileDao.findByFoodCategory" column="FoodCategory">
+		</collection>
+		<collection property="roles"
+			column="userId">
+		</collection>
+	</resultMap>
+
+	<select id="findById" parameterType="String" resultMap="FoodFileMap">
+		SELECT *
+		FROM Food WHERE FoodCategory = #{FoodCategory}
+	</select>
+	
+	
+	<select id="updatedatebase" >
+		update dvamvn.Food SET Enabled = '-1'    
+		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
+	</select>
+
+
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
+		insert into
+		Food(FoodCategory,Foodname,Food_weight,Food_cal)
+		values(#{FoodCategory},#{Foodname},#{Food_weight},#{Food_cal})
+	</insert>
+
+	<update id="update" parameterType="edu.bupt.dmg.domain.User">
+		update food set
+		FoodCategory=#{FoodCategory},
+		Foodname=#{Foodname},
+		Food_cal=#{Food_cal},
+		
+
+		where FoodCategory=#{FoodCategory}
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		delete FROM Food WHERE
+		FoodCategory = #{FoodCategory}
+	</delete>
+
+	<select id="findAll" resultMap="FoodFileMap">
+		SELECT * from Food
+	</select>
+
+	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.Food"
+		resultMap="FoodFileMap">
+		SELECT * from Food
+		<where>
+			<if test="FoodCategory!=null and FoodCategory!=''">
+				and FoodCategory like '%${FoodCategory}%'
+			</if>
+		</where>
+	</select>
+</mapper>

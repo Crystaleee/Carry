@@ -35581,6 +35581,12 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
+<<<<<<< HEAD
+=======
+        service.UpdateProfile = UpdateProfile;
+        service.LoadUserProfile = LoadUserProfile;
+        service.LoadUserRecord = LoadUserRecord;
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 
         return service;
 
@@ -35647,6 +35653,57 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
             });
         }
 
+<<<<<<< HEAD
+=======
+        function UpdateProfile(form, callback) {
+            console.log(form.serializeArray());
+            $.ajax({
+                type: "post",
+                url: "/dva-mvn/UserInformation/updateProfile.do",
+                dataType: "text",
+                async: false,
+                data: form.serializeArray(),
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadUserProfile(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUserProfile.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadUserRecord(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUserRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         function GetById(id) {
             return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
         }
@@ -35697,11 +35754,39 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
     function HomeController($scope, AuthenticationService, $rootScope) {
 
         (function initController() {
+<<<<<<< HEAD
             loadCurrentUser();
         })();
 
         function loadCurrentUser() {
             $scope.user = $rootScope.globals.currentUser;
+=======
+            loadUserProfile();
+            $scope.selection = "timeline";
+        })();
+
+        function loadUserProfile() {
+            UserService.LoadUserProfile(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    var user = $scope.user;
+                    user.height = result.resultMessage.height;
+                    user.weight = result.resultMessage.weight;
+                    user.age = result.resultMessage.age;
+                    user.username = result.resultMessage.username;
+                    user.sex = result.resultMessage.sex;
+
+                    $scope.changeSelection("timeline");
+                }
+            });
+            // $scope.user = $rootScope.globals.currentUser;
+        }
+
+        $scope.logout = function() {
+            AuthenticationService.ClearCredentials();
+            $location.path('/login');
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         }
 
         // $scope.logout = function() {
@@ -35764,6 +35849,36 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
     angular
         .module('app')
+<<<<<<< HEAD
+=======
+        .controller('RecordController', RecordController);
+
+    RecordController.$inject = ['$location', '$scope', 'AuthenticationService'];
+
+    function RecordController($location, $scope, AuthenticationService) {
+        (function initController() {
+            loadUserRecord();
+        })();
+
+        function loadUserRecord() {
+            UserService.LoadUserRecord(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+
+                }
+            });
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
         .controller('SignupController', SignupController)
         .filter('split', split);
 

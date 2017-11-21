@@ -22,7 +22,8 @@ public class UploadFile implements Serializable {
 
 	// 关联对象
 	private User user;
-
+	private Food food;
+	
 	public String getFileId() {
 		return fileId;
 	}

@@ -1,3 +1,47 @@
+<<<<<<< HEAD
+=======
+/*Home animation*/
+
+.animate-switch-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.animate-switch.ng-animate {
+    position: absolute;
+    width: 100%;
+}
+
+.animate-switch.ng-leave, .animate-switch.ng-enter {
+    -webkit-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -moz-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -ms-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -o-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+
+.animate-switch.ng-enter {
+    left: -150%;
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.animate-switch.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.animate-switch.ng-leave {
+    left: 0;
+}
+
+.animate-switch.ng-leave.ng-leave-active {
+    left: -100%;
+}
+
+/*Home profile*/
+
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 * {
     font-weight: 100;
     letter-spacing: 1px;
@@ -105,6 +149,110 @@
     display: inline-block;
 }
 
+<<<<<<< HEAD
+=======
+.profile table {
+    width: 100%;
+    margin: 0 20px;
+}
+
+.content {
+    display: flex;
+}
+
+.content>div {
+    flex: 1;
+}
+
+.content table {
+    width: 90%;
+}
+
+.record {
+    margin-bottom: 10px;
+}
+
+.exercise, .food {
+    max-height: 200px;
+    width: 49%;
+    position: relative;
+    padding: 15px 20px;
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -moz-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -ms-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -o-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+}
+
+.food {
+    background-color: #fff;
+}
+
+.exercise {
+    background-color: #6fdaa1;
+    color: #fff;
+}
+
+.exercise:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    margin: -25px 0 0;
+    border-right: 25px solid #6fdaa1;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+}
+
+.caption {
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.date {
+    text-align: center;
+    line-height: 250%;
+}
+
+.timeline-wrap {
+    overflow-y: auto;
+    max-height: 125px;
+}
+
+.timeline-wrap td {
+    width: 24%;
+    text-align: center;
+    line-height: 180%;
+}
+
+.timeline-wrap td:nth-child(1) {
+    width: 15%;
+}
+
+td img {
+    width: 20px;
+}
+
+.glyphicon {
+    opacity: 0.5;
+}
+
+.glyphicon-remove {
+    position: absolute;
+    right: 5%;
+    top: 20px;
+}
+
+.glyphicon-edit {
+    position: absolute;
+    bottom: 15px;
+    right: 5%;
+    top: unset;
+}
+
+
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 input.ng-dirty.ng-valid, .has-success {
     border-color: #3c763d;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);

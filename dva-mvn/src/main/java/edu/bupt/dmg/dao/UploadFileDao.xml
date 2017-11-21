@@ -56,6 +56,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		desc
 	</select>
 	
+	<select id="findByFoodCategory" parameterType="String"
+		resultType="edu.bupt.dmg.formbean.FileVo">
+		SELECT * FROM uploadFile where FoodCategory=#{FoodCategory} order by
+		updateTime
+		desc
+	</select>
+	<select id="findByExerciseCategory" parameterType="String"
+		resultType="edu.bupt.dmg.formbean.FileVo">
+		SELECT * FROM uploadFile where ExerciseCategory=#{ExerciseCategory} order by
+		updateTime
+		desc
+	</select>
+	
+	<select id="findByRecordID" parameterType="String"
+		resultType="edu.bupt.dmg.formbean.FileVo">
+		SELECT * FROM uploadFile where RecordID=#{RecordID} order by
+		updateTime
+		desc
+	</select>
+	
 	<select id="findByFileNameAndUserId" parameterType="edu.bupt.dmg.domain.UploadFile"
 		resultType="edu.bupt.dmg.formbean.FileVo">
 		SELECT * FROM uploadFile where fileName=#{fileName} and userId = #{user.userId}

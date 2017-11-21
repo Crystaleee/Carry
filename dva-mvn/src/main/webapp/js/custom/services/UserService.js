@@ -13,6 +13,12 @@
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
+<<<<<<< HEAD
+=======
+        service.UpdateProfile = UpdateProfile;
+        service.LoadUserProfile = LoadUserProfile;
+        service.LoadUserRecord = LoadUserRecord;
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
 
         return service;
 
@@ -75,6 +81,42 @@
                     .serializeArray(),
                 success: function(data) {
                     callback(data);
+<<<<<<< HEAD
+=======
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadUserProfile(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUserProfile.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function LoadUserRecord(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/dva-mvn/UserInformation/loadUserRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+>>>>>>> b03c4bbc6c4147021ce0052d7755564c28b8c335
                 }
             });
         }
