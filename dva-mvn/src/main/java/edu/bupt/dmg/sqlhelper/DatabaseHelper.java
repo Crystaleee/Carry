@@ -61,7 +61,11 @@ public class DatabaseHelper {
             System.out.println("2222222222222");
             System.out.println("(");
             Statement stmt = null;
-            String l3 = " CREATE TABLE IF NOT EXISTS user ( UserId varchar(45) ,UserName varchar(45) , UserPwd varchar(45) DEFAULT NULL, BirthDate varchar(45) DEFAULT NULL, Height float DEFAULT NULL, Weight float DEFAULT NULL,  BMI float DEFAULT NULL, BFR float DEFAULT NULL, Sex varchar(45) DEFAULT NULL, Email varchar(45) DEFAULT NULL, AccountNonLocked bool DEFAULT '0', Enabled bool DEFAULT '0', EnableCode varchar(45) DEFAULT NULL, ExpirationDate varchar(45) DEFAULT NULL) ;";
+            String table_user = " CREATE TABLE IF NOT EXISTS user ( UserId varchar(45) ,UserName varchar(45) , UserPwd varchar(45) DEFAULT NULL, BirthDate varchar(45) DEFAULT NULL, Height float DEFAULT NULL, Weight float DEFAULT NULL,  BMI float DEFAULT NULL, BFR float DEFAULT NULL, Sex varchar(45) DEFAULT NULL, Email varchar(45) DEFAULT NULL, AccountNonLocked bool DEFAULT '0', Enabled bool DEFAULT '0', EnableCode varchar(45) DEFAULT NULL, ExpirationDate varchar(45) DEFAULT NULL) ;";
+            String table_ex_rec = "CREATE TABLE IF NOT EXISTS Ex_record (RecordID varchar(50) NOT NULL, Exercise_time int(11) NOT NULL,UserID varchar(256) NOT NULL, Date date NOT NULL,Exercise_cal float NOT NULL,ExerciseCategory varchar(50) NOT NULL,ExerciseName varchar(50) NOT NULL) ;";
+            String table_ex="CREATE TABLE IF NOT EXISTS Exercise (ExerciseCategory varchar(50) NOT NULL,ExerciseName varchar(50) NOT NULL,Time datetime NOT NULL,Frequency int(11) DEFAULT NULL,Exercise_cal float NOT NULL); ";
+            String table_food_rec="CREATE TABLE IF NOT EXISTS Food_record (RecordID varchar(50) NOT NULL,UserID varchar(256) NOT NULL,Date datetime NOT NULL,FoodCategory varchar(30) NOT NULL,Food_weight float NOT NULL,Foodname varchar(50) NOT NULL,Food_cal float NOT NULL) ;";
+            String table_food="CREATE TABLE IF NOT EXISTS Food (FoodCategory varchar(30) NOT NULL, Foodname varchar(50) NOT NULL,Food_weight float NOT NULL,Food_cal float NOT NULL);";
             String l1 = "CREATE database IF NOT EXISTS dvamvn; ";
             statement.executeUpdate(l1);
             String DB_URL = "jdbc:mysql://localhost/dvamvn";
@@ -77,7 +81,11 @@ public class DatabaseHelper {
                          " age INTEGER, " + 
                          " PRIMARY KEY ( id ))"; 
 
-            stmt.executeUpdate(l3);
+            stmt.executeUpdate(table_user);
+            stmt.executeUpdate(table_food);
+            stmt.executeUpdate(table_food_rec);
+            stmt.executeUpdate(table_ex);
+            stmt.executeUpdate(table_ex_rec);
             System.out.println("Created table in given database...");
             System.out.println("00000000000000000000");
             statement.close();  

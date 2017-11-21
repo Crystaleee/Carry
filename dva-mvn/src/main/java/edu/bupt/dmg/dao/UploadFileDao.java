@@ -23,6 +23,9 @@ public interface UploadFileDao extends Dao<UploadFile> {
 	 * @return 文件值对象列表
 	 */
 	public List<FileVo> findByUserId(String userId);
+	public List<FileVo> findByFoodCategory(String FoodCategory);
+	public List<FileVo> findByExerciseCategory(String ExerciseCategory);
+	public List<FileVo> findByRecordID(String RecordID);
 	public List<FileVo> findNameByCondition(@Param("input")String input);
 	public List<FileVo> findByFileNameAndUserId(UploadFile file);
 }

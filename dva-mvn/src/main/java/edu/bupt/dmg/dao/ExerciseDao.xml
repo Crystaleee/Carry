@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.ExerciseDao">
+
+	<resultMap type="edu.bupt.dmg.domain.Exercise" id="ExerciseFileMap">
+		<id column="ExerciseCategory" property="ExerciseCategory" />
+		<result column="ExerciseName" property="ExerciseName" />
+		<result column="Time" property="Time" />
+		<result column="Frequency" property="Frequency" />
+		<result column="Exercise_cal" property="Exercise_cal" />
+		<result column="ExerciseCategory" property="ExerciseCategory" />
+
+
+		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
+			select="edu.bupt.dmg.dao.UploadFileDao.findByExerciseCategory" column="ExerciseCategory">
+		</collection>
+		<collection property="roles"
+			ofType="edu.bupt.dmg.dao.RoleDao.RoleAuthorityMap" select="edu.bupt.dmg.dao.RoleDao.findByUserId"
+			column="userId">
+		</collection>
+	</resultMap>
+
+	<select id="findById" parameterType="String" resultMap="ExerciseFileMap">
+		SELECT *
+		FROM Exercise WHERE ExerciseCategory = #{ExerciseCategory}
+	</select>
+	
+	
+	<select id="updatedatebase" >
+		update dvamvn.Exercise SET Enabled = '-1'    
+		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
+	</select>
+
+
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
+		insert into
+		Exercise(ExerciseCategory,ExerciseName,Time,Frequency,Exercise_cal)
+		values(#{ExerciseCategory},#{ExerciseName},#{Time},#{Frequency},#{Exercise_cal})
+	</insert>
+
+	<update id="update" parameterType="edu.bupt.dmg.domain.User">
+		update Exercise set
+		Frequency=#{Frequency},
+		ExerciseName=#{ExerciseName},
+		Time=#{Time},
+		Exercise_cal=#{Exercise_cal},
+		
+
+		where ExerciseCategory=#{ExerciseCategory}
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		delete FROM Exercise WHERE
+		ExerciseCategory = #{ExerciseCategory}
+	</delete>
+
+	<select id="findAll" resultMap="ExerciseFileMap">
+		SELECT * from Exercise
+	</select>
+
+	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.Exercise"
+		resultMap="ExerciseFileMap">
+		SELECT * from Exercise
+		<where>
+			<if test="ExerciseCategory!=null and ExerciseCategory!=''">
+				and ExerciseCategory like '%${ExerciseCategory}%'
+			</if>
+		</where>
+	</select>
+</mapper>

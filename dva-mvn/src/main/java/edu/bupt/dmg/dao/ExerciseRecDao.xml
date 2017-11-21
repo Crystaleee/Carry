@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.ExerciseRecDao">
+
+	<resultMap type="edu.bupt.dmg.domain.ExerciseRec" id="ExerciseRecFileMap">
+		<id column="RecordID" property="RecordID" />
+		<result column="Exercise_time" property="Exercise_time" />
+		<result column="UserID" property="UserID" />
+		<result column="Date" property="Date" />
+		<result column="RecordID" property="RecordID" />
+		<result column="Exercise_cal" property="Exercise_cal" />
+		<result column="ExerciseCategory" property="ExerciseCategory" />
+		<result column="ExerciseName" property="ExerciseName" />
+
+
+		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
+			select="edu.bupt.dmg.dao.UploadFileDao.findByRecordID" column="RecordID">
+		</collection>
+		<collection property="roles"
+			ofType="edu.bupt.dmg.dao.RoleDao.RoleAuthorityMap" select="edu.bupt.dmg.dao.RoleDao.findByUserId"
+			column="userId">
+		</collection>
+	</resultMap>
+
+	<select id="findById" parameterType="String" resultMap="ExerciseRecFileMap">
+		SELECT *
+		FROM Ex_record WHERE RecordID = #{RecordID}
+	</select>
+	
+	
+	<select id="updatedatebase" >
+		update dvamvn.ExerciseRec SET Enabled = '-1'    
+		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
+	</select>
+
+
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
+		insert into
+		Ex_record(RecordID,Exercise_time,UserID,Date,Exercise_cal,ExerciseCategory,ExerciseName)
+		values(#{RecordID},#{Exercise_time},#{UserID},#{Date},#{Exercise_cal},#{ExerciseCategory},#{ExerciseName})
+	</insert>
+
+	<update id="update" parameterType="edu.bupt.dmg.domain.User">
+		update Ex_record set
+		Exercise_time=#{Exercise_time},
+		UserID=#{UserID},
+		Date=#{Date},
+		Exercise_cal=#{Exercise_cal},
+		ExerciseCategory=#{ExerciseCategory},
+		ExerciseName=#{ExerciseName},
+		
+
+		where RecordID=#{RecordID}
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		delete FROM Ex_record WHERE
+		RecordID = #{RecordID}
+	</delete>
+
+	<select id="findAll" resultMap="ExerciseRecFileMap">
+		SELECT * from Ex_record
+	</select>
+
+	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.ExerciseRec"
+		resultMap="ExerciseRecFileMap">
+		SELECT * from Ex_record
+		<where>
+			<if test="RecordID!=null and RecordID!=''">
+				and RecordID like '%${RecordID}%'
+			</if>
+		</where>
+	</select>
+</mapper>
