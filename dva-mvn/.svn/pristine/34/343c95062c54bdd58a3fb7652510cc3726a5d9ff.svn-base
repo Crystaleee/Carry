@@ -1,9 +1,0 @@
-jdbc.driver=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://10.105.240.5:3306/dva
-jdbc.username=root
-jdbc.password=visana123
-jdbc.maxActive=30
-jdbc.maxIdle=10
-jdbc.validationQuery=select 1 from dual
-jdbc.testOnBorrow=true
-jdbc.testWhileIdle=true
