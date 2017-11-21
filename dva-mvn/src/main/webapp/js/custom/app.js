@@ -2,10 +2,18 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies'])
+        .module('app', ['ngRoute', 'ngCookies', 'ngAnimate'])
         .config(config)
-        .run(run);
+        .run(run)
+        .filter('randomize', function() {
+            return function(input, scope) {
+                if (input != null && input != undefined && input > 1) {
+                    return Math.floor((Math.random() * input) + 1);
+                }
+            }
+        });
 
+    // route configuration
     config.$inject = ['$routeProvider', '$locationProvider'];
 
     function config($routeProvider, $locationProvider) {
@@ -30,6 +38,7 @@
             });
     }
 
+    //user restriction of accessing pages
     run.$inject = ['$rootScope', '$location', '$cookieStore'];
 
     function run($rootScope, $location, $cookieStore) {

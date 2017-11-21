@@ -6,6 +6,10 @@
     min-height: 600px;
 }
 
+.animate-switch {
+    width: 99%;
+}
+
 .animate-switch.ng-animate {
     position: absolute;
     width: 100%;

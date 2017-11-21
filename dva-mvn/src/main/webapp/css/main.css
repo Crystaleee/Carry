@@ -6,6 +6,10 @@
     min-height: 600px;
 }
 
+.animate-switch {
+    width: 99%;
+}
+
 .animate-switch.ng-animate {
     position: absolute;
     width: 100%;
@@ -242,6 +246,18 @@ td img {
     top: unset;
 }
 
+#update-form input, #update-form a, #update-form button {
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
+    -moz-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
+    -ms-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
+    -o-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
+}
+
+#update-form input:focus {
+    -webkit-box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
+    box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
+}
 
 input.ng-dirty.ng-valid, .has-success {
     border-color: #3c763d;
