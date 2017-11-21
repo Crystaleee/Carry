@@ -1,0 +1,61 @@
+
+strong {
+	font-weight: 500;
+}
+
+.login-panel {
+	margin-top: 50px;
+}
+
+.form-box {
+	padding-top: 40px;
+}
+
+form .form-bottom textarea {
+	height: 100px;
+}
+
+form .form-bottom .input-error {
+	border-color: #FF6347;
+}
+
+form .form-bottom .input-success {
+	border-color: #43CD80;
+}
+
+form.registration-form fieldset {
+	display: none;
+}
+
+/***** Media queries *****/
+@media ( min-width : 992px) and (max-width: 1199px) {
+}
+
+@media ( min-width : 768px) and (max-width: 991px) {
+}
+
+@media ( max-width : 767px) {
+	
+	.inner-bg {
+		padding: 40px 0 110px 0;
+	}
+	.top-content .top-big-link {
+		margin-top: 25px;
+	}
+	.top-content .top-big-link a.btn {
+		margin-top: 10px;
+	}
+	.form-bottom {
+		padding-bottom: 25px;
+	}
+	form .form-bottom button.btn {
+		margin-bottom: 5px;
+	}
+}
+
+@media ( max-width : 415px) {
+	h1, h2 {
+		font-size: 32px;
+	}
+}
+

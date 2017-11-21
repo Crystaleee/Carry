@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.UserDao">
+
+	<resultMap type="edu.bupt.dmg.domain.User" id="UserFileMap">
+		<id column="userId" property="userId" />
+		<result column="password" property="password" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="email" property="email" />
+		<result column="accountNonLocked" property="accountNonLocked" />
+		<result column="enabled" property="enabled" />
+		<result column="enableCode" property="enableCode" />
+
+		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
+			select="edu.bupt.dmg.dao.UploadFileDao.findByUserId" column="userId">
+		</collection>
+		<collection property="roles"
+			ofType="edu.bupt.dmg.dao.RoleDao.RoleAuthorityMap" select="edu.bupt.dmg.dao.RoleDao.findByUserId"
+			column="userId">
+		</collection>
+	</resultMap>
+
+	<select id="findById" parameterType="String" resultMap="UserFileMap">
+		SELECT *
+		FROM user WHERE userId = #{userId}
+	</select>
+	
+	<select id="findByEmail" parameterType="String" resultMap="UserFileMap">
+		SELECT *
+		FROM user WHERE email = #{email}
+	</select>
+
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
+		insert into
+		user(userId,password,name,sex,email,accountNonLocked,enabled,enableCode)
+		values(#{userId},#{password},#{name},#{sex},#{email},#{accountNonLocked},#{enabled},#{enableCode})
+	</insert>
+
+	<update id="update" parameterType="edu.bupt.dmg.domain.User">
+		update user set
+		password=#{password},
+		name=#{name},
+		sex=#{sex},
+		email=#{email},
+		accountNonLocked=#{accountNonLocked},
+		enabled=#{enabled},
+		enableCode=#{enableCode}
+
+		where userId=#{userId}
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		delete FROM user WHERE
+		userId = #{userId}
+	</delete>
+
+	<select id="findAll" resultMap="UserFileMap">
+		SELECT * from user
+	</select>
+
+	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.User"
+		resultMap="UserFileMap">
+		SELECT * from user
+		<where>
+			<if test="userId!=null and userId!=''">
+				and userId like '%${userId}%'
+			</if>
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>
+			<if test="sex!=null and sex!=''">
+				and sex = #{sex}
+			</if>
+			<if test="email!=null and email!=''">
+				and email like '%${email}%'
+			</if>
+		</where>
+	</select>
+</mapper>

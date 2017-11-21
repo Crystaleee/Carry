@@ -1,0 +1,68 @@
+package edu.bupt.dmg.algorithm.impl;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.bupt.dmg.formbean.Table;
+/**
+ * 降维算法中公用的基本操作
+ * 
+ * Project Name: VisAna<br> 
+ * File Name: DimReductionAlgorithmHelper.java<br> 
+ * Package Name: edu.bupt.dmg.algorithm.impl<br>       
+ * Creator: @author Ruitong Chai & Bohao Wang<br>    
+ * Create Time：2017年4月22日<br>
+ * Version: @version 0.0.1
+ */
+public abstract class DimReductionAlgorithmHelper {
+	/**
+	 * 将table转换成二维数组
+	 * @param table
+	 * @return
+	 */
+	public double[][] parseData(Table table) {
+		Map<String, String> head = table.getHeadType();
+		List<Map<String, String>> content = table.getContent();
+		int attrCnt = 0;
+		for (Map.Entry<String, String> entry : head.entrySet()) {
+			if (head.get(entry.getKey()).equals("attr")) {
+				attrCnt++;
+			}
+		}
+		double[][] parsedData = new double[head.size() - attrCnt][content.size()];
+
+		int i = 0;
+		for (Map<String, String> data : content) {
+			int j = 0;
+			for (Map.Entry<String, String> entry : data.entrySet()) {
+				if (head.get(entry.getKey()).equals("measure")) {
+					parsedData[j][i] = Double.parseDouble(entry.getValue());
+					j++;
+				}
+			}
+			i++;
+		}
+		return parsedData;
+	}
+	/**
+	 * 将二维数组转化为table
+	 * @param data
+	 * @return
+	 */
+	public Table rebuildTable(double[][] data) {
+		Table table = new Table();
+		for (int i = 0; i < data[0].length; i++) {
+			Map<String, String> content = new LinkedHashMap<String, String>();
+			for (int j = 0; j < data.length; j++) {
+				if (i == 0) {
+					table.getHeadType().put("dim" + j, "measure");
+				}
+				content.put("dim" + j, String.valueOf(data[j][i]));
+			}
+			table.getContent().add(content);
+		}
+		return table;
+	}
+
+}

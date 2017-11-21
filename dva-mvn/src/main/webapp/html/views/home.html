@@ -1,0 +1,83 @@
+<div class="global">
+    <div class="side">
+        <div class="face">
+            <img src="/dva-mvn/static/img/user.png">
+        </div>
+        <div class="nick">
+            {{user.username}}
+        </div>
+        <div class="rating">
+            <label>Fitness Rating</label>
+            <div class="grade">
+                <span>S</span>
+                <span>A</span>
+                <span>B</span>
+                <span>C</span>
+                <span>F</span>
+            </div>
+        </div>
+        <div class="profile">
+            <div class="info">
+                <table>
+                    <tr>
+                        <td>Sex:</td>
+                        <td>{{user.sex || "Please update"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Age:</td>
+                        <td>{{user.age || "Please update"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Height:</td>
+                        <td>{{(user.height | number:2) || "Please update"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Weight:</td>
+                        <td>{{(user.weight | number:2) || "Please update"}}</td>
+                    </tr>
+                    <tr>
+                        <td>BMI:</td>
+                        <td>{{(user.weight/user.height/user.height | number:2) || "Please update"}}</td>
+                    </tr>
+                    <tr>
+                        <td>BMR:</td>
+                        <td>{{(user.sex == "male" ?
+                            66 + (13.7 * user.weight) + (5 * user.height * 100) - (6.8 * user.age)
+                            : 655 + (9.6 *user.weight) + (1.8 * user.height * 100) - (4.7 *user.age) | number:2)
+                        || "Please update"}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="buttons">
+            <a class="btn btn-primary" ng-click="selection='update'">Update</a>
+            <a class="btn btn-primary" ng-click="selection='record'">Record</a>
+            <a class="btn btn-primary" ng-click="selection='figure'">Figure</a>
+            <a ng-click="logout()" class="btn btn-primary">Logout</a>
+
+        </div>
+
+    </div>
+
+
+    <div class="main">
+        <div class="animate-switch-container" ng-switch on="selection">
+            <div class="animate-switch" ng-switch-when="update">
+                <ng-include src="'/dva-mvn/html/views/home.update.html'"  ng-controller="UpdateProfileController"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-when="timeline">
+                <ng-include src="'/dva-mvn/html/views/home.timeline.html'" ng-controller="TimelineController"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-when="figure">
+                <ng-include src="'/dva-mvn/html/views/home.figure.html'" ng-controller="FigureController"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-when="record">
+                <ng-include src="'/dva-mvn/html/views/home.record.html'" ng-controller="RecordController"></ng-include>
+            </div>
+            <div class="animate-switch" ng-switch-default>
+                <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>
+            </div>
+
+        </div>
+    </div>
+</div>

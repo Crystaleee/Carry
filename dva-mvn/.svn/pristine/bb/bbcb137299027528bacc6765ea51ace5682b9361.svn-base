@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>极坐标下的层叠柱状图</title>
+
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../theme/css/edva.css" />
+		<link rel="stylesheet" href="../theme/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+
+		<style>
+			.query {
+				font-family: "微软雅黑";
+				font-size: 20px;
+				color: #FFFFFF;
+			}
+			
+			#roseTitle {
+				height: 50px;
+				margin: 0 auto;
+				text-align: center;
+				line-height: 50px;
+				font-family: "微软雅黑";
+				font-size: 20px;
+				color: #FFFFFF;
+			}
+			
+			#roselegend {
+				margin-top: 150px;
+				margin-left: 100px;
+				text-align: left;
+				font-family: "微软雅黑";
+				font-size: 16px;
+				color: #FFFFFF;
+			}
+		</style>
+
+	</head>
+
+	<body style="overflow: hidden;">
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">电力数据可视化</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav navbar-right ">
+						<li><a href="/dva-mvn/html/EMap.html">电力地图</a></li>
+						<li><a href="/dva-mvn/html/matrix.html">行业相关矩阵</a></li>
+						<li><a href="/dva-mvn/html/force.html">行业相关网路</a></li>
+						<li class="active"><a href="/dva-mvn/html/CourtPredict.html">线路用电预测</a></li>
+						<li><a href="/dva-mvn/html/cluster.html">居民用电聚类</a></li>
+						<li><a href="/dva-mvn/html/sensityana.html">用电敏感因素分析</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="container-fluid" style="background-image: url(../static/img/bk-right-foot.png); background-size: 100% auto;">
+			<div class="row" style="height: 30px;"></div>
+			<div class="row query" style="height: 30px;">
+				<form class="form-inline" role="form" style="float: right; margin-right: 50px;">
+					<div class="form-group" style="width: 300px;">
+						<label for="line-id" class="control-label">线路编号: </label>
+						<input class="form-control" type="text" id="line-id" />
+					</div>
+					<div class="form-group" style="width: 300px;">
+						<label for="time" class="control-label">时间: </label>
+						<input class="form-control" type="text" id="time" />
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-primary" id="lineQuery" style="background-color: #1F58AF;">查询</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="row" id="roseTitle"></div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="rose" style="width: 60%; height: 350px; margin: 0 auto;"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="hist1" style="width: 60%; height: 200px; margin: 0 auto;"></div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/g2/index.js"></script>
+		<script type="text/javascript" src="../js/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../theme/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../theme/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="../app/courtpredict/courtdata.js"></script>
+
+		<script>
+			var colors = ['rgba(161, 80, 207, 1)', 'rgba(0, 68, 54, 1)', 'rgba(162, 86, 0, 1)', 'rgba(129, 20, 20, 1)', 'rgba(17, 81, 112, 1)', 'rgba(0, 195,156, 1)'];
+			$('#line-id').attr('value', '130203589');
+			$('#time').attr('value', '2016-04-23 00:00');
+			$('#time').datetimepicker({
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true,
+				todaybtn: true,
+				startDate: '2016-04-23 00:00',
+				endDate: '2016-04-29 23:45',
+				minuteStep: 15
+			});
+			$('#lineQuery').click(function() {
+				$('#rose').empty();
+				// chartRender();
+				chartRenderTest(predData);
+			});
+
+			// chartRender();
+			chartRenderTest(predData);
+			
+			function chartRenderTest(data) {
+				titleRender(data['lineName']);
+				roseRender(data['data']);
+			}
+
+			function chartRender() {
+				var line = $('#court-id').val();
+				var time = $('#time').val();
+				var url_ = 'http://192.168.0.63:8080/dva-mvn/elecData/tqFocast/270003834/' + time.replace(/\s/g, '') + '.do';
+
+				$.ajax({
+					type: "get",
+					url: url_,
+					async: true,
+					success: function(data) {
+						console.log(data);
+						titleRender(data['lineName']);
+						roseRender(data['data']);
+					},
+					error: function(error) {
+						alert(error);
+					}
+				});
+			}
+
+			function titleRender(data) {
+				$('#roseTitle').html(data);
+			}
+
+			function roseRender(data) {
+				/*
+				data.forEach(function(e) {
+					e['value'] = parseFloat(e['value']);
+				});
+				*/
+				var roseChart = new G2.Chart({
+					id: 'rose',
+					forceFit: true,
+					width: 900,
+					height: 400
+				});
+				roseChart.source(data);
+				roseChart.coord('polar', {
+					radius: 1,
+					inner: 0.1
+				});
+				roseChart.intervalStack().position('industry*value').color('factor', colors).size(50);
+				roseChart.axis('industry', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							'font-size': '10',
+							fill: '#fff'
+						}
+					}
+				});
+				roseChart.axis('value', {
+					labels: {
+						label: {
+							'text-anchor': 'middle',
+							fill: '#fff'
+						}
+					}
+				});
+				roseChart.legend('factor', {
+					position: 'left',
+					title: {
+						fill: 'white',
+						'font-family': '微软雅黑',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'font-family': '微软雅黑',
+						'font-size': '10'
+					}
+				});
+
+				roseChart.tooltip({
+					title: {
+						fill: 'white',
+						'font-family': '微软雅黑',
+						'font-size': '16'
+					},
+					word: {
+						fill: 'white',
+						'line-height': '22',
+						'font-family': '微软雅黑',
+						'font-size': '10'
+					}
+				});
+				roseChart.render();
+			}
+
+			function legendRender(id2Name) {
+				var legend = [];
+
+				for (var id in id2Name) {
+					legend.push('<p>' + id + ': ' + id2Name[id] + '</p>');
+				}
+
+				$('#roselegend').html(legend);
+			};
+
+			var histChart = echarts.init(document.getElementById('hist1'));
+			var histOption = {
+				color: ['#ff0000', '#00ff00'],
+				title: {
+					text: '基于台区及大用户的线路用电预测',
+					x: 'center',
+					align: 'right',
+					textStyle: {
+						color: '#fff'
+					}
+				},
+				grid: {
+					bottom: 80
+				},
+				tooltip: {
+					trigger: 'axis',
+					formatter: function(params) {
+						return params[0].name + '<br/>' + params[0].seriesName + ' : ' + params[0].value + ' (kw·h)<br/>' + params[1].seriesName + ' : ' + params[1].value + ' (kw·h)';
+					},
+					axisPointer: {
+						animation: false
+					}
+				},
+				legend: {
+					textStyle: {
+						color: '#fff',
+						fontFamily: '微软雅黑',
+						fontSize: 20
+					},
+					data: ['实际', '预测'],
+					x: 'left'
+				},
+				dataZoom: [{
+					show: true,
+					realtime: true,
+					start: 0,
+					end: 100
+				}, {
+					type: 'inside',
+					realtime: true,
+					start: 0,
+					end: 100
+				}],
+				xAxis: [{
+					type: 'category',
+					boundaryGap: false,
+					axisLine: {
+						onZero: false
+					},
+					nameTextStyle: {
+						color: '#fff',
+					},
+					axisLine: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisTick: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisLabel: {
+						textStyle: {
+							color: '#fff'
+						}
+					},
+					data: time.map(function(str) {
+						return str.replace(' ', '\n')
+					})
+				}],
+				yAxis: [{
+					name: '电流(A)',
+					type: 'value',
+					min: 0,
+					max: 50,
+					nameTextStyle: {
+						color: '#fff',
+					},
+					axisLine: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisTick: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisLabel: {
+						textStyle: {
+							color: '#fff'
+						}
+					}
+				}, {
+					type: 'value',
+					min: 0,
+					max: 50,
+					nameTextStyle: {
+						color: '#fff',
+					},
+					axisLine: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisTick: {
+						lineStyle: {
+							color: '#fff'
+						}
+					},
+					axisLabel: {
+						textStyle: {
+							color: '#fff'
+						}
+					}
+				}],
+				series: [{
+					name: '实际',
+					type: 'line',
+					hoverAnimation: false,
+					lineStyle: {
+						normal: {
+							width: 1
+						}
+					},
+					data: real,
+
+				}, {
+					name: '预测',
+					type: 'line',
+					yAxisIndex: 1,
+					hoverAnimation: false,
+					lineStyle: {
+						normal: {
+							color: '#00ff00',
+							width: 1
+						}
+					},
+					data: predict
+				}]
+			};
+			histChart.setOption(histOption);
+		</script>
+
+	</body>
+
+</html>

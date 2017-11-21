@@ -1,0 +1,104 @@
+package edu.bupt.dmg.test;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.bupt.dmg.adapter.FileAdapter;
+import edu.bupt.dmg.algorithm.DimReductionAlgorithm;
+import edu.bupt.dmg.algorithm.TopologySimplifyAlgorithm;
+import edu.bupt.dmg.algorithm.impl.FastNewman;
+import edu.bupt.dmg.algorithm.impl.TopologySimplifyAlgorithmImpl;
+import edu.bupt.dmg.formbean.Table;
+@SuppressWarnings("all")
+public class FileAdapterTest {
+	private ApplicationContext applicationContext;
+
+	@Before
+	public void setUp() throws Exception {
+		applicationContext = new ClassPathXmlApplicationContext(
+				new String[] { "spring/applicationContext.xml", "spring/applicationContext-*.xml" });
+	}
+
+	@Test
+	public void testExcelAdapter() throws Exception {
+		InputStream is = new FileInputStream("d:\\test.xls");
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("xls")
+				.analizeTable(is);
+		System.out.println(tableList.get(0).getContent().size());
+		String jsonStr = objectMapper.writeValueAsString(tableList);
+		System.out.println(jsonStr);
+
+	}
+
+	@Test
+	public void testCsvAdapter() throws Exception {
+		InputStream is = new FileInputStream("d:\\test.csv");
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("csv")
+				.analizeTable(is);
+		System.out.println(tableList.get(0).getContent().size());
+		String jsonStr = objectMapper.writeValueAsString(tableList);
+		System.out.println(jsonStr);
+	}
+	
+	@Test
+	public void testJsonAdapter() throws Exception {
+		InputStream is = new FileInputStream("d:\\a.json");
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("json")
+				.analizeTable(is);
+		String jsonStr = objectMapper.writeValueAsString(tableList);
+		System.out.println(jsonStr);
+		
+	}
+	
+	@Test
+	public void testFastNewman() throws Exception {
+		InputStream is = new FileInputStream("d:\\Net.xls");
+		ObjectMapper objectMapper = new ObjectMapper();
+		ArrayList<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("xls")
+				.analizeTable(is);
+		FastNewman fn=new FastNewman();
+		fn.excecute(tableList);
+	}
+	
+	@Test
+	public void testSLAP() throws Exception {
+		InputStream is = new FileInputStream("d:\\a.json");
+		ObjectMapper objectMapper = new ObjectMapper();
+		ArrayList<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("json")
+				.analizeTable(is);
+//		SLPA slpa=new SLPA(20, 0.5);
+//		slpa.excecute(tableList);
+//		TopologySimplifyAlgorithm t=new TopologySimplifyAlgorithmImpl();
+		String jsonStr = objectMapper.writeValueAsString(tableList);
+		System.out.println(jsonStr);
+	}
+	
+
+	@Test
+	public void parseDataTest() throws Exception {
+		InputStream is = new FileInputStream("d:\\test.csv");
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Table> tableList = ((HashMap<String, FileAdapter>) applicationContext.getBean("adapterMap")).get("csv")
+				.analizeTable(is);
+
+		DimReductionAlgorithm dal = ((HashMap<String, DimReductionAlgorithm>) applicationContext
+				.getBean("algorithmMap")).get("pca");
+		Table table = dal.excecute(tableList.get(0), 2);
+		System.out.println(table.getContent().size());
+		String jsonStr = objectMapper.writeValueAsString(table);
+		System.out.println(jsonStr);
+	}
+}

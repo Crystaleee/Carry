@@ -1,0 +1,67 @@
+package edu.bupt.dmg.algorithm.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import edu.bupt.dmg.formbean.Table;
+
+public abstract class CommunityDetectAlgorithmHelper {
+	/**
+	 * 获得邻接矩阵
+	 * 
+	 * @param tableList
+	 * @return
+	 */
+	public boolean[][] getMatrixByEdge(List<Table> tableList) {
+		Table edges = tableList.get(0);
+		int nodeCnt = getNodeCnt(tableList);
+		boolean[][] matrix = new boolean[nodeCnt][nodeCnt];
+		for (int i = 0; i < nodeCnt; i++) {
+			for (int j = 0; j < nodeCnt; j++) {
+				matrix[i][j] = false;
+			}
+		}
+		for (Map<String, String> map : edges.getContent()) {
+			int sourceIndex = (int)Float.parseFloat(map.get("source").trim());
+			int targetIndex = (int)Float.parseFloat(map.get("target").trim());
+			matrix[sourceIndex][targetIndex] = true;
+			matrix[targetIndex][sourceIndex] = true;
+		}
+		return matrix;
+	}
+
+	/**
+	 * 获得节点数
+	 * 
+	 * @param tableList
+	 * @return
+	 */
+	public int getNodeCnt(List<Table> tableList) {
+		Table edges = tableList.get(0);
+		//Set<Integer> nodes = new HashSet<>();
+		int max=0;
+		for (Map<String, String> map : edges.getContent()) {
+			int sourceIndex = (int)Float.parseFloat(map.get("source").trim());
+			int targetIndex = (int)Float.parseFloat(map.get("target").trim());
+			if(sourceIndex>max){
+				max=sourceIndex;
+			}
+			if(targetIndex>max){
+				max=targetIndex;
+			}
+		}
+		return max+1;
+	}
+
+	/**
+	 * 获得节点数
+	 * 
+	 * @param tableList
+	 * @return
+	 */
+	public int getEdgeCnt(List<Table> tableList) {
+		Table edges = tableList.get(0);
+		return edges.getContent().size();
+	}
+
+}

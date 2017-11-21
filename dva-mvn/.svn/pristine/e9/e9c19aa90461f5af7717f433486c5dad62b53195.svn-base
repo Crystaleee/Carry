@@ -1,0 +1,23 @@
+body {
+	overflow-y: scroll;
+	padding-top: 51px;
+	margin-left: 0px;
+	margin-top: 0px;
+	font-family: "Source Sans Pro","Helvetica Neue",Arial,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+	font-weight: 400;
+    font-size: 16px;
+}
+
+/*-----nav-----*/
+.navbar {
+	background-color: #0F2640;
+	color: #ECF0F1;
+	font-size: 16px;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+	background-color: #34495E;
+	color: #ECF0F1;
+}
+.navbar-collapse {
+	float: right;
+}

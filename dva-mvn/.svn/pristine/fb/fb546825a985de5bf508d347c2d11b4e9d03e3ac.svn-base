@@ -1,0 +1,168 @@
+package edu.bupt.dmg.action;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.bupt.dmg.algorithm.CommunityDetectAlgorithm;
+import edu.bupt.dmg.algorithm.DimReductionAlgorithm;
+import edu.bupt.dmg.algorithm.TopologySimplifyAlgorithm;
+import edu.bupt.dmg.commons.ResultMessage;
+import edu.bupt.dmg.domain.UploadFile;
+import edu.bupt.dmg.formbean.Table;
+import edu.bupt.dmg.service.FileService;
+
+@Controller
+@RequestMapping(value = "/analize")
+/**
+ * 数据分析请求处理
+ * 
+ * Project Name: VisAna<br>
+ * File Name: DataAnalizeAction.java<br>
+ * Package Name: edu.bupt.dmg.action<br>
+ * Creator: @author Ruitong Chai & Bohao Wang<br>
+ * Create Time：2017年4月22日<br>
+ * Version: @version 0.0.1
+ */
+public class DataAnalizeAction {
+	@Autowired
+	FileService fileService;
+
+	@Autowired
+	HashMap<String, DimReductionAlgorithm> dimReductAlgorithmMap;
+
+	@Autowired
+	HashMap<String, CommunityDetectAlgorithm> communityDetectAlgorithmMap;
+
+	@Autowired
+	TopologySimplifyAlgorithm topologySimplifyAlgorithm;
+
+	/**
+	 * 高维数据降维的请求
+	 * 
+	 * @param fileId
+	 *            文件ID
+	 * @param dim
+	 *            目标维度
+	 * @param algorithm
+	 *            算法包括MDS和PCA
+	 * @param request
+	 *            httpServletRequest请求
+	 * @return Map<String, Object> 包含两个字段1.
+	 *         resultMessage处理结果字段；2.tableList文件内表格集合字段
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/dimReduction")
+	public @ResponseBody Map<String, Object> dimReduction(String fileId, String dim, String algorithm,
+			HttpServletRequest request) throws Exception {
+		// 获取需要读取的文件信息
+		UploadFile uploadFile = fileService.findFileById(fileId);
+		Map<String, Object> responseMap = new HashMap<>();
+		if (uploadFile != null) {
+			try {
+				// 获取文件存储路径
+				String path = request.getServletContext().getRealPath("/upload") + File.separator
+						+ uploadFile.getFilePath() + File.separator + fileId + "." + uploadFile.getExtensions();
+				// 读取文件
+				List<Table> tables = fileService.readFileFromDisk(path);
+
+				// 执行算法
+				tables.add(dimReductAlgorithmMap.get(algorithm.toLowerCase()).excecute(tables.remove(0),
+						Integer.parseInt(dim)));
+
+				// 组织回复数据
+				responseMap.put("tableList", tables);
+				responseMap.put("resultMessage", new ResultMessage(1));
+			} catch (Exception e) {
+				responseMap.put("resultMessage", new ResultMessage(-4));
+			}
+		} else {
+			responseMap.put("resultMessage", new ResultMessage(-4));
+		}
+
+		return responseMap;
+	}
+
+	@RequestMapping(value = "/communityDetect")
+	public @ResponseBody Map<String, Object> communityDetect(String fileId, String algorithm,
+			HttpServletRequest request) throws Exception {
+		// 获取需要读取的文件信息
+		UploadFile uploadFile = fileService.findFileById(fileId);
+		Map<String, Object> responseMap = new HashMap<>();
+		if (uploadFile != null) {
+			try {
+				// 获取文件存储路径
+				String rootPath = request.getServletContext().getRealPath("/upload") + File.separator
+						+ uploadFile.getFilePath() + File.separator;
+				String path = rootPath + fileId + "." + uploadFile.getExtensions();
+				// 读取文件
+				ArrayList<Table> tables = fileService.readFileFromDisk(path);
+
+				// 执行算法
+				tables = communityDetectAlgorithmMap.get("fastnewman").excecute(tables);
+
+				// 存储文件
+//				 uploadFile.setFileName(uploadFile.getFileName()+"_communityDetect");
+//				 uploadFile.setFileId(IdGenerator.genGUID());
+//				 uploadFile.setExtensions("json");
+//				 String realPath=rootPath+uploadFile.getFileId()+".json";
+//				 fileService.createJsonFile(tables, uploadFile,realPath);
+				// 组织回复数据
+				responseMap.put("tableList", tables);
+				responseMap.put("resultMessage", new ResultMessage(1));
+			} catch (Exception e) {
+				responseMap.put("resultMessage", new ResultMessage(-4));
+			}
+		} else {
+			responseMap.put("resultMessage", new ResultMessage(-4));
+		}
+
+		return responseMap;
+	}
+
+	@RequestMapping(value = "/topologySimplify")
+	public @ResponseBody Map<String, Object> topologySimplify(String fileId, String algorithm,
+			HttpServletRequest request) throws Exception {
+		// 获取需要读取的文件信息
+		UploadFile uploadFile = fileService.findFileById(fileId);
+		Map<String, Object> responseMap = new HashMap<>();
+		if (uploadFile != null) {
+			try {
+				// 获取文件存储路径
+				String rootPath = request.getServletContext().getRealPath("/upload") + File.separator
+						+ uploadFile.getFilePath() + File.separator;
+				String path = rootPath + fileId + "." + uploadFile.getExtensions();
+				// 读取文件
+				ArrayList<Table> tables = fileService.readFileFromDisk(path);
+
+				// 执行算法
+				tables = communityDetectAlgorithmMap.get(algorithm).excecute(tables);
+				tables = topologySimplifyAlgorithm.excecute(tables);
+				// 存储文件
+				// uploadFile.setFileName(uploadFile.getFileName()+"_communityDetect");
+				// uploadFile.setFileId(IdGenerator.genGUID());
+				// uploadFile.setExtensions("json");
+				// String realPath=rootPath+uploadFile.getFileId()+".json";
+				// fileService.createJsonFile(tables, uploadFile,realPath);
+				// 组织回复数据
+				responseMap.put("tableList", tables);
+				responseMap.put("resultMessage", new ResultMessage(1));
+			} catch (Exception e) {
+				responseMap.put("resultMessage", new ResultMessage(-4));
+			}
+		} else {
+			responseMap.put("resultMessage", new ResultMessage(-4));
+		}
+
+		return responseMap;
+	}
+}

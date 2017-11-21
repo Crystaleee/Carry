@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>数据可视化</title>
+
+<!-- third party css -->
+<link rel="stylesheet" type="text/css"
+	href="../theme/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/jquery-ui/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/handsontable/handsontable.full.css" />
+
+<!-- this page custom css -->
+<link rel="stylesheet" type="text/css" href="../theme/css/main.css" />
+
+<!-- chart css -->
+<link rel="stylesheet" type="text/css"
+	href="../theme/charts/BarChart.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/charts/PieChart.css" />
+<link rel="stylesheet" type="text/css" href="../theme/charts/Star.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/charts/ScatterPlotMatrix.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/charts/Parallel.css" />
+<link rel="stylesheet" type="text/css" href="../theme/charts/Force.css" />
+<link rel="stylesheet" type="text/css"
+	href="../theme/charts/LineChart.css" />
+</head>
+
+<body>
+	<!-- navigation bar -->
+	<nav class="navbar navbar-default navbar-fixed-top" id="navbar"
+		role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand logo" href="index.html"></a>
+			</div>
+			<div>
+				<ul class="nav navbar-nav navbar-right ">
+					<li class="active"><a href="#">数据可视化</a></li>
+					<li><a href="/dva-mvn/html/upload.html">文件上传</a></li>
+					<li><a href="#">数据分析</a></li>
+					<li><a href="#">帮助</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- end navigation bar -->
+
+	<div class="container-fluid">
+		<div class="row" id="work_panel_whole">
+			<!-- left -->
+			<div
+				class="col-xs-3 col-sm-2 col-md-2 col-lg-1 work_panel left_panel">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default panel_menu">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" id="file_select"
+									data-parent="#accordion" href="#collapseOne">数据选择</a>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse in">
+							<div class="list-group" id="file_list"></div>
+						</div>
+					</div>
+					<div class="panel panel-default panel_menu">
+						<div class="panel-heading" ondrop="Ldrop(event)"
+							ondragover="DallowDrop(event)">
+							<h4 class="panel-title center">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#collapseTwo"> 维度X轴 </a>
+							</h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<div class="list-group" id="headType_list"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end left -->
+
+			<!-- workspace col-xs-7 col-sm-8 col-md-8 col-lg-9-->
+			<div class="col-xs-8 col-sm-9 col-md-9 col-lg-10 center_panel">
+				<!-- original class: center -->
+				<div class="row data_analyse">
+					<div class="col-md-6 tool_filter">
+						<button class="btn btn-primary btn-h3" data-toggle="modal"
+							onclick="showSelectorModal()">筛选器</button>
+						<div id="selectorList" style="height: 40px;"></div>
+					</div>
+					<div class="col-md-6 tool_connect">
+						<button class="btn btn-primary btn-h3" data-toggle="modal"
+							data-target="#joinModal" onclick="initJoinModal()">连接</button>
+					</div>
+				</div>
+				<div class="row work_panel center_panel" style="margin-left: auto">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#work-tab" data-toggle="tab">工作区</a>
+						</li>
+						<li><a href="#dashboard" data-toggle="tab">仪表盘</a></li>
+					</ul>
+					<div class="tab-content">
+						<!-- work tab -->
+						<div class="tab-pane fade in active" id="work-tab"
+							style="z-index: 20; width: 100%;">
+							<div id="workspace" ondrop="drop_E(event)"
+								ondragover="allowDrop(event)" style="z-index: 20;"></div>
+						</div>
+						<!-- dashboard -->
+						<div class="tab-pane fade in" id="dashboard"
+							style="width: 100%; height: 600px">
+							<div id="file-contents" class="dataTable"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- join Modal -->
+				<div class="modal fade" id="joinModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content" style="min-width: 800px;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×</button>
+								<h4 class="modal-title" id="myModalLabel">表连接功能区</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row" id="work_panel_whole1" style="margin: auto">
+									<div class="panel-group" id="accordion1"
+										style="min-width: 200px;">
+										<div class="row" style="min-height: 200px;">
+											<div class="col-md-4 panel panel-default panel_menu"
+												style="margin: auto">
+												<div class="filter_panel_heading">
+													<h4 class="panel-title filter_panel_title">
+														<a data-toggle="collapse" id="file_select1"
+															data-parent="#accordion" href="#collapseOne">数据列表</a>
+													</h4>
+												</div>
+												<div id="collapseOne1" class="panel-collapse collapse in">
+													<div class="list-group" id="file_list1"></div>
+												</div>
+											</div>
+											<div class="col-md-4 panel panel-default panel_menu"
+												style="margin: auto">
+												<div class="filter_panel_heading">
+													<h4 class="panel-title filter_panel_title">
+														<a data-toggle="collapse" data-parent="#accordion"
+															href="#collapseTwo"> 连接表一 </a>
+													</h4>
+												</div>
+												<div id="collapseTwo1" class="panel-collapse collapse">
+													<div class="list-group" id="headType_list1"></div>
+												</div>
+											</div>
+											<div class="col-md-4 panel panel-default panel_menu"
+												style="margin: auto;">
+												<div class="filter_panel_heading">
+													<h4 class="panel-title filter_panel_title">
+														<a data-toggle="collapse" data-parent="#accordion"
+															href="#collapseThree"> 连接表二 </a>
+													</h4>
+												</div>
+												<div id="collapseThree" class="panel-collapse collapse">
+													<div class="list-group" id="headType_list2"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin: auto">
+									<div style="width: 50%; float: right;">
+										<button type="button" class="btn btn-primary"
+											style="float: right;" onclick="tableJoin(0)">内连接</button>
+										<button type="button" class="btn btn-primary"
+											style="float: right; margin-right: 10px;"
+											onclick="tableJoin(1)">左连接</button>
+										<button type="button" class="btn btn-primary"
+											style="float: right; margin-right: 10px;"
+											onclick="tableJoin(2)">右连接</button>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary"
+									onclick="joinFinish()">提交更改</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+
+				<!-- filter Modal -->
+				<div class="modal fade" id="selectors" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">筛选器</h4>
+							</div>
+							<div class="modal-body">
+								<table>
+									<td><label>筛选字段</label> <select id="keyName"
+										onchange="changeSelectorKey()"></select></td>
+									<td><label>筛选关系</label> <select id="relation">
+											<option value="and">and</option>
+											<option value="or">or</option>
+									</select></td>
+									<td>
+										<div id="numSelector" style="display: none;">
+											<table>
+												<td><label>至多</label><input type="text"
+													class="filter_condition" name="most" id="most" /></td>
+												<td><label>至少</label><input type="text"
+													class="filter_condition" name="least" id="least" /></td>
+											</table>
+										</div>
+										<div id="strSelector" style="display: none;">
+											<table>
+												<td><label>精确</label><input type="text"
+													class="filter_condition" name="special" id="special" /></td>
+												<td><label>模糊</label><input type="text"
+													class="filter_condition" name="fuzzy" id="fuzzy" /></td>
+											</table>
+										</div>
+									</td>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+								<button id="confirmSelector" type="button"
+									class="btn btn-primary" data-dismiss="modal">Save
+									changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end workspace -->
+
+			<!-- chart popover panel -->
+			<div
+				class="col-xs-1 col-sm-1 col-md-1 col-lg-1 work_panel center_panel placeholder">
+				<!-- original class: center -->
+				<!-- Chart Select -->
+				<div class="panel panel-default menu_content menu_content1"
+					id="popover-content_zhu" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content2"
+					id="popover-content_pie" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content3"
+					id="popover-content_line" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content4"
+					id="popover-content_scatter" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content5"
+					id="popover-content_radar" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content6"
+					id="popover-content_yb" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content7"
+					id="popover-content_mj" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content8"
+					id="popover-content_net" style="display: none;"></div>
+				<div class="panel panel-default menu_content menu_content9"
+					id="popover-content_high" style="display: none;"></div>
+			</div>
+			<!-- end chart popover panel -->
+
+			<!-- right -->
+			<div
+				class="col-xs-2 col-sm-1 col-md-1 col-lg-1 work_panel right_panel">
+				<div class="panel panel-default pabel_menu">
+					<ul class="list-chart">
+						<li class="menu menu1" id="popover_zhu">柱状图</li>
+						<li class="menu menu2" id="popover_pie">饼图</li>
+						<li class="menu menu3" id="popover_line">折线图</li>
+						<li class="menu menu4" id="popover_scatter">散点图</li>
+						<li class="menu menu5" id="popover_radar">雷达图</li>
+						<li class="menu menu6" id="popover_yb">仪表盘</li>
+						<li class="menu menu7" id="popover_mj">面积图</li>
+						<li class="menu menu8" id="popover_net">网络图</li>
+						<li class="menu menu9" id="popover_high">高维数据图</li>
+					</ul>
+				</div>
+			</div>
+			<!-- end right -->
+		</div>
+	</div>
+
+	<!-- third party js library -->
+	<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery/jquery.easydrag.js"></script>
+	<script type="text/javascript" src="../js/d3/d3.js"></script>
+	<script type="text/javascript" src="../js/sqljs/sql.js"></script>
+	<script type="text/javascript"
+		src="../js/handsontable/handsontable.full.js"></script>
+	<script type="text/javascript"
+		src="../theme/jquery-ui/jquery-ui.min.js"></script>
+	<script type="text/javascript"
+		src="../theme/bootstrap/js/bootstrap.min.js"></script>
+	<!-- this page -->
+	<script type="text/javascript" src="../js/custom/draganddrop.js"></script>
+	<script type="text/javascript" src="../js/custom/main.js"></script>
+	<script type="text/javascript" src="../js/custom/main-js.js"></script>
+	<script type="text/javascript" src="../js/custom/joinModal.js"></script>
+	<script type="text/javascript" src="../js/custom/sqlUtils.js"></script>
+	<script type="text/javascript" src="../js/custom/selector.js"></script>
+	<!-- charts -->
+	<script type="text/javascript" src="../js/charts/AreaChart.js"></script>
+	<script type="text/javascript" src="../js/charts/BarChart.js"></script>
+	<script type="text/javascript" src="../js/charts/BubbleChart.js"></script>
+	<script type="text/javascript" src="../js/charts/Chord.js"></script>
+	<script type="text/javascript" src="../js/charts/Force.js"></script>
+	<script type="text/javascript" src="../js/charts/Gauge.js"></script>
+	<script type="text/javascript" src="../js/charts/Histogram.js"></script>
+	<script type="text/javascript" src="../js/charts/LineChart.js"></script>
+	<script type="text/javascript" src="../js/charts/Parallel.js"></script>
+	<script type="text/javascript" src="../js/charts/PieChart.js"></script>
+	<script type="text/javascript" src="../js/charts/Radar.js"></script>
+	<script type="text/javascript" src="../js/charts/Scatter.js"></script>
+	<script type="text/javascript"
+		src="../js/charts/ScatterPiePlotMatrix.js"></script>
+	<script type="text/javascript" src="../js/charts/ScatterPlotMatrix.js"></script>
+	<script type="text/javascript" src="../js/charts/Star.js"></script>
+	<script type="text/javascript" src="../js/charts/Table.js"></script>
+	<script type="text/javascript" src="../js/charts/TreeMap.js"></script>
+	<script type="text/javascript" src="../js/charts/NetMatrix.js"></script>
+	<script type="text/javascript" src="../js/charts/SVGUtils.js"></script>
+
+	<script type="text/javascript" src="../js/charts/StackBar_Echarts.js"></script>
+	<script type="text/javascript" src="../js/echarts/echarts.min.js"></script>
+</body>
+
+</html>

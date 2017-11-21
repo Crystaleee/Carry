@@ -1,0 +1,9 @@
+package edu.bupt.dmg.algorithm;
+
+import java.util.ArrayList;
+
+import edu.bupt.dmg.formbean.Table;
+
+public interface CommunityDetectAlgorithm {
+	public ArrayList<Table> excecute(ArrayList<Table> tableList);
+}

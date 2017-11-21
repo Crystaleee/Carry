@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>热力图</title>
+
+		<link rel="stylesheet" href="../theme/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../theme/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+		<link rel="stylesheet" href="../theme/slider/css/bootstrap-slider.min.css" />
+		<link rel="stylesheet" href="../js/geo/leaflet/leaflet.css" />
+		<link rel="stylesheet" href="../app/heatMap/heatMap.css" />
+		
+	</head>
+
+	<body style="overflow: hidden;">
+		<div style="position: absolute; z-index: 999; right: 20px; top: 10px;">
+			<select id="type" class="form-control" onchange="checkType(this.value)">
+				<option value="电量">电量密度(度/平方公里)</option>
+				<option value="负荷">负荷密度(千瓦/平方公里)</option>
+			</select>	
+			<input id="datepicker" class="form-control" type="date" value="2016-04-30" onchange="reRender()"/>
+		</div>
+		<div id="time-panel">
+			<div class="time-panel-progress-container">
+				<div class="time-panel-progress-bar">
+					<input id="timeline" type="text" onchange="renderTest()"/>
+				</div>
+				<div class="time-panel-progress-tick">
+					<svg id="tick"></svg>
+				</div>
+			</div>
+			<div id="time-btn" class="time-panel-btn play" onclick="play(this)"></div>
+		</div>
+		
+		<div id="map" style="width: 100%; height: 610px;"></div>
+
+		<script type="text/javascript" src="../js/jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../theme/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../theme/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="../theme/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script type="text/javascript" src="../theme/slider/js/bootstrap-slider.min.js"></script>
+		<script type="text/javascript" src="../js/geo/leaflet/leaflet.js"></script>
+		<script type="text/javascript" src="../js/geo/heatmap/heatmap.min.js"></script>
+		<script type="text/javascript" src="../js/geo/heatmap/leaflet-heatmap.js"></script>
+		<script type="text/javascript" src="../js/d3/d3.min.js"></script>
+		<script type="text/javascript" src="../app/densityMap/functionRegion.js"></script>
+		<script type="text/javascript" src="../app/heatMap/clusterInfo.js"></script>
+		<script>
+			var timeline = ["00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00", "02:15", "02:30", "02:45", "03:00", "03:15", "03:30", "03:45", "04:00", "04:15", "04:30", "04:45", "05:00", "05:15", "05:30", "05:45", "06:00", "06:15", "06:30", "06:45", "07:00", "07:15", "07:30", "07:45", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45"];
+			var clusterInfo = QClusterInfo;
+			var linear = d3.scale.linear().domain([0, 3000]).range([10, 100]);
+			var scaleRate = 0.0012;
+			var sampleScale = 100;
+			var map = L.map('map', {
+				center: [-20, 30],
+				zoom: 3,
+				minZoom: 3
+			});
+			
+			var initTimePanel = function() {
+				$('#timeline').slider({
+						formatter: function(value) {
+							return timeline[value];
+						},
+						tooltip: 'always',
+						tooltip_position: 'bottom',
+						min: 0,
+						max: 95,
+						step: 1,
+						value: 0
+				});
+				appendRule(0, 0);
+			}
+			
+			initTimePanel();
+
+			function appendRule(pos_x, pos_y) {
+				var linear = d3.scale.linear()
+					.domain([0, 95])
+					.range([0, 400]);
+				var yAxis = d3.svg.axis()
+					.scale(linear)
+					.orient("bottom")
+					.ticks(3)
+					.tickValues([0, 15, 31, 47, 63, 79, 95])
+					.tickFormat(function(d, i) {
+						var ticks = ["00:00", "03:45", "07:45", "11:45", "15:45", "19:45", "23:45"]
+						return ticks[i];
+					});
+				d3.select("#tick").append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + (pos_x + 25) + "," + pos_y + ")")
+					.call(yAxis);
+			}
+			
+			var intervalId;
+			function play() {
+				console.log($('#time-btn')[0].className);
+				if ($('#time-btn')[0].className == "time-panel-btn play") {
+					$('#time-btn').removeClass("play");
+					var time = parseInt($('#timeline').val());
+					intervalId = setInterval(function() {
+						if((time++) > 95) {
+							time = 0;
+						}
+						$("#timeline").slider('setValue', time);
+						renderTest();
+					}, 1000);
+				} else {
+					$('#time-btn').addClass("play");
+					window.clearInterval(intervalId);
+				}
+			}
+			
+			var showType = "";
+
+			function checkType(val) {
+				if (val === "电量") {
+					$('#datepicker').attr('type', 'date');
+					$('#datepicker').attr('value', '2016-04-30');
+					$('#time-panel').css("display", 'none');
+					window.clearInterval(intervalId);
+					$('#time-btn')[0].className = "time-panel-btn play";
+				} else if (val === "负荷") {
+					$('#datepicker').attr('type', 'date');
+					$('#datepicker').attr('value', '2016-04-30');
+					$('#time-panel').css("display", "block");
+				}
+			}
+
+			var style = function(feature) {
+				return {
+					weight: 1,
+					opacity: 1,
+					color: 'white',
+					dashArray: '3',
+					fillOpacity: 1,
+					fillColor: '#ecedb4'
+				};
+			};
+
+			var geojson = L.geoJson(functionRegion, {
+				style: style,
+				coordsToLatLng: function(coor) {
+					return [coor[1] * scaleRate, coor[0] * scaleRate];
+				}
+			}).addTo(map);
+
+			var heatPoints = {
+				max: 10,
+				data: []
+			};
+
+			var config = {
+				valueField: 'count',
+				minOpacity: 0.1,
+				maxOpacity: 0.7
+			};
+			var heatmapLayer = new HeatmapOverlay(config).addTo(map);
+
+			renderTest();
+
+			function renderTest() {
+				var data = {};
+				
+				for (var i = 0; i < 100; i++) {
+					data[i] = Math.random() * 1000;
+				}
+				
+				renderHeatmap(data);
+			}
+
+			function reRender() {
+				var val = $('#datepicker').val();
+
+				if ($('#type').val() === "电量") {
+					clusterInfo = QClusterInfo;
+					sampleScale = 100;
+				} else if ($('#type').val() === "负荷") {
+					val = [val, timeline[$('#timeline').val()] + ':00'].join(' ');
+					clusterInfo = PClusterInfo;
+					sampleScale = 1;
+				}
+
+				var url_ = "http://192.168.0.59:8080/dva-mvn/elecData/heat/" + val + ".do";
+
+				$.ajax({
+					type: "get",
+					url: url_,
+					dataType: "text",
+					success: function(data) {
+						renderHeatmap(data);
+					},
+					error: function(error) {
+						console.log("error");
+					}
+				});
+			}
+			
+			function renderHeatmap(data) {
+				if ($.isEmptyObject(data)) {
+					alert("无数据记录");
+					heatmapLayer.setData(heatPoints);
+					return;
+				}
+
+				for (var cid in data) {
+					heatPoints.data.push({
+						lat: clusterInfo[cid].y * scaleRate,
+						lng: clusterInfo[cid].x * scaleRate,
+						radius: clusterInfo[cid].sample / sampleScale,
+						count: parseFloat(data[cid])
+					});
+				}
+				if (showType === "负荷") {
+					heatPoints.max = 150;
+				} else {
+					heatPoints.max = 50;
+				}
+
+				heatmapLayer.setData(heatPoints);
+				heatPoints.data.splice(0, heatPoints.data.length);
+			}
+		</script>
+
+	</body>
+
+</html>

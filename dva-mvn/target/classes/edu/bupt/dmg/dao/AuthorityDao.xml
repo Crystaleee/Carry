@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.AuthorityDao">
+	<select id="findById" parameterType="String"
+		resultType="edu.bupt.dmg.domain.Authority">
+		SELECT *
+		FROM AUTHORITY WHERE authorityId = #{authorityId}
+	</select>
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.Authority">
+		insert into
+		AUTHORITY(authorityId,authorityName,authorityDesc,enable)
+		values(#{authorityId},#{authorityName},#{authorityDesc},#{enable})
+	</insert>
+
+	<update id="update" parameterType="edu.bupt.dmg.domain.Authority">
+		update AUTHORITY set
+		authorityDesc=#{authorityDesc},
+		authorityName=#{authorityName},
+		enable=#{enable}
+		where
+		authorityId=#{authorityId}
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		delete FROM AUTHORITY
+		WHERE
+		authorityId = #{authorityId}
+	</delete>
+
+	<select id="findAll" resultType="edu.bupt.dmg.domain.Authority">
+		SELECT * from AUTHORITY
+	</select>
+
+	<!-- 此种方式查询类型为boolean的属性无效！ -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.Authority"
+		resultType="edu.bupt.dmg.domain.Authority">
+		SELECT * from AUTHORITY
+		<where>
+			<if test="authorityId!=null and authorityId!=''">
+				and authorityId like '%${authorityId}%'
+			</if>
+			<if test="authorityDesc!=null and authorityDesc!=''">
+				and authorityDesc like '%${authorityDesc}%'
+			</if>
+			<if test="authorityName!=null and authorityName!=''">
+				and authorityName = #{authorityName}
+			</if>
+		</where>
+	</select>
+
+	<select id="findByRoleId" parameterType="String"
+		resultType="edu.bupt.dmg.domain.Authority">
+		SELECT
+		AUTHORITY.* from
+		ROLE_AUTHORITY,AUTHORITY,ROLE where
+		ROLE_AUTHORITY.authorityId=AUTHORITY.authorityId and
+		ROLE.roleId=ROLE_AUTHORITY.roleId and ROLE.roleId=#{roleId}
+	</select>
+</mapper>

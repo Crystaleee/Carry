@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<meta HTTP-EQUIV="expires" CONTENT="0">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script src="../js/jquery/jquery-1.11.3.min.js"></script>
+<script src="../theme/icheck/js/jquery.icheck.min.js"></script>
+<script src="../theme/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/jquery/jquery.backstretch.min.js"></script>
+
+<script>
+
+$(document).ready(function () {
+	$.ajax({
+		type : "post",
+		url : "/dva-mvn/user/haslogin.do",
+		success : function(data) {
+			console.log(data.resultMessage);
+			if(data.resultMessage.resultCode==-2){
+				console.log("wa!")
+				window.location.href = "/dva-mvn/html/index.html";
+			}
+
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			switch (XMLHttpRequest.status) {
+			case 401:
+				window.location.href = "/dva-mvn/html/index.html";
+				break;
+			case 403:
+				window.location.href = "/dva-mvn/html/403.html";
+				break;
+			}
+		}
+	});
+});
+
+
+function logout() {
+	console.log("6666661");
+	$.ajax({
+		type : "post",
+		url : "/dva-mvn/user/logout.do",
+		success : function(data) {
+			
+			window.location.href = "/dva-mvn/html/index.html";
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			switch (XMLHttpRequest.status) {
+			case 401:
+				window.location.href = "/dva-mvn/html/index.html";
+				break;
+			case 403:
+				window.location.href = "/dva-mvn/html/403.html";
+				break;
+			case 404:
+				window.location.href = "/dva-mvn/html/index.html";
+				break;
+			}
+		}
+	});
+}
+
+
+
+
+
+</script>
+  <p>Success</p>
+   <button type="button" onclick="logout()" class="btn btn-default">logout</button>
+</body>
+
+</html>

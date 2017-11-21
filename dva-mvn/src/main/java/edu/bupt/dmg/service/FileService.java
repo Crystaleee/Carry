@@ -1,0 +1,110 @@
+package edu.bupt.dmg.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.bupt.dmg.domain.UploadFile;
+import edu.bupt.dmg.formbean.FileVo;
+import edu.bupt.dmg.formbean.Table;
+
+/**
+ * 文件操作业务逻辑层接口
+ * 
+ * Project Name: VisAna<br>
+ * File Name: FileService.java<br>
+ * Package Name: edu.bupt.dmg.service<br>
+ * Creator: @author Ruitong Chai & Bohao Wang<br>
+ * Create Time：2017年4月22日<br>
+ * Version: @version 0.0.1
+ */
+public interface FileService {
+	/**
+	 * 将文件信息存入到数据库表中
+	 * 
+	 * @param uploadFile
+	 * @return 如果写入数据库成功则返回true否则返回alse
+	 */
+	public boolean storeFile(UploadFile uploadFile);
+
+	/**
+	 * 查找某用户上传的所有文件在数据库表中的记录
+	 * 
+	 * @param userId
+	 *            用户id
+	 * @return 文件值对象列表
+	 */
+	public List<FileVo> findFilesByUserId(String userId);
+
+	/**
+	 * 根据文件ID查找文件在数据库中的记录 *
+	 * 
+	 * @param fileId
+	 *            文件ID
+	 * @return UploadFile 文件记录的模型对象
+	 */
+	public UploadFile findFileById(String fileId);
+
+	/**
+	 * 将文件写入磁盘存储
+	 * 
+	 * @param file
+	 *            MultipartFile，表现层中的文件对象
+	 * @param path
+	 *            文件存储的绝对路径
+	 * @param fileName
+	 *            文件名（包括后缀）
+	 * @return 若写磁盘成功，返回true,否则返回false
+	 */
+	public boolean writeFileToDisk(MultipartFile file, String path, String fileName);
+	
+	public boolean writeJsonFileToDisk(String jsonFile, String path, String fileName);
+
+	/**
+	 * 从磁盘读取文件
+	 * 
+	 * @param path
+	 *            文件路径
+	 * @return List
+	 *         <Table>
+	 * @throws Exception
+	 */
+	public ArrayList<Table> readFileFromDisk(String path) throws Exception;
+
+	/**
+	 * 在数据库中删除一条文件的记录
+	 * 
+	 * @param fileId
+	 *            文件ID
+	 * @return 若删除记录成功，返回true,否则返回false
+	 */
+	public boolean deleteFileByFileId(String fileId);
+
+	/**
+	 * 删除磁盘上指定位置的文件
+	 * 
+	 * @param path
+	 *            文件路径，若文件不存在则不删除
+	 */
+	public void deleteFileOnDisk(String path);
+
+	/**
+	 * 检查文件名是否重复
+	 * 
+	 * @param fileName
+	 *            文件名
+	 * @param userId
+	 *            用户ID
+	 * @return 重复则返回false，不重复返回true
+	 */
+	public boolean isFileNameNotRepeated(String fileName, String userId);
+
+	public boolean createJsonFile(Object jsonObject, UploadFile uploadFile,String realPath);
+	public List<FileVo> findNameByCondition(String input);
+	public boolean isNumeric(String str);
+	public boolean isFloatString(String testString);
+	public boolean isNumberString(String testString);
+	public boolean isDate(String testString);
+	public ArrayList splitFile(String s1,String s2);
+}

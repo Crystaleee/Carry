@@ -1,0 +1,49 @@
+.lineaxis path,
+.lineaxis line{
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+.lineaxis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+.lineoverlay {
+	fill: none;
+	pointer-events: all;
+}
+	
+.linetooltip{
+	width: auto;
+	height: auto;
+	position: fixed;
+	font-family: simsun;
+	font-size: 16px;
+	line-height: 26px;
+	text-align: left;
+	border: 1px solid black;
+	background-color: white;
+	border-radius: 5px;
+}
+
+.linetooltip .linetitle{
+    border-bottom: 1px solid #000;
+    text-align: center;
+}
+
+.linetooltip .desColor{
+    width: 10px;
+    height: 10px;
+    float: left;
+	margin: 9px 8px 1px 8px;
+}
+
+.linetooltip .desText{
+    display: inline;
+}
+
+.linefocusLine {
+	stroke: black;
+	stroke-width: 1px;
+	stroke-dasharray: 5,5;
+}

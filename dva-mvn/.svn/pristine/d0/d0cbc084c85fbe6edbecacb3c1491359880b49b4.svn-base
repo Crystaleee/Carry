@@ -1,0 +1,186 @@
+package edu.bupt.dmg.test;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import edu.bupt.dmg.dao.RoleDao;
+import edu.bupt.dmg.dao.UploadFileDao;
+import edu.bupt.dmg.dao.UserDao;
+import edu.bupt.dmg.domain.Role;
+import edu.bupt.dmg.domain.UploadFile;
+import edu.bupt.dmg.domain.User;
+
+public class DaoTest {
+	private ApplicationContext applicationContext;
+
+	// @Before
+	// public void setUp() throws Exception {
+	// applicationContext = new ClassPathXmlApplicationContext(
+	// new String[] { "spring/applicationContext.xml",
+	// "spring/applicationContext-*.xml" });
+	// }
+
+	@Test
+	public void dbcpTest() throws SQLException {
+		DataSource ds = (DataSource) applicationContext.getBean("dataSource");
+		Connection conn = ds.getConnection();
+		String sql = "select * from user where userId='stan'";
+		ResultSet rs = conn.prepareStatement(sql).executeQuery();
+		if (rs.next()) {
+			System.out.println(rs.getString("password"));
+		}
+	}
+
+	@Test
+	public void userDaoFindTest() {
+		UserDao userDao = (UserDao) applicationContext.getBean("userDao");
+		User user = userDao.findById("stan");
+		user.getUploadFiles();
+		List<User> users = userDao.findAll();
+		List<User> users2 = userDao.findByCondition(user);
+		System.out.println(users);
+		User user3 = new User();
+		user3.setName("c");
+		user3.setSex("male");
+		List<User> users3 = userDao.findByCondition(user3);
+		List<User> users4 = userDao.findByCondition(null);
+	}
+
+	@Test
+	public void userDaoInsertTest() {
+		UserDao userDao = (UserDao) applicationContext.getBean("userDao");
+		User user = new User();
+		user.setUserId("Ruitong Chai & Bohao Wang");
+		user.setPassword("aaa");
+		user.setName("cpd");
+		user.setSex("male");
+		user.setEmail("chenpudigege@126.com");
+		try {
+			userDao.insert(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void userDaoUpdateTest() {
+		UserDao userDao = (UserDao) applicationContext.getBean("userDao");
+		User user = userDao.findById("stan");
+		user.setEmail("chenpudigege@126.com");
+		try {
+			userDao.update(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void userDaoDeleteTest() {
+		UserDao userDao = (UserDao) applicationContext.getBean("userDao");
+		try {
+			userDao.deleteById("Ruitong Chai & Bohao Wang");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void fileDaofindTest() {
+		UploadFileDao uploadFileDao = (UploadFileDao) applicationContext.getBean("uploadFileDao");
+		UploadFile uploadFile = uploadFileDao.findById("1111");
+
+		uploadFile.getUser().getName();
+		List<UploadFile> files = uploadFileDao.findAll();
+
+		List<UploadFile> files1 = uploadFileDao.findByCondition(uploadFile);
+
+		UploadFile uploadFile2 = new UploadFile();
+		uploadFile2.setUser(uploadFile.getUser());
+		List<UploadFile> files2 = uploadFileDao.findByCondition(uploadFile2);
+
+		UploadFile uploadFile3 = new UploadFile();
+		uploadFile3.setFileName("ag");
+		List<UploadFile> files3 = uploadFileDao.findByCondition(uploadFile3);
+	}
+
+	@Test
+	public void fileDaoInsertTest() {
+		UploadFileDao uploadFileDao = (UploadFileDao) applicationContext.getBean("uploadFileDao");
+		User user = new User();
+		user.setUserId("Ruitong Chai & Bohao Wang");
+		UploadFile uploadFile = new UploadFile();
+		uploadFile.setFileName("aaa");
+		uploadFile.setFilePath("a/a/a");
+		uploadFile.setUpdateTime(new Date());
+		uploadFile.setUser(user);
+		try {
+			uploadFileDao.insert(uploadFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void fileDaoUpdateTest() {
+		UploadFileDao uploadFileDao = (UploadFileDao) applicationContext.getBean("uploadFileDao");
+		UploadFile uploadFile = uploadFileDao.findById("1111");
+		uploadFile.setFileName("newFileName");
+		try {
+			uploadFileDao.update(uploadFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void fileDaoDeleteTest() {
+		UploadFileDao uploadFileDao = (UploadFileDao) applicationContext.getBean("uploadFileDao");
+		try {
+			uploadFileDao.deleteById("8bbde887-e82c-11e5-b86b-1418773cd1e3");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void RoleTest() {
+		RoleDao roleDao = (RoleDao) applicationContext.getBean("roleDao");
+		Role role = roleDao.findById("1");
+		System.out.println(role);
+
+	}
+
+	@Test
+	public void fileRepeatTest() {
+		UploadFileDao uploadFileDao = (UploadFileDao) applicationContext.getBean("uploadFileDao");
+
+		UploadFile uploadFile = new UploadFile();
+		uploadFile.setFileName("SBC");
+		User user = new User();
+		user.setUserId("stan1");
+		uploadFile.setUser(user);
+		uploadFileDao.findByFileNameAndUserId(uploadFile);
+	}
+
+	@Test
+	public void intTest() {
+		Integer c = 150;
+		Integer d = 150;
+		if (c >= d && c <= d) {
+			System.out.println("true");
+		} else {
+			System.out.println("false");
+		}
+	}
+
+}

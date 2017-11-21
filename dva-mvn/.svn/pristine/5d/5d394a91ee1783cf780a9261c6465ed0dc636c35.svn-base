@@ -1,0 +1,143 @@
+package edu.bupt.dmg.adapter.impl;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Sheet;
+
+import edu.bupt.dmg.adapter.FileAdapter;
+import edu.bupt.dmg.formbean.Table;
+
+/**
+ * Excel文件适配器
+ * 
+ * Project Name: VisAna<br>
+ * File Name: ExcelFileAdapter.java<br>
+ * Package Name: edu.bupt.dmg.adapter.impl<br>
+ * Creator: @author Ruitong Chai & Bohao Wang<br>
+ * Create Time：2017年4月22日<br>
+ * Version: @version 0.0.1
+ */
+public class ExcelFileAdapter implements FileAdapter {
+
+	public ArrayList<Table> analizeTable(InputStream inputStream) throws Exception {
+		POIFSFileSystem fileSystem;
+		HSSFWorkbook wookBook = null;
+		HSSFSheet sheet;
+
+		try {
+			fileSystem = new POIFSFileSystem(inputStream);
+			wookBook = new HSSFWorkbook(fileSystem);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 合并区域
+		ArrayList<Table> tableList = new ArrayList<Table>();
+
+		for (Iterator<Sheet> iter = wookBook.sheetIterator(); iter.hasNext();) {
+			// 第0个sheet
+			sheet = (HSSFSheet) iter.next();
+			Table table = new Table();
+			table.setTitle(sheet.getSheetName());
+
+			int firstRowNum = sheet.getFirstRowNum();
+			int rowCnt = sheet.getLastRowNum() - firstRowNum + 1;
+			HSSFRow firstRow = sheet.getRow(firstRowNum);
+			int colCnt=0;
+			try {
+				colCnt = firstRow.getPhysicalNumberOfCells();
+			} catch (Exception e) {
+				continue;
+			}
+			int firstColNum = firstRow.getFirstCellNum();
+
+			List<String> heads = new ArrayList<String>();
+			for (int i = 0; i < rowCnt; i++) {
+				Map<String, String> data = new LinkedHashMap<String, String>();
+				for (int j = 0; j < colCnt; j++) {
+					HSSFCell cell = sheet.getRow(firstRowNum + i).getCell(firstColNum + j);
+					String cellData = getCellFormatValue(cell);
+					if (i == 0) {
+						// 获取表头
+						heads.add(cellData);
+					} else {
+						if (i == 1) {
+							// 属性、度量预定义
+							try {
+								Float.parseFloat(cellData);
+								table.getHeadType().put(heads.get(j), "measure");
+							} catch (Exception e) {
+								table.getHeadType().put(heads.get(j), "attr");
+							}
+						}
+						data.put(heads.get(j), cellData);
+					}
+				}
+				if (i != 0) {
+					table.getContent().add(data);
+				}
+			}
+			tableList.add(table);
+		}
+
+		return tableList;
+	}
+
+	/**
+	 * 根据HSSFCell类型设置数据
+	 * 
+	 * @param cell
+	 * @return
+	 */
+	private String getCellFormatValue(HSSFCell cell) {
+		String cellvalue = "";
+		if (cell != null) {
+			// 判断当前Cell的Type
+			switch (cell.getCellType()) {
+			// 如果当前Cell的Type为NUMERIC
+			case HSSFCell.CELL_TYPE_NUMERIC:
+			case HSSFCell.CELL_TYPE_FORMULA: {
+				// 判断当前的cell是否为Date
+				if (HSSFDateUtil.isCellDateFormatted(cell)) {
+					// 如果是Date类型则，转化为Data格式
+					Date date = cell.getDateCellValue();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					cellvalue = sdf.format(date);
+				}
+				// 如果是纯数字
+				else {
+					// 取得当前Cell的数值
+					cellvalue = String.valueOf(cell.getNumericCellValue());
+				}
+				break;
+			}
+				// 如果当前Cell的Type为STRING
+			case HSSFCell.CELL_TYPE_STRING:
+				// 取得当前的Cell字符串
+				cellvalue = cell.getRichStringCellValue().getString();
+				break;
+			// 默认的Cell值
+			default:
+				cellvalue = " ";
+			}
+		} else {
+			cellvalue = "";
+		}
+		return cellvalue;
+
+	}
+}

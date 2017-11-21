@@ -1,0 +1,26 @@
+package edu.bupt.dmg.algorithm.impl;
+
+import edu.bupt.dmg.algorithm.DimReductionAlgorithm;
+import edu.bupt.dmg.formbean.Table;
+import mdsj.Data;
+import mdsj.MDSJ;
+/**
+ * MDS算法
+ * 
+ * Project Name: VisAna<br> 
+ * File Name: MDS.java<br> 
+ * Package Name: edu.bupt.dmg.algorithm.impl<br>       
+ * Creator: @author Ruitong Chai & Bohao Wang<br>    
+ * Create Time：2017年4月22日<br>
+ * Version: @version 0.0.1
+ */
+public class MDS extends DimReductionAlgorithmHelper implements DimReductionAlgorithm {
+	@Override
+	public Table excecute(Table table, int dim) {
+		double[][] data = parseData(table);
+		double[][] dis_data = Data.distanceMatrix(data);
+		double[][] output = MDSJ.classicalScaling(dis_data, dim);
+		return rebuildTable(output);
+	}
+
+}
