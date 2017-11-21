@@ -1,32 +1,40 @@
 /*Home animation*/
 
-/*.animate-switch-container {
+.animate-switch-container {
     position: relative;
-    background: white;
-    border: 1px solid black;
-    height: 40px;
     overflow: hidden;
-}*/
-
-.animate-switch {
-    padding: 10px;
+    min-height: 600px;
 }
 
-/*.animate-switch.ng-animate {
-    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+.animate-switch.ng-animate {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}*/
-
-.animate-switch.ng-leave.ng-leave-active, .animate-switch.ng-enter {
-    top: -50px;
+    width: 100%;
 }
 
-.animate-switch.ng-leave, .animate-switch.ng-enter.ng-enter-active {
-    top: 0;
+.animate-switch.ng-leave, .animate-switch.ng-enter {
+    -webkit-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -moz-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -ms-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -o-transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    transition: 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+
+.animate-switch.ng-enter {
+    left: -150%;
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.animate-switch.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.animate-switch.ng-leave {
+    left: 0;
+}
+
+.animate-switch.ng-leave.ng-leave-active {
+    left: -100%;
 }
 
 /*Home profile*/
@@ -91,16 +99,11 @@
 }
 
 .profile {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .profile div {
     padding: 3px 30px;
-}
-
-.profile div span {
-    padding-left: 15%;
-    text-align: right;
 }
 
 .buttons {
@@ -137,6 +140,106 @@
     height: 25px;
     line-height: 25px;
     display: inline-block;
+}
+
+.profile table {
+    width: 100%;
+    margin: 0 20px;
+}
+
+.content {
+    display: flex;
+}
+
+.content>div {
+    flex: 1;
+}
+
+.content table {
+    width: 90%;
+}
+
+.record {
+    margin-bottom: 10px;
+}
+
+.exercise, .food {
+    max-height: 200px;
+    width: 49%;
+    position: relative;
+    padding: 15px 20px;
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -moz-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -ms-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    -o-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+}
+
+.food {
+    background-color: #fff;
+}
+
+.exercise {
+    background-color: #6fdaa1;
+    color: #fff;
+}
+
+.exercise:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    margin: -25px 0 0;
+    border-right: 25px solid #6fdaa1;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+}
+
+.caption {
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.date {
+    text-align: center;
+    line-height: 250%;
+}
+
+.timeline-wrap {
+    overflow-y: auto;
+    max-height: 125px;
+}
+
+.timeline-wrap td {
+    width: 24%;
+    text-align: center;
+    line-height: 180%;
+}
+
+.timeline-wrap td:nth-child(1) {
+    width: 15%;
+}
+
+td img {
+    width: 20px;
+}
+
+.glyphicon {
+    opacity: 0.5;
+}
+
+.glyphicon-remove {
+    position: absolute;
+    right: 5%;
+    top: 20px;
+}
+
+.glyphicon-edit {
+    position: absolute;
+    bottom: 15px;
+    right: 5%;
+    top: unset;
 }
 
 

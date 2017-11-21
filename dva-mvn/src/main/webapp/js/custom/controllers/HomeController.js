@@ -5,24 +5,31 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', '$rootScope'];
+    HomeController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
 
-    function HomeController($location, $scope, AuthenticationService, $rootScope) {
+    function HomeController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         (function initController() {
-            loadCurrentUser();
+            loadUserProfile();
             $scope.selection = "timeline";
         })();
 
-        function loadCurrentUser() {
-            $scope.user = $rootScope.globals.currentUser;
+        function loadUserProfile() {
+            UserService.LoadUserProfile(function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    var user = $scope.user;
+                    user.height = result.resultMessage.height;
+                    user.weight = result.resultMessage.weight;
+                    user.age = result.resultMessage.age;
+                    user.username = result.resultMessage.username;
+                    user.sex = result.resultMessage.sex;
 
-            var user = $scope.user;
-            user.newUsername = user.username;
-            user.newAge = user.age;
-            user.newHeight = user.height;
-            user.newWeight = user.weight;
-            user.bf = user.height - user.weight;
+                    $scope.changeSelection("timeline");
+                }
+            });
+            // $scope.user = $rootScope.globals.currentUser;
         }
 
         $scope.logout = function() {
@@ -30,23 +37,11 @@
             $location.path('/login');
         }
 
-        // $scope.logout = function() {
-        //     AuthenticationService.ClearCredentials();
-        // }
-
-        $scope.$watch('b', function(newValue) {
-            $scope.a = newValue;
-        });
-
-        $scope.updateProfile = function() {
-            var user = $scope.user;
-            user.height = user.newHeight;
-            user.weight = user.newWeight;
-            user.age = user.newAge;
-            user.username = user.newUsername;
-
-            $scope.selection = "timeline";
-        }
+        // $scope.$watch('user.weight', function(newValue, oldValue) {
+        //     var user = $scope.user;
+        //     var bmi = newValue / (user.height * user.height);
+        //     user.bmi = (bmi > 0) ? bmi : "Please update";
+        // });
 
         $scope.changeSelection = function(select) {
             $scope.selection = select;
