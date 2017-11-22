@@ -57,17 +57,6 @@
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
-            // $http({
-            //     method: "POST",
-            //     url: '/dva-mvn/signUp/signUp.do',
-            //     data: form
-            //
-            // }).then(function mySuccess(response) {
-            //     console.log(response);
-            //     callback(response);
-            // }, function myError(response) {
-            //
-            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
@@ -87,7 +76,7 @@
             console.log(form.serializeArray());
             $.ajax({
                 type: "post",
-                url: "/dva-mvn/UserInformation/updateProfile.do",
+                url: "/dva-mvn/user/updateProfile.do",
                 dataType: "text",
                 async: false,
                 data: form.serializeArray(),
@@ -104,7 +93,7 @@
         function LoadUserProfile(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/UserInformation/loadUserProfile.do",
+                url: "/dva-mvn/user/loadUserProfile.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -119,7 +108,7 @@
         function LoadUserRecord(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/UserInformation/loadUserRecord.do",
+                url: "/dva-mvn/user/loadUserRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -139,23 +128,17 @@
             return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
         }
 
-        function Create(user) {
-            return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
-        }
-
-        function Update(user) {
-            return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
-        }
-
-        function Delete(id) {
-            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
-        }
-
-        // private functions
-
-        function handleSuccess(res) {
-            return res.data;
-        }
+        // $http({
+        //     method: "POST",
+        //     url: '/dva-mvn/signUp/signUp.do',
+        //     data: form
+        //
+        // }).then(function mySuccess(response) {
+        //     console.log(response);
+        //     callback(response);
+        // }, function myError(response) {
+        //
+        // });
 
         function handleError(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.readyState +

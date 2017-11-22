@@ -14,24 +14,24 @@
             UserService.UpdateProfile(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
-                if (result.resultMessage.resultCode == 1) {
+                if (result.resultCode == 1) {
                     var user = $scope.user;
-                    user.height = user.newHeight;
-                    user.weight = user.newWeight;
-                    user.age = user.newAge;
-                    user.username = user.newUsername;
-                    user.sex = user.newSex;
+                    user.height = user.heightUpdate;
+                    user.weight = user.weightUpdate;
+                    user.age = user.ageUpdate;
+                    user.username = user.usernameUpdate;
+                    user.sex = user.sexUpdate;
 
                     $scope.changeSelection("timeline");
                 }
             });
             //just for development
             var user = $scope.user;
-            user.height = user.newHeight;
-            user.weight = user.newWeight;
-            user.age = user.newAge;
-            user.username = user.newUsername;
-            user.sex = user.newSex;
+            user.height = user.heightUpdate;
+            user.weight = user.weightUpdate;
+            user.age = user.ageUpdate;
+            user.username = user.usernameUpdate;
+            user.sex = user.sexUpdate;
 
             $scope.changeSelection("timeline");
 

@@ -611,17 +611,6 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
 
         function Signup(form, callback) {
             console.log(form.serializeArray());
-            // $http({
-            //     method: "POST",
-            //     url: '/dva-mvn/signUp/signUp.do',
-            //     data: form
-            //
-            // }).then(function mySuccess(response) {
-            //     console.log(response);
-            //     callback(response);
-            // }, function myError(response) {
-            //
-            // });
             $.ajax({
                 url: '/dva-mvn/signUp/signUp.do',
                 type: 'post',
@@ -641,7 +630,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             console.log(form.serializeArray());
             $.ajax({
                 type: "post",
-                url: "/dva-mvn/UserInformation/updateProfile.do",
+                url: "/dva-mvn/user/updateProfile.do",
                 dataType: "text",
                 async: false,
                 data: form.serializeArray(),
@@ -658,7 +647,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         function LoadUserProfile(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/UserInformation/loadUserProfile.do",
+                url: "/dva-mvn/user/loadUserProfile.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -673,7 +662,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         function LoadUserRecord(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/UserInformation/loadUserRecord.do",
+                url: "/dva-mvn/user/loadUserRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -693,23 +682,17 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
         }
 
-        function Create(user) {
-            return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
-        }
-
-        function Update(user) {
-            return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
-        }
-
-        function Delete(id) {
-            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
-        }
-
-        // private functions
-
-        function handleSuccess(res) {
-            return res.data;
-        }
+        // $http({
+        //     method: "POST",
+        //     url: '/dva-mvn/signUp/signUp.do',
+        //     data: form
+        //
+        // }).then(function mySuccess(response) {
+        //     console.log(response);
+        //     callback(response);
+        // }, function myError(response) {
+        //
+        // });
 
         function handleError(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.readyState +
@@ -742,6 +725,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
 
 })();
 
+// HomeController
 (function() {
     'use strict';
 
@@ -759,33 +743,24 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         })();
 
         function loadUserProfile() {
-            // UserService.LoadUserProfile(function(response) {
-            //     var result = $.parseJSON(response);
-            //     console.log(result);
-            //     if (result.resultMessage.resultCode == 1) {
-            //         var user = $scope.user;
-            //         user.height = result.resultMessage.height;
-            //         user.weight = result.resultMessage.weight;
-            //         user.age = result.resultMessage.age;
-            //         user.username = result.resultMessage.username;
-            //         user.sex = result.resultMessage.sex;
-            //
-            //         $scope.changeSelection("timeline");
-            //     }
-            // });
-            $scope.user = $rootScope.globals.currentUser;
+            var user = $scope.user = {};
+            user.username = user.usernameUpdate = $rootScope.globals.currentUser.username;
+
+            UserService.LoadUserProfile(function(result) {
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    user.height = user.heightUpdate = result.height;
+                    user.weight = user.weightUpdate = result.weight;
+                    user.age = user.ageUpdate = result.age;
+                    user.sex = user.sexUpdate = result.sex;
+                }
+            });
         }
 
         $scope.logout = function() {
             AuthenticationService.ClearCredentials();
             $location.path('/login');
         }
-
-        // $scope.$watch('user.weight', function(newValue, oldValue) {
-        //     var user = $scope.user;
-        //     var bmi = newValue / (user.height * user.height);
-        //     user.bmi = (bmi > 0) ? bmi : "Please update";
-        // });
 
         $scope.changeSelection = function(select) {
             $scope.selection = select;
@@ -819,20 +794,20 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
         })();
 
         $scope.login = function() {
-            AuthenticationService.SetCredentials($scope.loginData.userId);
-            $location.path('/');
-            // AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
-            //     var result = $.parseJSON(response);
-            //     console.log(result);
-            //     if (result.resultCode == 1) {
-            //         AuthenticationService.SetCredentials($scope.loginData.userId);
-            //         $location.path('/');
-            //
-            //     } else {
-            //         alert(result.resultTips);
-            //         console.log("error");
-            //     }
-            // });
+            // AuthenticationService.SetCredentials($scope.loginData.userId);
+            // $location.path('/');
+            AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultCode == 1) {
+                    AuthenticationService.SetCredentials($scope.loginData.userId);
+                    $location.path('/');
+
+                } else {
+                    alert(result.resultTips);
+                    console.log("error");
+                }
+            });
         }
 
         $scope.changeKaptcha = function(node) {
@@ -843,70 +818,70 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
 })();
 
 (function() {
-        'use strict';
+    'use strict';
 
-        angular
-            .module('app')
-            .controller('RecordController', RecordController);
+    angular
+        .module('app')
+        .controller('RecordController', RecordController);
 
-        RecordController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
+    RecordController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
 
-        function RecordController($location, $scope, AuthenticationService, UserService) {
-            (function initController() {
-                bindDatePicker();
-            })();
-
-
-            function bindDatePicker() {
-                $('#datetimepicker1').datetimepicker();
-                //     $("#datetimepicker1").datetimepicker({
-                //         format: 'YYYY-MM-DD',
-                //         icons: {
-                //             time: "fa fa-clock-o",
-                //             date: "fa fa-calendar",
-                //             up: "fa fa-arrow-up",
-                //             down: "fa fa-arrow-down"
-                //         }
-                //     }).find('input:first').on("blur", function() {
-                //         // check if the date is correct. We can accept dd-mm-yyyy and yyyy-mm-dd.
-                //         // update the format if it's yyyy-mm-dd
-                //         var date = parseDate($(this).val());
-                //
-                //         if (!isValidDate(date)) {
-                //             //create date based on momentjs (we have that)
-                //             date = moment().format('YYYY-MM-DD');
-                //         }
-                //
-                //         $(this).val(date);
-                //     });
-                // }
-            }
-
-                var isValidDate = function(value, format) {
-                    format = format || false;
-                    // lets parse the date to the best of our knowledge
-                    if (format) {
-                        value = parseDate(value);
-                    }
-
-                    var timestamp = Date.parse(value);
-
-                    return isNaN(timestamp) == false;
-                }
-
-                var parseDate = function(value) {
-                    var m = value.match(/^(\d{1,2})(\/|-)?(\d{1,2})(\/|-)?(\d{4})$/);
-                    if (m)
-                        value = m[5] + '-' + ("00" + m[3]).slice(-2) + '-' + ("00" + m[1]).slice(-2);
-
-                    return value;
-                }
-
-
-
-            }
-
+    function RecordController($location, $scope, AuthenticationService, UserService) {
+        (function initController() {
+            bindDatePicker();
         })();
+
+
+        function bindDatePicker() {
+            $('#datetimepicker1').datetimepicker();
+            //     $("#datetimepicker1").datetimepicker({
+            //         format: 'YYYY-MM-DD',
+            //         icons: {
+            //             time: "fa fa-clock-o",
+            //             date: "fa fa-calendar",
+            //             up: "fa fa-arrow-up",
+            //             down: "fa fa-arrow-down"
+            //         }
+            //     }).find('input:first').on("blur", function() {
+            //         // check if the date is correct. We can accept dd-mm-yyyy and yyyy-mm-dd.
+            //         // update the format if it's yyyy-mm-dd
+            //         var date = parseDate($(this).val());
+            //
+            //         if (!isValidDate(date)) {
+            //             //create date based on momentjs (we have that)
+            //             date = moment().format('YYYY-MM-DD');
+            //         }
+            //
+            //         $(this).val(date);
+            //     });
+            // }
+        }
+
+        var isValidDate = function(value, format) {
+            format = format || false;
+            // lets parse the date to the best of our knowledge
+            if (format) {
+                value = parseDate(value);
+            }
+
+            var timestamp = Date.parse(value);
+
+            return isNaN(timestamp) == false;
+        }
+
+        var parseDate = function(value) {
+            var m = value.match(/^(\d{1,2})(\/|-)?(\d{1,2})(\/|-)?(\d{4})$/);
+            if (m)
+                value = m[5] + '-' + ("00" + m[3]).slice(-2) + '-' + ("00" + m[1]).slice(-2);
+
+            return value;
+        }
+
+
+
+    }
+
+})();
 
 (function() {
     'use strict';
@@ -973,6 +948,7 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             UserService.Signup(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
+                $scope.step = 3;
                 if (result.resultMessage.resultCode == 1) {
                     $scope.step = 3;
                 }
@@ -1026,24 +1002,24 @@ return e}}}else return d(a)}}]}])})(window,window.angular);
             UserService.UpdateProfile(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
-                if (result.resultMessage.resultCode == 1) {
+                if (result.resultCode == 1) {
                     var user = $scope.user;
-                    user.height = user.newHeight;
-                    user.weight = user.newWeight;
-                    user.age = user.newAge;
-                    user.username = user.newUsername;
-                    user.sex = user.newSex;
+                    user.height = user.heightUpdate;
+                    user.weight = user.weightUpdate;
+                    user.age = user.ageUpdate;
+                    user.username = user.usernameUpdate;
+                    user.sex = user.sexUpdate;
 
                     $scope.changeSelection("timeline");
                 }
             });
             //just for development
             var user = $scope.user;
-            user.height = user.newHeight;
-            user.weight = user.newWeight;
-            user.age = user.newAge;
-            user.username = user.newUsername;
-            user.sex = user.newSex;
+            user.height = user.heightUpdate;
+            user.weight = user.weightUpdate;
+            user.age = user.ageUpdate;
+            user.username = user.usernameUpdate;
+            user.sex = user.sexUpdate;
 
             $scope.changeSelection("timeline");
 

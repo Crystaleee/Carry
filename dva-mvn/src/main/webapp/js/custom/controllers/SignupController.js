@@ -63,6 +63,7 @@
             UserService.Signup(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
+                $scope.step = 3;
                 if (result.resultMessage.resultCode == 1) {
                     $scope.step = 3;
                 }
