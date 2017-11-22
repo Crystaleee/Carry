@@ -8,10 +8,8 @@
 *.so
 
 # Maven #
-*.project
-MANIFEST.MF
 pom.properties
-/target/
+target/
 
 # Packages #
 ############
@@ -50,6 +48,7 @@ scripts.json
 styles.json
 
 #idea
-/.idea
-/.settings
-/.svn
+.idea/
+.settings/
+.svn/
+Logs/
