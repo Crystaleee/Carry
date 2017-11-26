@@ -55,7 +55,7 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 .right {
     background-color: #6fdaa1;
     color: white;
-    padding: 15% 13% 10% 8%;
+    padding: 10% 13% 10% 8%;
     height: 100%;
 }
 
@@ -109,4 +109,23 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
 input[type=radio] {
     margin-right: 5px;
     margin-left: 5px;
+}
+
+/*datepicker*/
+
+.uib-datepicker {
+    font-weight: bold;
+}
+
+button span, .pull-right, .pull-left, .uib-title {
+    color: #000;
+}
+
+td>.btn[disabled] {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+th>.ng-binding {
+    color: #000;
 }

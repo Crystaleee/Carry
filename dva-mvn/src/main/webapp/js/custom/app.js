@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'ngAnimate'])
+        .module('app', ['ngRoute', 'ngCookies', 'ngAnimate', 'ui.bootstrap'])
         .config(config)
         .run(run)
         .filter('randomize', function() {
