@@ -8850,7 +8850,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
-            //loadUserRecord();
+            loadUserRecord();
         })();
 
         function loadUserRecord() {

@@ -9,7 +9,7 @@
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
-            //loadUserRecord();
+            loadUserRecord();
         })();
 
         function loadUserRecord() {
