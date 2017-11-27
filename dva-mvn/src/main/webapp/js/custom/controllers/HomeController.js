@@ -24,7 +24,7 @@
                 if (result.resultMessage.resultCode == 1) {
                     user.height = user.heightUpdate = result.height;
                     user.weight = user.weightUpdate = result.weight;
-                    user.age = user.ageUpdate = result.age;
+                    user.birthday = user.birthdayUpdate = result.birthday;
                     user.sex = user.sexUpdate = result.sex;
                 }
             });

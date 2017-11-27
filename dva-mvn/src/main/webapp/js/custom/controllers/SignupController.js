@@ -57,7 +57,6 @@
                 }
             });
         }
-        $scope.showWeeks = false;
         $scope.clear = function() {
             $scope.dt = null;
         };
@@ -65,7 +64,7 @@
         $scope.inlineOptions = {
             customClass: getDayClass,
             minDate: new Date(),
-            showWeeks: true
+            showWeeks: false
         };
 
         $scope.dateOptions = {

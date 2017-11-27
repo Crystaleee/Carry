@@ -20,17 +20,19 @@
         </div>
 
         <div class="form-group">
-            <label for="password_L">Age (year)</label>
-            <input type="text" name="age" class="form-control" id="age" ng-model="user.ageUpdate" placeholder="Age">
+            <input type="text" name="birthday" class="form-control" uib-datepicker-popup ng-model="user.birthdayUpdate" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="datetimepicker btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
         </div>
 
         <div class="form-group">
-            <label for="password_L">Height (meter)</label>
+            <label for="height">Height (meter)</label>
             <input type="text" name="height" class="form-control" id="height" ng-model="user.heightUpdate" placeholder="Height">
         </div>
 
         <div class="form-group">
-            <label for="password_L">Weight (kg)</label>
+            <label for="weight">Weight (kg)</label>
             <input type="text" name="weight" class="form-control" id="weight" ng-model="user.weightUpdate" placeholder="Weight">
         </div>
 
