@@ -33,6 +33,10 @@
 	<resultMessage resultCode="-13"
 				   resultTips="This File Name is illegal!" />
 	<resultMessage resultCode="-14"
-				   resultTips=" Please enter the content！" />			   
+				   resultTips=" Please enter the content！" />	
+	<resultMessage resultCode="-15"
+				   resultTips=" write exercise record failure！" />			   
+	<resultMessage resultCode="-16"
+				   resultTips=" write food record failure！" />			   
 				  
 </resultMessages>

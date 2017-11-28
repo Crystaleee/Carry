@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
 		insert into
-		Food_record(RecordID,UserID,Date,Food_category,Food_weight)
-		values(#{RecordID},#{UserID},#{Date},#{Food_category},#{Food_weight})
+		Food_record(UserID,Date,Food_category,Food_weight)
+		values(#{UserID},#{Date},#{Food_category},#{Food_weight})
 	</insert>
 
 	<select id="findAll" resultMap="FoodRecFileMap">

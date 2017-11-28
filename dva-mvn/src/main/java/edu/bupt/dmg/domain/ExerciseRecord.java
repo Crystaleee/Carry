@@ -34,14 +34,6 @@ public class ExerciseRecord implements Serializable {
 	@NotBlank(message = "Exercise time should not be blank!")
 	private String Exercise_time;
 
-	// 关联对象
-//	private List<UploadFile> uploadFiles;
-//	private List<Role> roles;
-//	private String BirthDate;
-//	private String Height;
-//	private String Weight;
-//	private String BMI;
-//	private String BFR;
 
 	@Override
 	public String toString() {
@@ -88,5 +80,7 @@ public class ExerciseRecord implements Serializable {
 	public void setExercise_time(String exercise_time) {
 		Exercise_time = exercise_time;
 	}
+
+
 	
 }

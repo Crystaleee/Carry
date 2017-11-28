@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
 		now.add(Calendar.DATE, +30);
 		Date expirationDate_old = now.getTime();
 		String expirationDate=(new SimpleDateFormat("yyyy-MM-dd")).format(expirationDate_old);  
-		System.out.println("88888888888888888888888888888888888!"+expirationDate);
 		user.setExpirationDate(expirationDate);
 		try {
 			
