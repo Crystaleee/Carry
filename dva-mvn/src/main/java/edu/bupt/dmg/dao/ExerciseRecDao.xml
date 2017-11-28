@@ -11,20 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="Date" property="Date" />
 		<result column="Exercise_category" property="Exercise_category" />
 		<result column="Exercise_time" property="Exercise_time" />
-
-
-		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
-			select="edu.bupt.dmg.dao.UploadFileDao.findByRecordID" column="RecordID">
-		</collection>
-		<collection property="roles"
-			ofType="edu.bupt.dmg.dao.RoleDao.RoleAuthorityMap" select="edu.bupt.dmg.dao.RoleDao.findByUserId"
-			column="userId">
-		</collection>
 	</resultMap>
 
 	<select id="findById" parameterType="String" resultMap="ExerciseRecFileMap">
 		SELECT *
-		FROM Ex_record WHERE RecordID = #{RecordID}
+		FROM Ex_record WHERE UserID = #{UserID}
 	</select>
 	
 	
@@ -35,8 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
 		insert into
-		Ex_record(RecordID , UserID , Date , Exercise_category , Exercise_time)
-		values(#{RecordID} , #{UserID} , #{Date} , #{Exercise_category} , #{Exercise_time})
+		Ex_record( UserID , Date , Exercise_category , Exercise_time)
+		values( #{UserID} , #{Date} , #{Exercise_category} , #{Exercise_time})
 	</insert>
 
 	<select id="findAll" resultMap="ExerciseRecFileMap">

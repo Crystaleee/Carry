@@ -73,7 +73,14 @@ public class FileServiceImpl implements FileService {
 		}
 		return true;
 	}
-	
+	@Override
+	public List<ExerciseRecord> findExeFilesByUserId(String userId){
+		return (List<ExerciseRecord>) exerciseRecordDao.findById(userId);
+	}
+	@Override
+	public List<FoodRecord> findFoodFilesByUserId(String userId){
+		return (List<FoodRecord>) foodRecordDao.findById(userId);
+	}
 
 }
 

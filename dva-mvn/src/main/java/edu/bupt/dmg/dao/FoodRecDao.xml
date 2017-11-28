@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findById" parameterType="String" resultMap="FoodRecFileMap">
 		SELECT *
-		FROM Food_record WHERE RecordID = #{RecordID}
+		FROM Food_record WHERE UserID = #{userId}
 	</select>
 	
 	

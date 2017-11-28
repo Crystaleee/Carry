@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -42,7 +43,7 @@ public class UserInformation {
 	UserRealm userRealm;
 
 	
-	@RequestMapping(value = "/updateExeRecord")
+	@RequestMapping(value = "/uploadRecord")
 	public @ResponseBody Map<String, Object> updateExeRecord(String date, String exercise_category, String exercise_time, String food_category, String food_amount ) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
         String userId = subject.getPrincipal().toString();
@@ -101,6 +102,26 @@ public class UserInformation {
         }
         return responseMap;
        
+	}
+	
+	@RequestMapping(value = "/getRecord")
+	public @ResponseBody Map<String, Object> getRecord() throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+        String userId = subject.getPrincipal().toString();
+        Map<String, Object> responseMap = new HashMap<>();
+        if (userId != null && !"".equals(userId)) {
+        	List<ExerciseRecord> exeList = fileService.findExeFilesByUserId(userId);
+        	List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
+			// 组织回复数据
+			responseMap.put("resultMessage", new ResultMessage(1));
+			responseMap.put("exeList", exeList);
+			responseMap.put("foodList", foodList);
+        }
+        else {
+            // 用户未登录数据
+            responseMap.put("resultMessage", new ResultMessage(-2));
+        }
+        return responseMap;
 	}
 
 }
