@@ -131,4 +131,14 @@ public class UserServiceImpl implements UserService {
         }
         return age;
     }
+    
+    @Override
+    public boolean updatePassword(User user){
+    	try{
+    		userDao.updatepassword(user);
+    	}catch(Exception e){
+    		return false;
+    	}
+    	return true;
+    }
 }

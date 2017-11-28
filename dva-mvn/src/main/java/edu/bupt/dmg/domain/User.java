@@ -60,8 +60,9 @@ public class User implements Serializable {
 		return BirthDate;
 	}
 
-	public void setBirthDate(String Birthdate) {
-		this.BirthDate = Birthdate;
+	public void setBirthDate(String birthday) {
+		System.out.println("mageji:"+birthday);
+		this.BirthDate = birthday;
 	}
 
 	public String getBMI() {
@@ -108,8 +109,8 @@ public class User implements Serializable {
 		return Height;
 	}
 
-	public void setHeight(String Height) {
-		this.Height=Height;
+	public void setHeight(String height) {
+		this.Height=height;
 	}
 	
 	public String getWeight() {
