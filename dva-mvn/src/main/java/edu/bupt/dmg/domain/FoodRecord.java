@@ -34,14 +34,7 @@ public class FoodRecord implements Serializable {
 	@NotBlank(message = "Food weight should not be blank!")
 	private String Food_weight;
 
-	// 关联对象
-//	private List<UploadFile> uploadFiles;
-//	private List<Role> roles;
-//	private String BirthDate;
-//	private String Height;
-//	private String Weight;
-//	private String BMI;
-//	private String BFR;
+
 
 	@Override
 	public String toString() {

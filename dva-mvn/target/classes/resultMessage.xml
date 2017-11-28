@@ -39,4 +39,6 @@
 	<resultMessage resultCode="-16"
 				   resultTips=" write food record failure！" />			   
 				  
+	<resultMessage resultCode="-17"
+				   resultTips=" update failure！" />
 </resultMessages>
