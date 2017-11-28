@@ -9,43 +9,17 @@
 
     function AuthenticationService($http, $cookies, $rootScope) {
         var service = {};
-        service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
 
         return service;
 
-        function Login(userId, password, rememberme, kaptcha, callback) {
-            $.ajax({
-                type: "post",
-                url: "/dva-mvn/user/login.do",
-                dataType: "text",
-                async: false,
-                data: {
-                    userId: userId,
-                    password: password,
-                    rememberme: rememberme,
-                    kaptcha: kaptcha
-                },
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
-                }
-            });
-        }
-
         //set cookie
-        function SetCredentials(username) {
+        function SetCredentials(userID) {
 
             $rootScope.globals = {
                 currentUser: {
-                    username: username,
+                    userID: userID,
                 }
             };
 

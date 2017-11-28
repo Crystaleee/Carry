@@ -13,9 +13,9 @@
         }
     }
 
-    SignupController.$inject = ['$location', '$scope', 'UserService'];
+    SignupController.$inject = ['$scope', 'UserService'];
 
-    function SignupController($location, $scope, UserService) {
+    function SignupController($scope, UserService) {
         (function initController() {
 
             $scope.step = 1;
@@ -142,8 +142,8 @@
             UserService.Signup(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
-                if (result.resultMessage.resultCode == 1) {
-                    $scope.step = 3;
+                if (result.resultMessage.resultCode != 1) {
+                    $scope.step = 2;
                 }
             });
         }

@@ -8298,43 +8298,17 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
     function AuthenticationService($http, $cookies, $rootScope) {
         var service = {};
-        service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
 
         return service;
 
-        function Login(userId, password, rememberme, kaptcha, callback) {
-            $.ajax({
-                type: "post",
-                url: "/dva-mvn/user/login.do",
-                dataType: "text",
-                async: false,
-                data: {
-                    userId: userId,
-                    password: password,
-                    rememberme: rememberme,
-                    kaptcha: kaptcha
-                },
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
-                }
-            });
-        }
-
         //set cookie
-        function SetCredentials(username) {
+        function SetCredentials(userID) {
 
             $rootScope.globals = {
                 currentUser: {
-                    username: username,
+                    userID: userID,
                 }
             };
 
@@ -8367,6 +8341,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
     function UserService($http) {
         var service = {};
 
+        service.Login = Login;
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
@@ -8375,6 +8350,31 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.LoadUserRecord = LoadUserRecord;
 
         return service;
+
+        function Login(userId, password, rememberme, kaptcha, callback) {
+            $.ajax({
+                type: "post",
+                url: "/dva-mvn/user/login.do",
+                dataType: "text",
+                async: false,
+                data: {
+                    userId: userId,
+                    password: password,
+                    rememberme: rememberme,
+                    kaptcha: kaptcha
+                },
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.readyState +
+                        XMLHttpRequest.status +
+                        XMLHttpRequest.responseText);
+                    console.log("error");
+                    console.log(textStatus);
+                }
+            });
+        }
 
         function CheckUsername(userId, callback) {
             $.ajax({
@@ -8412,14 +8412,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
         }
 
-        function objectifyForm(formArray) { //serialize data function
 
-            var returnArray = {};
-            for (var i = 0; i < formArray.length; i++) {
-                returnArray[formArray[i]['name']] = formArray[i]['value'];
-            }
-            return returnArray;
-        }
 
         function Signup(form, callback) {
             console.log(objectifyForm(form.serializeArray()));
@@ -8517,6 +8510,28 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
 })();
 
+//the funtion to format date from a Date object
+function formatDate(d) {
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+//serialize form array to json
+function objectifyForm(formArray) {
+
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++) {
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
+
 (function() {
     'use strict';
 
@@ -8556,14 +8571,17 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
         function loadUserProfile() {
             var user = $scope.user = {};
-            user.username = user.usernameUpdate = $rootScope.globals.currentUser.username;
+            // user.username = user.usernameUpdate = $rootScope.globals.currentUser.username;
 
             UserService.LoadUserProfile(function(result) {
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
                     user.height = user.heightUpdate = result.height;
                     user.weight = user.weightUpdate = result.weight;
-                    user.birthday = user.birthdayUpdate = result.birthday;
+                    //birthday need convertion
+                    user.birthday = result.birthday;
+                    user.birthdayUpdate = new Date(result.birthday + "Z");
+                    user.name = user.nameUpdate = result.name;
                     user.sex = user.sexUpdate = result.sex;
                 }
             });
@@ -8588,9 +8606,9 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', '$scope', 'AuthenticationService'];
+    LoginController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
 
-    function LoginController($location, $scope, AuthenticationService) {
+    function LoginController($location, $scope, AuthenticationService, UserService) {
         (function initController() {
             // reset login status
             AuthenticationService.ClearCredentials();
@@ -8608,7 +8626,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         $scope.login = function() {
             // AuthenticationService.SetCredentials($scope.loginData.userId);
             // $location.path('/');
-            AuthenticationService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
+            UserService.Login($scope.loginData.userId, $scope.loginData.password, $scope.loginData.rememberme, $scope.loginData.kaptcha, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultCode == 1) {
@@ -8710,9 +8728,9 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         }
     }
 
-    SignupController.$inject = ['$location', '$scope', 'UserService'];
+    SignupController.$inject = ['$scope', 'UserService'];
 
-    function SignupController($location, $scope, UserService) {
+    function SignupController($scope, UserService) {
         (function initController() {
 
             $scope.step = 1;
@@ -8839,8 +8857,8 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             UserService.Signup(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
-                if (result.resultMessage.resultCode == 1) {
-                    $scope.step = 3;
+                if (result.resultMessage.resultCode != 1) {
+                    $scope.step = 2;
                 }
             });
         }
@@ -8896,7 +8914,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                     var user = $scope.user;
                     user.height = user.heightUpdate;
                     user.weight = user.weightUpdate;
-                    user.birthday = user.birthdayUpdate;
+                    user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
                     user.username = user.usernameUpdate;
                     user.sex = user.sexUpdate;
 
@@ -8917,12 +8935,9 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
         }
 
-        $scope.clear = function() {
-            $scope.user.birthdayUpdate = null;
-        };
+
 
         $scope.inlineOptions = {
-            customClass: getDayClass,
             minDate: new Date(),
             showWeeks: false
         };
@@ -8934,19 +8949,13 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             startingDay: 1
         };
 
-        // Disable weekend selection
-        function disabled(data) {
-            var date = data.date,
-                mode = data.mode;
-            return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-        }
-
         $scope.toggleMin = function() {
             $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
             $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
         };
 
         $scope.toggleMin();
+
 
         $scope.open = function() {
             $scope.popup.opened = true;
@@ -8964,37 +8973,6 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             opened: false
         };
 
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var afterTomorrow = new Date();
-        afterTomorrow.setDate(tomorrow.getDate() + 1);
-        $scope.events = [{
-                date: tomorrow,
-                status: 'full'
-            },
-            {
-                date: afterTomorrow,
-                status: 'partially'
-            }
-        ];
-
-        function getDayClass(data) {
-            var date = data.date,
-                mode = data.mode;
-            if (mode === 'day') {
-                var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-                for (var i = 0; i < $scope.events.length; i++) {
-                    var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-                    if (dayToCheck === currentDay) {
-                        return $scope.events[i].status;
-                    }
-                }
-            }
-
-            return '';
-        }
     }
 
 })();

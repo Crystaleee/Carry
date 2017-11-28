@@ -10,6 +10,7 @@
     function UserService($http) {
         var service = {};
 
+        service.Login = Login;
         service.CheckUsername = CheckUsername;
         service.CheckEmail = CheckEmail;
         service.Signup = Signup;
@@ -18,6 +19,31 @@
         service.LoadUserRecord = LoadUserRecord;
 
         return service;
+
+        function Login(userId, password, rememberme, kaptcha, callback) {
+            $.ajax({
+                type: "post",
+                url: "/dva-mvn/user/login.do",
+                dataType: "text",
+                async: false,
+                data: {
+                    userId: userId,
+                    password: password,
+                    rememberme: rememberme,
+                    kaptcha: kaptcha
+                },
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.readyState +
+                        XMLHttpRequest.status +
+                        XMLHttpRequest.responseText);
+                    console.log("error");
+                    console.log(textStatus);
+                }
+            });
+        }
 
         function CheckUsername(userId, callback) {
             $.ajax({
@@ -55,14 +81,7 @@
             });
         }
 
-        function objectifyForm(formArray) { //serialize data function
 
-            var returnArray = {};
-            for (var i = 0; i < formArray.length; i++) {
-                returnArray[formArray[i]['name']] = formArray[i]['value'];
-            }
-            return returnArray;
-        }
 
         function Signup(form, callback) {
             console.log(objectifyForm(form.serializeArray()));
