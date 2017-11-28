@@ -6,13 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.ExerciseRec" id="ExerciseRecFileMap">
 		<id column="RecordID" property="RecordID" />
-		<result column="Exercise_time" property="Exercise_time" />
+		<result column="RecordID" property="RecordID" />
 		<result column="UserID" property="UserID" />
 		<result column="Date" property="Date" />
-		<result column="RecordID" property="RecordID" />
-		<result column="Exercise_cal" property="Exercise_cal" />
-		<result column="ExerciseCategory" property="ExerciseCategory" />
-		<result column="ExerciseName" property="ExerciseName" />
+		<result column="Exercise_category" property="Exercise_category" />
+		<result column="Exercise_time" property="Exercise_time" />
 
 
 		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
@@ -35,34 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
 	</select>
 
-
-
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
 		insert into
-		Ex_record(RecordID,Exercise_time,UserID,Date,Exercise_cal,ExerciseCategory,ExerciseName)
-		values(#{RecordID},#{Exercise_time},#{UserID},#{Date},#{Exercise_cal},#{ExerciseCategory},#{ExerciseName})
+		Ex_record(RecordID , UserID , Date , Exercise_category , Exercise_time)
+		values(#{RecordID} , #{UserID} , #{Date} , #{Exercise_category} , #{Exercise_time})
 	</insert>
 
-	<update id="update" parameterType="edu.bupt.dmg.domain.User">
-		update Ex_record set
-		Exercise_time=#{Exercise_time},
-		UserID=#{UserID},
-		Date=#{Date},
-		Exercise_cal=#{Exercise_cal},
-		ExerciseCategory=#{ExerciseCategory},
-		ExerciseName=#{ExerciseName},
-		
-
-		where RecordID=#{RecordID}
-	</update>
-
-	<delete id="deleteById" parameterType="String">
-		delete FROM Ex_record WHERE
-		RecordID = #{RecordID}
-	</delete>
-
 	<select id="findAll" resultMap="ExerciseRecFileMap">
-		SELECT * from Ex_record
+		SELECT * from RecordID
 	</select>
 
 	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->

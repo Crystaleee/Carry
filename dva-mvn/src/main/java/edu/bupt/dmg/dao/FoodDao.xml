@@ -5,11 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="edu.bupt.dmg.dao.FoodDao">
 
 	<resultMap type="edu.bupt.dmg.domain.Food" id="FoodFileMap">
-		<id column="FoodCategory" property="FoodCategory" />
-		<result column="Foodname" property="Foodname" />
-		<result column="Food_weight" property="Food_weight" />
+		<id column="FoodName" property="FoodName" />
+		<result column="FoodName" property="FoodName" />
 		<result column="Food_cal" property="Food_cal" />
-		<result column="FoodCategory" property="FoodCategory" />
 
 
 		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
@@ -22,37 +20,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findById" parameterType="String" resultMap="FoodFileMap">
 		SELECT *
-		FROM Food WHERE FoodCategory = #{FoodCategory}
+		FROM Food WHERE FoodName = #{FoodName}
 	</select>
-	
-	
-	<select id="updatedatebase" >
-		update dvamvn.Food SET Enabled = '-1'    
-		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
-	</select>
-
-
-
-	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
-		insert into
-		Food(FoodCategory,Foodname,Food_weight,Food_cal)
-		values(#{FoodCategory},#{Foodname},#{Food_weight},#{Food_cal})
-	</insert>
-
-	<update id="update" parameterType="edu.bupt.dmg.domain.User">
-		update food set
-		FoodCategory=#{FoodCategory},
-		Foodname=#{Foodname},
-		Food_cal=#{Food_cal},
-		
-
-		where FoodCategory=#{FoodCategory}
-	</update>
-
-	<delete id="deleteById" parameterType="String">
-		delete FROM Food WHERE
-		FoodCategory = #{FoodCategory}
-	</delete>
 
 	<select id="findAll" resultMap="FoodFileMap">
 		SELECT * from Food

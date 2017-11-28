@@ -5,12 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="edu.bupt.dmg.dao.ExerciseDao">
 
 	<resultMap type="edu.bupt.dmg.domain.Exercise" id="ExerciseFileMap">
-		<id column="ExerciseCategory" property="ExerciseCategory" />
-		<result column="ExerciseName" property="ExerciseName" />
-		<result column="Time" property="Time" />
-		<result column="Frequency" property="Frequency" />
-		<result column="Exercise_cal" property="Exercise_cal" />
-		<result column="ExerciseCategory" property="ExerciseCategory" />
+		<id column="ExName" property="ExName" />
+		<result column="ExName" property="ExName" />
+		<result column="Ex_cal" property="Ex_cal" />
 
 
 		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
@@ -24,38 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findById" parameterType="String" resultMap="ExerciseFileMap">
 		SELECT *
-		FROM Exercise WHERE ExerciseCategory = #{ExerciseCategory}
+		FROM Exercise WHERE ExName = #{ExName}
 	</select>
-	
-	
-	<select id="updatedatebase" >
-		update dvamvn.Exercise SET Enabled = '-1'    
-		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
-	</select>
-
-
-
-	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
-		insert into
-		Exercise(ExerciseCategory,ExerciseName,Time,Frequency,Exercise_cal)
-		values(#{ExerciseCategory},#{ExerciseName},#{Time},#{Frequency},#{Exercise_cal})
-	</insert>
-
-	<update id="update" parameterType="edu.bupt.dmg.domain.User">
-		update Exercise set
-		Frequency=#{Frequency},
-		ExerciseName=#{ExerciseName},
-		Time=#{Time},
-		Exercise_cal=#{Exercise_cal},
-		
-
-		where ExerciseCategory=#{ExerciseCategory}
-	</update>
-
-	<delete id="deleteById" parameterType="String">
-		delete FROM Exercise WHERE
-		ExerciseCategory = #{ExerciseCategory}
-	</delete>
 
 	<select id="findAll" resultMap="ExerciseFileMap">
 		SELECT * from Exercise
