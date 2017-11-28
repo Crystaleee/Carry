@@ -1,5 +1,7 @@
 package edu.bupt.dmg.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,31 +145,43 @@ public class UserAction {
 	}
 	
 	@RequestMapping(value = "/loadUserProfile")
-	public @ResponseBody Map<String, Object> loadUserProfile() throws Exception {
-		Subject subject = SecurityUtils.getSubject();
-		String userId = subject.getPrincipal().toString();
-		Map<String, Object> responseMap = new HashMap<>();
-		if (userId != null && !"".equals(userId)) {
-			// 获取文件集合
-			User user=userService.getUserByUserId(userId);
-			// 组织回复数据
-			responseMap.put("resultMessage", new ResultMessage(1));
-			responseMap.put("sex", user.getSex());
-			String date=user.getBirthDate();
-			System.out.println(date);
-			responseMap.put("BirthDate",date );
-			responseMap.put("height", user.getHeight());
-			responseMap.put("weight", user.getWeight());
-		} else {
-			// 用户未登录数据
-			responseMap.put("resultMessage", new ResultMessage(-2));
-		}
-		return responseMap;
-	}
+    public @ResponseBody Map<String, Object> loadUserProfile() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        String userId = subject.getPrincipal().toString();
+        Map<String, Object> responseMap = new HashMap<>();
+        if (userId != null && !"".equals(userId)) {
+            // 获取文件集合
+            User user=userService.getUserByUserId(userId);
+            // 组织回复数据
+            responseMap.put("resultMessage", new ResultMessage(1));
+            responseMap.put("sex", user.getSex());
+            String date=user.getBirthDate();
+            System.out.println(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDay=sdf.parse(date);
+            try{
+                int age = userService.getAge(birthDay);
+                responseMap.put("age",age );
+                responseMap.put("height", user.getHeight());
+                responseMap.put("weight", user.getWeight());
+                
+            }
+            catch (Exception e) {
+                System.out.println("........");
+            };
+            
+        }
+        else {
+            // 用户未登录数据
+            responseMap.put("resultMessage", new ResultMessage(-2));
+        }
+        return responseMap;
+    }
 	
 	@RequestMapping(value = "/updateProfile")
 	public @ResponseBody ResultMessage updateProfile(User user) throws Exception {
 		// 获取验证码真值
+		System.out.println("qqqqqqqqqqqqq");
 		Subject subject = SecurityUtils.getSubject();
 		String userid = subject.getPrincipal().toString();
 		if(userid !=null && !"".equals(userid)) {

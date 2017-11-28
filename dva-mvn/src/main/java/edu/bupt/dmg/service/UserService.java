@@ -1,5 +1,7 @@
 package edu.bupt.dmg.service;
 
+import java.util.Date;
+
 import edu.bupt.dmg.domain.User;
 
 /**
@@ -69,4 +71,5 @@ public interface UserService {
 	 */
 	public User getUserByEmail(String email);
 	public boolean updateProfile(User user);
+	 public int getAge(Date birthDay) ;
 }
