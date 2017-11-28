@@ -156,6 +156,7 @@ public class UserAction {
             responseMap.put("resultMessage", new ResultMessage(1));
             responseMap.put("sex", user.getSex());
             responseMap.put("name", user.getName());
+            
             String date=user.getBirthDate();
             System.out.println(date);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -180,26 +181,36 @@ public class UserAction {
     }
 	
 	@RequestMapping(value = "/updateProfile")
-	public @ResponseBody ResultMessage updateProfile(User user) throws Exception {
+	public @ResponseBody ResultMessage updateProfile(String name, String password, String sex,String birthday,String weight, String height) throws Exception {
 		// 获取验证码真值
 		System.out.println("qqqqqqqqqqqqq");
-		System.out.println(user.getBirthDate());
-		System.out.println(user.getUserId());
+		
 		Subject subject = SecurityUtils.getSubject();
 		String userid = subject.getPrincipal().toString();
 		if(userid !=null && !"".equals(userid)) {
+			User user=new User();
+			user.setName(name);
+			user.setPassword(password);
+			user.setSex(sex);
+			user.setBirthDate(birthday);
+			user.setHeight(height);
+			user.setWeight(weight);
+			user.setUserId(userid);
 			if(userService.updateProfile(user)){
+				if (password != null && !"".equals(password)) {
+					if(userService.updatePassword(user))
+						return new ResultMessage(1);
+				}		
 				return new ResultMessage(1);
 			}
 			else{
 				return new ResultMessage(-3);
 			}
-			
 		}
 		else {
 			return new ResultMessage(-2);
 		}
-	
+		
 	}
 
 }

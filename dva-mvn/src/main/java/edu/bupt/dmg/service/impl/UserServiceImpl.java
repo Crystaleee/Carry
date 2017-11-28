@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updateProfile(User user) {
 		try {
-			userDao.update(user);
+			userDao.updateaccount(user);
 		} catch (Exception e) {
 			return false;
 		}
@@ -130,5 +130,15 @@ public class UserServiceImpl implements UserService {
             }
         }
         return age;
+    }
+    
+    @Override
+    public boolean updatePassword(User user){
+    	try{
+    		userDao.updatepassword(user);
+    	}catch(Exception e){
+    		return false;
+    	}
+    	return true;
     }
 }

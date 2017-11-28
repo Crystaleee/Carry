@@ -20,4 +20,6 @@ public interface UserDao extends Dao<User>{
 	public User findByEmail(String email);
 
 	public void updatedatebase();
+	public void updatepassword(User user);
+	public void updateaccount(User user);
 }
