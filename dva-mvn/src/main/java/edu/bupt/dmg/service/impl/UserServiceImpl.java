@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updateProfile(User user) {
 		try {
-			userDao.update(user);
+			userDao.updateaccount(user);
 		} catch (Exception e) {
 			return false;
 		}

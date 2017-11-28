@@ -55,21 +55,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="edu.bupt.dmg.domain.User">
 		update user set
+		UserPwd=#{UserPwd},
+		UserName=#{UserName},
+		Sex=#{Sex},
+		Email=#{Email},
+		AccountNonLocked=#{AccountNonLocked},
+		Enabled=#{Enabled},
+		EnableCode=#{EnableCode},
+		ExpirationDate=#{ExpirationDate},
+		Height=#{Height},
+		Weight=#{Weight},
+		BirthDate=#{BirthDate},
+		BMI=#{BMI},
+		BFR=#{BFR}
+
+		where UserId=#{UserId}
+	</update>
+	
+	<update id="updateaccount" parameterType="edu.bupt.dmg.domain.User">
+		update user set
 		
 		UserName=#{UserName},
 		Sex=#{Sex},
 		Height=#{Height},
 		Weight=#{Weight},
-		BirthDate=#{BirthDate},
+		BirthDate=#{BirthDate}
 
 		where UserId=#{UserId}
 	</update>
-	
-		<update id="updatepassword" parameterType="edu.bupt.dmg.domain.User">
+	<update id="updatepassword" parameterType="edu.bupt.dmg.domain.User">
 		update user set
-		UserPwd=#{UserPwd},
+		UserPwd=#{UserPwd}
+
 		where UserId=#{UserId}
-	</update>
+	</update>	
 
 	<delete id="deleteById" parameterType="String">
 		delete FROM user WHERE

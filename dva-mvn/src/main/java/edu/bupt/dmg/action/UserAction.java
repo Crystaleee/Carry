@@ -195,6 +195,7 @@ public class UserAction {
 			user.setBirthDate(birthday);
 			user.setHeight(height);
 			user.setWeight(weight);
+			user.setUserId(userid);
 			if(userService.updateProfile(user)){
 				if (password != null && !"".equals(password)) {
 					if(userService.updatePassword(user))

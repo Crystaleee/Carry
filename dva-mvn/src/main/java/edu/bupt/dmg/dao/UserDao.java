@@ -21,4 +21,5 @@ public interface UserDao extends Dao<User>{
 
 	public void updatedatebase();
 	public void updatepassword(User user);
+	public void updateaccount(User user);
 }
