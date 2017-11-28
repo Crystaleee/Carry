@@ -1,3 +1,7 @@
+* {
+    outline: none;
+}
+
 input.ng-dirty.ng-valid, .has-success {
     border-color: #3c763d;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
@@ -111,7 +115,24 @@ input[type=radio] {
     margin-left: 5px;
 }
 
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    background-color: #3a93e0;
+    border-color: #3a93e0;
+    outline: none;
+}
+
+.glyphicon {
+    opacity: 0.8;
+}
+
 /*datepicker*/
+
+button.datetimepicker {
+    height: 45px;
+    border-color: #6ab2ff;
+    background-color: #6ab2ff;
+    color: white;
+}
 
 .uib-datepicker {
     font-weight: bold;

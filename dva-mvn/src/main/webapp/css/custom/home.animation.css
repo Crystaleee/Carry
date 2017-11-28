@@ -2,7 +2,7 @@
 
 .animate-switch-container {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
     min-height: 600px;
 }
 
