@@ -6,17 +6,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.FoodRec" id="FoodRecFileMap">
 		<id column="RecordID" property="RecordID" />
+		<result column="RecordID" property="RecordID" />
 		<result column="UserID" property="UserID" />
 		<result column="Date" property="Date" />
-		<result column="FoodCategory" property="FoodCategory" />
+		<result column="Food_category" property="Food_category" />
 		<result column="Food_weight" property="Food_weight" />
-		<result column="Foodname" property="Foodname" />
-		<result column="Food_cal" property="Food_cal" />
-		<result column="RecordID" property="RecordID" />
-
 		
-
-
+		
 		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
 			select="edu.bupt.dmg.dao.UploadFileDao.findByRecordID" column="RecordID">
 		</collection>
@@ -37,30 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
 	</select>
 
-
-
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.User">
 		insert into
-		Food_record(RecordID,UserID,Date,FoodCategory,Food_weight,Foodname,Food_cal)
-		values(#{RecordID},#{UserID},#{Date},#{FoodCategory},#{Food_weight},#{Foodname},#{Food_cal})
+		Food_record(RecordID,UserID,Date,Food_category,Food_weight)
+		values(#{RecordID},#{UserID},#{Date},#{Food_category},#{Food_weight})
 	</insert>
-
-	<update id="update" parameterType="edu.bupt.dmg.domain.User">
-		update Food_record set
-		UserID=#{UserID},
-		Date=#{Date},
-		FoodCategory=#{FoodCategory},
-		Food_weight=#{Food_weight},
-		Foodname=#{Foodname},
-		Food_cal=#{Food_cal},
-
-		where RecordID=#{RecordID}
-	</update>
-
-	<delete id="deleteById" parameterType="String">
-		delete FROM Food_record WHERE
-		RecordID = #{RecordID}
-	</delete>
 
 	<select id="findAll" resultMap="FoodRecFileMap">
 		SELECT * from Food_record

@@ -11,13 +11,13 @@ import edu.bupt.dmg.domain.*;
  * Create Time：2017年4月22日<br>
  * Version: @version 0.0.1
  */
-public interface FoodDao extends Dao<Food>{
+public interface ExerciseRecordDao extends Dao<ExerciseRecord>{
 	/**
-	 * 通过FoodName查找Food
-	 * @param FoodName
+	 * 通过RecordID查找ExerciseRecord
+	 * @param RecordID
 	 * @return
 	 */
-	public Food findByFoodName(String FoodName);
+	public ExerciseRecord findByRecordID(String RecordID);
 
 	public void updatedatebase();
 }
