@@ -8835,10 +8835,10 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
         $scope.signup = function() {
             var form = $('.registration-form');
+            $scope.step = 3;
             UserService.Signup(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
-                $scope.step = 3;
                 if (result.resultMessage.resultCode == 1) {
                     $scope.step = 3;
                 }
