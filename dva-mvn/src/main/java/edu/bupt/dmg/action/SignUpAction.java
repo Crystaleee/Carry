@@ -87,7 +87,7 @@ public class SignUpAction {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/signUp")
-	public @ResponseBody Map<String, Object> signUp(@Valid User user, BindingResult result, String repeatPassword)
+	public @ResponseBody Map<String, Object> signUp(@Valid User user, BindingResult result, String repeatPassword,String birthday)
 			throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		// 判断repeatPassword字段是否为空
@@ -118,10 +118,12 @@ public class SignUpAction {
 			resultMap.put("resultMessage", new ResultMessage(-8));
 		} else {
 			System.out.println("pipapipa");
+			System.out.println(birthday);
 			// 表单验证通过后，组织用户数据
 			user.setAccountNonLocked(true);
 			user.setEnabled(false);
 			user.setEnableCode(IdGenerator.genGUID());
+			user.setBirthDate(birthday);
 			System.out.println("pipapipa");
 			// 新增用户
 			if (userService.createUser(user)) {
