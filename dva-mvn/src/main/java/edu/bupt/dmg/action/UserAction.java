@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.Constants;
 
 import edu.bupt.dmg.commons.ResultMessage;
+import edu.bupt.dmg.domain.ExerciseRecord;
 import edu.bupt.dmg.domain.User;
 import edu.bupt.dmg.realm.UserRealm;
 import edu.bupt.dmg.service.UserService;
@@ -212,5 +213,7 @@ public class UserAction {
 		}
 		
 	}
+	
+	
 
 }
