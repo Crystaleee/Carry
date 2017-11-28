@@ -155,13 +155,14 @@ public class UserAction {
             // 组织回复数据
             responseMap.put("resultMessage", new ResultMessage(1));
             responseMap.put("sex", user.getSex());
+            responseMap.put("name", user.getName());
             String date=user.getBirthDate();
             System.out.println(date);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date birthDay=sdf.parse(date);
             try{
                 int age = userService.getAge(birthDay);
-                responseMap.put("age",age );
+                responseMap.put("birthday",date );
                 responseMap.put("height", user.getHeight());
                 responseMap.put("weight", user.getWeight());
                 
@@ -182,6 +183,8 @@ public class UserAction {
 	public @ResponseBody ResultMessage updateProfile(User user) throws Exception {
 		// 获取验证码真值
 		System.out.println("qqqqqqqqqqqqq");
+		System.out.println(user.getBirthDate());
+		System.out.println(user.getUserId());
 		Subject subject = SecurityUtils.getSubject();
 		String userid = subject.getPrincipal().toString();
 		if(userid !=null && !"".equals(userid)) {
