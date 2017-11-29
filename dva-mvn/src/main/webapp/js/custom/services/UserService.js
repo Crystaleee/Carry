@@ -90,7 +90,7 @@
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: objectifyForm(form.serializeArray()),
+                data: form.serializeArray(),
                 success: function(data) {
                     callback(data);
                 },
@@ -136,7 +136,7 @@
         function LoadUserRecord(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/user/loadUserRecord.do",
+                url: "/dva-mvn/UserInformation/loadUserRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);

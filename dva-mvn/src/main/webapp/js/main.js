@@ -8421,7 +8421,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 type: 'post',
                 dataType: 'text',
                 async: false,
-                data: objectifyForm(form.serializeArray()),
+                data: form.serializeArray(),
                 success: function(data) {
                     callback(data);
                 },
@@ -8467,7 +8467,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         function LoadUserRecord(callback) {
             $.ajax({
                 type: "GET",
-                url: "/dva-mvn/user/loadUserRecord.do",
+                url: "/dva-mvn/UserInformation/loadUserRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -8924,14 +8924,14 @@ function objectifyForm(formArray) {
 
 
             // //just for development
-            // var user = $scope.user;
-            // user.height = user.heightUpdate;
-            // user.weight = user.weightUpdate;
-            // user.birthday = user.birthdayUpdate;
-            // user.username = user.usernameUpdate;
-            // user.sex = user.sexUpdate;
-            //
-            // $scope.changeSelection("timeline");
+            var user = $scope.user;
+            user.height = user.heightUpdate;
+            user.weight = user.weightUpdate;
+            user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
+            user.username = user.usernameUpdate;
+            user.sex = user.sexUpdate;
+
+            $scope.changeSelection("timeline");
 
         }
 
