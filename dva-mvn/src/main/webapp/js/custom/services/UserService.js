@@ -18,6 +18,7 @@
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
+        service.TimeSlot = TimeSlot;
 
         return service;
 
@@ -153,6 +154,21 @@
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function TimeSlot(form, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/timeslotRecord.do",
                 async: false,
                 success: function(data) {
                     callback(data);

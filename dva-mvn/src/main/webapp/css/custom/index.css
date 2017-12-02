@@ -106,8 +106,18 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     border-color: #fff;
 }
 
+.btn-green {
+    color: #fff;
+    background-color: #6fdaa1;
+    border-color: #6fdaa1;
+}
+
 .btn-link {
     color: #fff;
+}
+
+.btn-link:hover {
+    color: #6fdaa1;
 }
 
 input[type=radio] {
@@ -116,14 +126,20 @@ input[type=radio] {
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
-    background-color: #3cdf93;
-    border-color: #3cdf93;
+    background-color: #83efb4;
+    border-color: #83efb4;
     outline: none;
 }
 
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open .dropdown-toggle.btn-blue {
     background-color: #3a93e0;
     border-color: #3a93e0;
+    outline: none;
+}
+
+.btn-green:hover, .btn-green:focus, .btn-green:active, .btn-green.active, .open .dropdown-toggle.btn-green {
+    background-color: #83efb4;
+    border-color: #83efb4;
     outline: none;
 }
 

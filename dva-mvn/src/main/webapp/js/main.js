@@ -8349,6 +8349,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
+        service.TimeSlot = TimeSlot;
 
         return service;
 
@@ -8495,6 +8496,21 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
         }
 
+        function TimeSlot(form, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/timeslotRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
         function handleError(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.readyState +
                 XMLHttpRequest.status +
@@ -8562,7 +8578,7 @@ function objectifyForm(formArray) {
 
         (function initController() {
             loadUserProfile();
-            $scope.selection = "timeline";
+            $scope.selection = "record";
         })();
 
         function loadUserProfile() {
@@ -8654,9 +8670,41 @@ function objectifyForm(formArray) {
 
     function RecordController($location, $scope, AuthenticationService, UserService) {
         (function initController() {
+            $scope.foodList = [new Food()];
+            $scope.exerciseList = [new Exercise()];
 
+            $scope.foodOptions = [
+                "pork",
+                "beef",
+                "chicken"
+            ];
+            $scope.exerciseOptions = [
+                "running",
+                "swimming",
+                "dancing"
+            ];
         })();
 
+        $scope.addFood = function() {
+            $scope.foodList.push(new Food());
+        }
+
+        $scope.addExercise = function() {
+            $scope.exerciseList.push(new Exercise());
+        }
+        // food class
+        function Food() {
+            this.food_category = null;
+            this.food_amount = null;
+        }
+
+        // food class
+        function Exercise() {
+            this.exercise_category = null;
+            this.exercise_time = null;
+        }
+
+        // datetimepicker
         $scope.inlineOptions = {
             minDate: new Date(),
             showWeeks: false
