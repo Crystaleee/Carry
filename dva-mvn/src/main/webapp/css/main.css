@@ -2,7 +2,7 @@
 
 .animate-switch-container {
     position: relative;
-        overflow-x: hidden;
+    overflow-x: hidden;
     min-height: 600px;
 }
 
@@ -151,6 +151,12 @@
     margin: 0 20px;
 }
 
+#upload-record-form .exercise, #upload-record-form .food {
+    height: 400px;
+}
+
+/*Home Timeline*/
+
 .content {
     display: flex;
 }
@@ -246,7 +252,7 @@ td img {
     top: unset;
 }
 
-#update-form input, #update-form a, #update-form button {
+.form-to-update input, .form-to-update a, .form-to-update button {
     -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
     -moz-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
     -ms-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
@@ -254,7 +260,7 @@ td img {
     filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
 }
 
-#update-form input:focus {
+.form-to-update input:focus {
     -webkit-box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
     box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
 }
@@ -377,6 +383,12 @@ input[type=radio] {
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    background-color: #3cdf93;
+    border-color: #3cdf93;
+    outline: none;
+}
+
+.btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open .dropdown-toggle.btn-blue {
     background-color: #3a93e0;
     border-color: #3a93e0;
     outline: none;
@@ -389,6 +401,13 @@ input[type=radio] {
 /*datepicker*/
 
 button.datetimepicker {
+    height: 45px;
+    border-color: #6fdaa1;
+    background-color: #6fdaa1;
+    color: white;
+}
+
+button.datetimepicker.btn-blue {
     height: 45px;
     border-color: #6ab2ff;
     background-color: #6ab2ff;

@@ -1,4 +1,4 @@
-#update-form input, #update-form a, #update-form button {
+.form-to-update input, .form-to-update a, .form-to-update button {
     -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
     -moz-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
     -ms-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
@@ -6,7 +6,7 @@
     filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .3));
 }
 
-#update-form input:focus {
+.form-to-update input:focus {
     -webkit-box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
     box-shadow: 2px 2px 5px rgba(102, 175, 233, .6);
 }

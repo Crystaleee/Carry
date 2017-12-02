@@ -8348,6 +8348,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.UpdateProfile = UpdateProfile;
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
+        service.UploadRecord = UploadRecord;
 
         return service;
 
@@ -8479,25 +8480,20 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
         }
 
-        function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
-        }
+        function UploadRecord(callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/uploadRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
 
-        function GetByUsername(username) {
-            return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
+            });
         }
-
-        // $http({
-        //     method: "POST",
-        //     url: '/dva-mvn/signUp/signUp.do',
-        //     data: form
-        //
-        // }).then(function mySuccess(response) {
-        //     console.log(response);
-        //     callback(response);
-        // }, function myError(response) {
-        //
-        // });
 
         function handleError(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.readyState +
@@ -8658,56 +8654,44 @@ function objectifyForm(formArray) {
 
     function RecordController($location, $scope, AuthenticationService, UserService) {
         (function initController() {
-            bindDatePicker();
+
         })();
 
+        $scope.inlineOptions = {
+            minDate: new Date(),
+            showWeeks: false
+        };
 
-        function bindDatePicker() {
-            $('#datetimepicker1').datetimepicker();
-            //     $("#datetimepicker1").datetimepicker({
-            //         format: 'YYYY-MM-DD',
-            //         icons: {
-            //             time: "fa fa-clock-o",
-            //             date: "fa fa-calendar",
-            //             up: "fa fa-arrow-up",
-            //             down: "fa fa-arrow-down"
-            //         }
-            //     }).find('input:first').on("blur", function() {
-            //         // check if the date is correct. We can accept dd-mm-yyyy and yyyy-mm-dd.
-            //         // update the format if it's yyyy-mm-dd
-            //         var date = parseDate($(this).val());
-            //
-            //         if (!isValidDate(date)) {
-            //             //create date based on momentjs (we have that)
-            //             date = moment().format('YYYY-MM-DD');
-            //         }
-            //
-            //         $(this).val(date);
-            //     });
-            // }
-        }
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            maxDate: new Date(),
+            minDate: new Date(),
+            startingDay: 1
+        };
 
-        var isValidDate = function(value, format) {
-            format = format || false;
-            // lets parse the date to the best of our knowledge
-            if (format) {
-                value = parseDate(value);
-            }
+        $scope.toggleMin = function() {
+            $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+            $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+        };
 
-            var timestamp = Date.parse(value);
-
-            return isNaN(timestamp) == false;
-        }
-
-        var parseDate = function(value) {
-            var m = value.match(/^(\d{1,2})(\/|-)?(\d{1,2})(\/|-)?(\d{4})$/);
-            if (m)
-                value = m[5] + '-' + ("00" + m[3]).slice(-2) + '-' + ("00" + m[1]).slice(-2);
-
-            return value;
-        }
+        $scope.toggleMin();
 
 
+        $scope.open = function() {
+            $scope.popup.opened = true;
+        };
+
+        $scope.setDate = function(year, month, day) {
+            $scope.user.birthdayUpdate = new Date(year, month, day);
+        };
+
+        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[0];
+        $scope.altInputFormats = ['M!/d!/yyyy'];
+
+        $scope.popup = {
+            opened: false
+        };
 
     }
 
@@ -8906,7 +8890,7 @@ function objectifyForm(formArray) {
     function UpdateProfileController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         $scope.updateProfile = function() {
-            var form = $('#update-form');
+            var form = $('#update-profile-form');
             UserService.UpdateProfile(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
@@ -8924,14 +8908,14 @@ function objectifyForm(formArray) {
 
 
             // //just for development
-            var user = $scope.user;
-            user.height = user.heightUpdate;
-            user.weight = user.weightUpdate;
-            user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-            user.username = user.usernameUpdate;
-            user.sex = user.sexUpdate;
-
-            $scope.changeSelection("timeline");
+            // var user = $scope.user;
+            // user.height = user.heightUpdate;
+            // user.weight = user.weightUpdate;
+            // user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
+            // user.username = user.usernameUpdate;
+            // user.sex = user.sexUpdate;
+            //
+            // $scope.changeSelection("timeline");
 
         }
 

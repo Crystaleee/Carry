@@ -116,6 +116,12 @@ input[type=radio] {
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    background-color: #3cdf93;
+    border-color: #3cdf93;
+    outline: none;
+}
+
+.btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active, .open .dropdown-toggle.btn-blue {
     background-color: #3a93e0;
     border-color: #3a93e0;
     outline: none;
@@ -128,6 +134,13 @@ input[type=radio] {
 /*datepicker*/
 
 button.datetimepicker {
+    height: 45px;
+    border-color: #6fdaa1;
+    background-color: #6fdaa1;
+    color: white;
+}
+
+button.datetimepicker.btn-blue {
     height: 45px;
     border-color: #6ab2ff;
     background-color: #6ab2ff;

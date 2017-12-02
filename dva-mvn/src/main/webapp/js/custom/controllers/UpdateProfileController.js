@@ -10,7 +10,7 @@
     function UpdateProfileController($location, $scope, AuthenticationService, UserService, $rootScope) {
 
         $scope.updateProfile = function() {
-            var form = $('#update-form');
+            var form = $('#update-profile-form');
             UserService.UpdateProfile(form, function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
@@ -31,7 +31,7 @@
             // var user = $scope.user;
             // user.height = user.heightUpdate;
             // user.weight = user.weightUpdate;
-            // user.birthday = user.birthdayUpdate;
+            // user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
             // user.username = user.usernameUpdate;
             // user.sex = user.sexUpdate;
             //

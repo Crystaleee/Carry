@@ -17,6 +17,7 @@
         service.UpdateProfile = UpdateProfile;
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
+        service.UploadRecord = UploadRecord;
 
         return service;
 
@@ -148,25 +149,20 @@
             });
         }
 
-        function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
-        }
+        function UploadRecord(callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/uploadRecord.do",
+                async: false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
 
-        function GetByUsername(username) {
-            return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
+            });
         }
-
-        // $http({
-        //     method: "POST",
-        //     url: '/dva-mvn/signUp/signUp.do',
-        //     data: form
-        //
-        // }).then(function mySuccess(response) {
-        //     console.log(response);
-        //     callback(response);
-        // }, function myError(response) {
-        //
-        // });
 
         function handleError(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.readyState +
