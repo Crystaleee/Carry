@@ -68,6 +68,7 @@ select.table-select {
 .form-to-update .content table {
     border-collapse: separate;
     border-spacing: 5px;
+    width: 100% !important;
 }
 
 /*add button*/
@@ -126,4 +127,14 @@ select.table-select {
 
 #upload-record-form .timeline-wrap {
     max-height: 330px;
+}
+
+.remove {
+    cursor: pointer;
+    width: 25px;
+    transform: scale(1.3, 1);
+}
+
+.round-button-circle {
+    cursor: pointer;
 }

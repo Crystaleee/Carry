@@ -150,11 +150,12 @@
             });
         }
 
-        function UploadRecord(callback) {
+        function UploadRecord(records, callback) {
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
                 async: false,
+                date: records,
                 success: function(data) {
                     callback(data);
                 },

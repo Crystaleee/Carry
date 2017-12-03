@@ -6,7 +6,7 @@
         <div class="record">
             <div class="form-group date">
                 <p class="input-group">
-                    <input type="text" name="date" class="form-control" placeholder="Date (yyyy-mm-dd)" uib-datepicker-popup ng-model="user.birthdayUpdate" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <input type="text" class="form-control" placeholder="Date (yyyy-mm-dd)" uib-datepicker-popup ng-model="record.date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
                         <button type="button" class="datetimepicker btn btn-primary" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
@@ -15,20 +15,23 @@
             <div class="content">
                 <div class="food">
                     <div class="caption">Food
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+
                     </div>
 
                     <div class="timeline-wrap">
                         <table class="example-animate-container">
-                            <tr class="animate-repeat" ng-repeat="food in foodList">
+                            <tr class="animate-repeat" ng-repeat="food in record.foodList">
                                 <td>
-                                    <select name="food_category" class="table-select" ng-model="food.food_category">
-                                        <option value="" selected disabled hidden>Food Category</option>
+                                    <select class="table-select" ng-model="food.food_category" required>
+                                        <option value="" selected disabled hidden>Category</option>
                                         <option ng-repeat="option in foodOptions" value="{{option}}">{{option}}</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" name="food-amount" class="table-input" id="food-amount" ng-model="food.food_amount" placeholder="Food Amount">
+                                    <input type="text" class="table-input" id="food-amount" ng-model="food.food_amount" placeholder="Food Amount" required>
+                                </td>
+                                <td>
+                                    <div class="remove" ng-click="deleteFood($index)">X</div>
                                 </td>
                             </tr>
                         </table>
@@ -40,20 +43,23 @@
 
                 <div class="exercise">
                     <div class="caption">Exercise
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </div>
                     <div class="timeline-wrap">
                         <table class="example-animate-container">
-                            <tr class="animate-repeat" ng-repeat="exercise in exerciseList">
+                            <tr class="animate-repeat" ng-repeat="exercise in record.exerciseList">
                                 <td>
-                                    <select name="exercise_category" class="table-select" ng-model="exercise.exercise_category">
-                                        <option value="" selected disabled hidden>Exercise Category</option>
+                                    <select class="table-select" ng-model="exercise.exercise_category" required>
+                                        <option value="" selected disabled hidden>Category</option>
                                         <option ng-repeat="option in exerciseOptions" value="{{option}}">{{option}}</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" name="exercise-time" class="table-input" id="exercise-amount" ng-model="exercise.exercise_time" placeholder="Exercise Time">
+                                    <input type="text" class="table-input" id="exercise-amount" ng-model="exercise.exercise_time" placeholder="Exercise Time" required>
                                 </td>
+                                <td>
+                                    <div class="remove" ng-click="deleteExercise($index)">X</div>
+                                </td>
+
                             </tr>
                         </table>
 
@@ -66,7 +72,7 @@
         </div>
     </div>
     <div class="form-actions">
-        <button type="button" class="btn btn-primary btn-green" ng-click="updateProfile()">Update</button>
+        <button type="button" ng-disabled="form.$invalid || record.foodList.length+record.exerciseList.length==0" class="btn btn-primary btn-green" ng-click="uploadRecord()">Update</button>
         <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
     </div>
 </form>
