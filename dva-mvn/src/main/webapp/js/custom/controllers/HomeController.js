@@ -12,12 +12,12 @@
 
         (function initController() {
             loadUserProfile();
-            $scope.selection = "timeline";
+            $scope.selection = "record";
         })();
 
         function loadUserProfile() {
             var user = $scope.user = {};
-            // user.username = user.usernameUpdate = $rootScope.globals.currentUser.username;
+            user.userID = user.usernameUpdate = $rootScope.globals.currentUser.userID;
 
             UserService.LoadUserProfile(function(result) {
                 console.log(result);
