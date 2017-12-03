@@ -1,114 +1,38 @@
 <div class="timeline">
-    <div class="record">
-        <div class="date">OCT 9</div>
+    <div class="record" ng-repeat="record in recordList">
+        <div class="date">{{record.date.toLocaleDateString('en-GB', { day : 'numeric', month : 'short', year : 'numeric' })}}
+        </div>
         <div class="content">
             <div class="food">
-                <div class="caption">Food
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </div>
-
+                <div class="caption">Food</div>
                 <div class="timeline-wrap">
                     <table>
-                        <tr>
+                        <tr ng-repeat="food in record.foodList">
                             <td><img src="/dva-mvn/static/img/1.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/2.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/3.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/4.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/5.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/6.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/7.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/8.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/1.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/2.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
+                            <td>{{food.food_category}}</td>
+                            <td><span class="prefix">*</span> {{food.food_amount}} <span class="unit">g</span></td>
+                            <td>{{food.food_calorie}} <span class="unit">KCal</span></td>
                         </tr>
                     </table>
                 </div>
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+
             </div>
 
             <div class="exercise">
                 <div class="caption">Exercise
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
                 <div class="timeline-wrap">
                     <table>
-                        <tr>
+                        <tr ng-repeat="exercise in record.exerciseList">
                             <td><img src="/dva-mvn/static/img/11.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/13.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/18.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/dva-mvn/static/img/19.png"></td>
-                            <td>egg</td>
-                            <td>*1</td>
-                            <td>116KCal</td>
+                            <td>{{exercise.exercise_category}}</td>
+                            <td><span class="prefix">*</span> {{exercise.exercise_time}} <span class="unit">min</span></td>
+                            <td>{{exercise.exercise_calorie}} <span class="unit">KCal</span></td>
                         </tr>
                     </table>
-
                 </div>
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="editRecord(record)"></span>
             </div>
-
         </div>
     </div>
 </div>

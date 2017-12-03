@@ -14,9 +14,7 @@
             </div>
             <div class="content">
                 <div class="food">
-                    <div class="caption">Food
-
-                    </div>
+                    <div class="caption">Food</div>
 
                     <div class="timeline-wrap">
                         <table class="example-animate-container">
@@ -72,7 +70,7 @@
         </div>
     </div>
     <div class="form-actions">
-        <button type="button" ng-disabled="form.$invalid || record.foodList.length+record.exerciseList.length==0" class="btn btn-primary btn-green" ng-click="uploadRecord()">Update</button>
+        <button type="button" ng-disabled="form.$invalid || record.foodList.length+record.exerciseList.length==0" class="btn btn-primary btn-green" ng-click="updateRecord()">Update</button>
         <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
     </div>
 </form>

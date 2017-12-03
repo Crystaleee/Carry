@@ -50,6 +50,7 @@
             </div>
         </div>
         <div class="buttons">
+            <a class="btn btn-primary" ng-click="selection='timeline'">Timeline</a>
             <a class="btn btn-primary" ng-click="selection='update'">Update</a>
             <a class="btn btn-primary" ng-click="selection='record'">Record</a>
             <a class="btn btn-primary" ng-click="selection='figure'">Figure</a>
@@ -72,7 +73,7 @@
                 <ng-include src="'/dva-mvn/html/views/home.figure.html'" ng-controller="FigureController"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-when="record">
-                <ng-include src="'/dva-mvn/html/views/home.record.html'" ng-controller="RecordController"></ng-include>
+                <ng-include src="'/dva-mvn/html/views/home.record.html'" ng-controller="RecordController" ng-init="init(recordToEdit)"></ng-include>
             </div>
             <div class="animate-switch" ng-switch-default>
                 <ng-include src="'/dva-mvn/html/views/home.timeline.html'"></ng-include>

@@ -12,7 +12,7 @@
 
         (function initController() {
             loadUserProfile();
-            $scope.selection = "record";
+            $scope.selection = "timeline";
         })();
 
         function loadUserProfile() {
@@ -24,7 +24,7 @@
                 if (result.resultMessage.resultCode == 1) {
                     user.height = user.heightUpdate = result.height;
                     user.weight = user.weightUpdate = result.weight;
-                    //birthday need convertion
+                    //date need convertion
                     user.birthday = result.birthday;
                     user.birthdayUpdate = new Date(result.birthday + "Z");
                     user.name = user.nameUpdate = result.name;

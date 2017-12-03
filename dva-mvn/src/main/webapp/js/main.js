@@ -8349,6 +8349,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
+        service.UpdateRecord = UpdateRecord;
         service.TimeSlot = TimeSlot;
 
         return service;
@@ -8369,11 +8370,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
@@ -8481,12 +8478,26 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
         }
 
-        function UploadRecord(records, callback) {
+        function UploadRecord(record, callback) {
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
-                async: false,
-                date: records,
+                date: record,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function UpdateRecord(record, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/updateRecord.do",
+                date: record,
                 success: function(data) {
                     callback(data);
                 },
@@ -8545,23 +8556,159 @@ function objectifyForm(formArray) {
     return returnArray;
 }
 
-(function() {
-    'use strict';
+// food class
+function Food() {
+    this.food_category = null;
+    this.food_amount = null;
+}
 
-    angular
-        .module('app')
-        .controller('FigureController', FigureController);
+function Food(category, amount, calorie) {
+    this.food_category = category;
+    this.food_amount = amount;
+    this.food_calorie = calorie;
+}
 
-    FigureController.$inject = ['$location', '$scope', 'AuthenticationService'];
+// exercise class
+function Exercise() {
+    this.exercise_category = null;
+    this.exercise_time = null;
+}
 
-    function FigureController($location, $scope, AuthenticationService) {
-        //initilization function
-        (function initController() {
+function Exercise(category, time, calorie) {
+    this.exercise_category = category;
+    this.exercise_time = time;
+    this.exercise_calorie = calorie;
+}
 
-        })();
 
+/** create data to send from record{date, userID, recordID, foodList[], exerciseList[]}
+data format
+{
+     userID: "mingzi",
+     date: "2017/12/01",
+     exercise_category: "running, swimming, boxing",
+     exercise_time: "30, 20, 10",
+     food_category: "apple, pork, beef",
+     food_amount: "1, 100, 100"
+}*/
+function createRecordData(record, userID) {
+    var data = {};
 
+    data.userID = userID;
+    data.date = formatDate(record.date);
+
+    if (record.recordID != undefined)
+        data.recordID = record.recordID;
+
+    var foodList = record.foodList;
+    var exerciseList = record.exerciseList;
+    if (foodList[0] != undefined) {
+        data.food_category = foodList[0].food_category;
+        data.food_amount = foodList[0].food_amount;
     }
+    if (exerciseList[0] != undefined) {
+        data.exercise_category = exerciseList[0].exercise_category;
+        data.exercise_time = exerciseList[0].exercise_time;
+    }
+
+    for (var i = 1; i < foodList.length; i++) {
+        data.food_category += "," + foodList[i].food_category;
+        data.food_amount += "," + foodList[i].food_amount;
+    }
+    for (var i = 1; i < exerciseList.length; i++) {
+        data.exercise_category += "," + exerciseList[i].exercise_category;
+        data.exercise_time += "," + exerciseList[i].exercise_time;
+    }
+    return data;
+}
+
+/* parse the data from server to record{recordID, date, foodList[], exerciseList[]}*/
+function parseRecordData(data) {
+    var record = {
+        recordID: data.recordID,
+        date: new Date(data.date),
+        foodList: [],
+        exerciseList: []
+    }
+    var food_category = data.food_category.split(",").map(s => s.trim());
+    var food_amount = data.food_amount.split(",").map(s => s.trim());
+    var food_calorie = data.food_calorie.split(",").map(s => s.trim());
+    var exercise_category = data.exercise_category.split(",").map(s => s.trim());
+    var exercise_time = data.exercise_time.split(",").map(s => s.trim());
+    var exercise_calorie = data.exercise_calorie.split(",").map(s => s.trim());
+
+    for (var i = 0; i < food_category.length; i++) {
+        record.foodList.push(new Food(food_category[i], food_amount[i], food_calorie[i]));
+    }
+    for (var i = 0; i < exercise_category.length; i++) {
+        record.exerciseList.push(new Exercise(exercise_category[i], exercise_time[i], exercise_calorie[i]));
+    }
+    return record;
+}
+
+(function() {
+	'use strict';
+
+	angular.module('app').controller('FigureController', FigureController);
+
+	FigureController.$inject = [ '$location', '$scope', 'AuthenticationService' ];
+
+	function FigureController($location, $scope, AuthenticationService) {
+		// initilization function
+		(function initController() {
+
+		})();
+		
+		$scope.DrawFigure = function() {
+			
+		};
+
+		$scope.inlineOptions = {
+			minDate : new Date(),
+			showWeeks : false
+		};
+
+		$scope.dateOptions = {
+			formatYear : 'yy',
+			maxDate : new Date(),
+			minDate : new Date(),
+			startingDay : 1
+		};
+
+		$scope.toggleMin = function() {
+			$scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null
+					: new Date();
+			$scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+		};
+
+		$scope.toggleMin();
+
+		$scope.open1 = function() {
+			$scope.popup1.opened = true;
+		};
+
+		$scope.open2 = function() {
+			$scope.popup2.opened = true;
+		};
+
+		$scope.setDate = function(year, month, day) {
+			$scope.user.birthdayUpdate = new Date(year, month, day);
+		};
+
+		$scope.formats = [ 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy',
+				'shortDate' ];
+		$scope.format = $scope.formats[0];
+		$scope.altInputFormats = [ 'M!/d!/yyyy' ];
+
+		$scope.popup1 = {
+			opened : false
+		};
+
+		$scope.popup2 = {
+			opened : false
+		};
+
+	}
 
 })();
 
@@ -8579,7 +8726,7 @@ function objectifyForm(formArray) {
 
         (function initController() {
             loadUserProfile();
-            $scope.selection = "record";
+            $scope.selection = "timeline";
         })();
 
         function loadUserProfile() {
@@ -8591,7 +8738,7 @@ function objectifyForm(formArray) {
                 if (result.resultMessage.resultCode == 1) {
                     user.height = user.heightUpdate = result.height;
                     user.weight = user.weightUpdate = result.weight;
-                    //birthday need convertion
+                    //date need convertion
                     user.birthday = result.birthday;
                     user.birthdayUpdate = new Date(result.birthday + "Z");
                     user.name = user.nameUpdate = result.name;
@@ -8667,111 +8814,83 @@ function objectifyForm(formArray) {
         .module('app')
         .controller('RecordController', RecordController);
 
-    RecordController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
+    RecordController.$inject = ['$scope', 'UserService', '$rootScope'];
 
-    function RecordController($location, $scope, AuthenticationService, UserService) {
-        (function initController() {
-            $scope.record = {
-                date: null,
-                foodList: [new Food()],
-                exerciseList: [new Exercise()]
-            }
+    function RecordController($scope, UserService, $rootScope) {
+
+        $scope.init = function(record) {
             $scope.foodOptions = [
                 "pork",
                 "beef",
-                "chicken"
+                "chicken",
+                "apple"
             ];
             $scope.exerciseOptions = [
                 "running",
                 "swimming",
-                "dancing"
+                "dancing",
+                "boxing"
             ];
-        })();
+            if (record == undefined || record == null) { // if there's no reocrd to edit
+                $scope.record = {
+                    date: null,
+                    foodList: [new Food()],
+                    exerciseList: [new Exercise()]
+                }
+            } else {
+                console.log(record);
+                $scope.record = record;
+            }
 
-        $scope.uploadRecord = function() {
-            var data = createRecordData();
+
+        };
+
+        $scope.updateRecord = function() {
+            var data = createRecordData($scope.record, $scope.user.userID);
             console.log(data);
 
-            UserService.UploadRecord(data, function(response) {
-                var result = $.parseJSON(response);
-                console.log(result);
-                if (result.resultCode == 1) {
-                    var user = $scope.user;
-                    user.height = user.heightUpdate;
-                    user.weight = user.weightUpdate;
-                    user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-                    user.username = user.usernameUpdate;
-                    user.sex = user.sexUpdate;
+            //if there's no recordID, upload new record
+            if (data.recordID == undefined || data.recordID == null) {
+                UserService.UploadRecord(data, function(response) {
+                    var result = $.parseJSON(response);
+                    console.log(result);
+                    if (result.resultCode == 1) {
 
-                    $scope.changeSelection("timeline");
-                }
-            });
-        }
-
-        /** data format
-        {
-             userID: "mingzi",
-             date: "2017/12/01",
-             exercise_category: "running, swimming, boxing",
-             exercise_time: "30, 20, 10",
-             food_category: "apple, pork, beef",
-             food_amount: "1, 100, 100"
-        }*/
-        function createRecordData() {
-            var data = {};
-            var foodList = $scope.record.foodList;
-            var exerciseList = $scope.record.exerciseList;
-            data.userID = $scope.user.userID;
-            data.date = formatDate($scope.record.date);
-            if (foodList[0] != undefined) {
-                data.food_category = foodList[0].food_category;
-                data.food_amount = foodList[0].food_amount;
+                        $scope.changeSelection("timeline");
+                    }
+                });
+            } else { // else update existing record
+                UserService.UpdateRecord(data, function(response) {
+                    var result = $.parseJSON(response);
+                    console.log(result);
+                    if (result.resultCode == 1) {
+                        $rootScope.recordToEdit = undefined;
+                        $scope.changeSelection("timeline");
+                    }
+                });
             }
-            if (exerciseList[0] != undefined) {
-                data.exercise_category = exerciseList[0].exercise_category;
-                data.exercise_time = exerciseList[0].exercise_time;
-            }
-
-            for (var i = 1; i < foodList.length; i++) {
-                data.food_category += "," + foodList[i].food_category;
-                data.food_amount += "," + foodList[i].food_amount;
-            }
-            for (var i = 1; i < exerciseList.length; i++) {
-                data.exercise_category += "," + exerciseList[i].exercise_category;
-                data.exercise_time += "," + exerciseList[i].exercise_time;
-            }
-            return data;
-        }
+            //for test
+            // $rootScope.recordToEdit = undefined;
+            // $scope.changeSelection("timeline");
+        };
 
         $scope.addFood = function() {
             $scope.record.foodList.push(new Food());
-        }
+        };
 
         $scope.addExercise = function() {
             $scope.record.exerciseList.push(new Exercise());
-        }
+        };
 
         $scope.deleteFood = function(index) {
             $scope.record.foodList.splice(index, 1);
-        }
+        };
 
         $scope.deleteExercise = function(index) {
             $scope.record.exerciseList.splice(index, 1);
-        }
+        };
 
-        // food class
-        function Food() {
-            this.food_category = null;
-            this.food_amount = null;
-        }
-
-        // food class
-        function Exercise() {
-            this.exercise_category = null;
-            this.exercise_time = null;
-        }
-
-        // datetimepicker
+        /*  datetimepicker */
         $scope.inlineOptions = {
             minDate: new Date(),
             showWeeks: false
@@ -8976,18 +9095,57 @@ function objectifyForm(formArray) {
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
+            $scope.recordList = [];
             loadUserRecord();
         })();
 
         function loadUserRecord() {
+            //for test
+            var result = {
+                resultMessage: {
+                    resultCode: 1
+                },
+                recordArray: [{
+                        recordID: "1",
+                        date: "2017/12/01",
+                        exercise_category: "running, swimming, boxing",
+                        exercise_time: "30, 20, 10",
+                        exercise_calorie: "1, 100, 100",
+                        food_category: "apple, pork, beef",
+                        food_amount: "1, 100, 100",
+                        food_calorie: "1, 100, 100"
+                    },
+                    {
+                        recordID: "2",
+                        date: "2017/12/02",
+                        exercise_category: "running, swimming, boxing",
+                        exercise_time: "30, 20, 10",
+                        exercise_calorie: "1, 100, 100",
+                        food_category: "apple, pork, beef",
+                        food_amount: "1, 100, 100",
+                        food_calorie: "1, 100, 100"
+                    }
+                ]
+            };
+            for (var i = 0; i < result.recordArray.length; i++) {
+                $scope.recordList.push(parseRecordData(result.recordArray[i]));
+            }
+
             UserService.LoadUserRecord(function(response) {
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
-
+                    for (var i = 0; i < result.recordArray.length; i++) {
+                        $scope.recordList.push(parseRecordData(result.recordArray[i]));
+                    }
                 }
             });
-        }
+        };
+
+        $scope.editRecord = function(record) {
+            $scope.changeSelection("record");
+            $rootScope.recordToEdit = record;
+        };
 
     }
 

@@ -18,6 +18,7 @@
         service.LoadUserProfile = LoadUserProfile;
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
+        service.UpdateRecord = UpdateRecord;
         service.TimeSlot = TimeSlot;
 
         return service;
@@ -38,11 +39,7 @@
                     callback(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.readyState +
-                        XMLHttpRequest.status +
-                        XMLHttpRequest.responseText);
-                    console.log("error");
-                    console.log(textStatus);
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         }
@@ -150,12 +147,26 @@
             });
         }
 
-        function UploadRecord(records, callback) {
+        function UploadRecord(record, callback) {
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
-                async: false,
-                date: records,
+                date: record,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function UpdateRecord(record, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/updateRecord.do",
+                date: record,
                 success: function(data) {
                     callback(data);
                 },

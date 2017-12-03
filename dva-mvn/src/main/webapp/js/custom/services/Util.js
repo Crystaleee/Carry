@@ -19,3 +19,93 @@ function objectifyForm(formArray) {
     }
     return returnArray;
 }
+
+// food class
+function Food() {
+    this.food_category = null;
+    this.food_amount = null;
+}
+
+function Food(category, amount, calorie) {
+    this.food_category = category;
+    this.food_amount = amount;
+    this.food_calorie = calorie;
+}
+
+// exercise class
+function Exercise() {
+    this.exercise_category = null;
+    this.exercise_time = null;
+}
+
+function Exercise(category, time, calorie) {
+    this.exercise_category = category;
+    this.exercise_time = time;
+    this.exercise_calorie = calorie;
+}
+
+
+/** create data to send from record{date, userID, recordID, foodList[], exerciseList[]}
+data format
+{
+     userID: "mingzi",
+     date: "2017/12/01",
+     exercise_category: "running, swimming, boxing",
+     exercise_time: "30, 20, 10",
+     food_category: "apple, pork, beef",
+     food_amount: "1, 100, 100"
+}*/
+function createRecordData(record, userID) {
+    var data = {};
+
+    data.userID = userID;
+    data.date = formatDate(record.date);
+
+    if (record.recordID != undefined)
+        data.recordID = record.recordID;
+
+    var foodList = record.foodList;
+    var exerciseList = record.exerciseList;
+    if (foodList[0] != undefined) {
+        data.food_category = foodList[0].food_category;
+        data.food_amount = foodList[0].food_amount;
+    }
+    if (exerciseList[0] != undefined) {
+        data.exercise_category = exerciseList[0].exercise_category;
+        data.exercise_time = exerciseList[0].exercise_time;
+    }
+
+    for (var i = 1; i < foodList.length; i++) {
+        data.food_category += "," + foodList[i].food_category;
+        data.food_amount += "," + foodList[i].food_amount;
+    }
+    for (var i = 1; i < exerciseList.length; i++) {
+        data.exercise_category += "," + exerciseList[i].exercise_category;
+        data.exercise_time += "," + exerciseList[i].exercise_time;
+    }
+    return data;
+}
+
+/* parse the data from server to record{recordID, date, foodList[], exerciseList[]}*/
+function parseRecordData(data) {
+    var record = {
+        recordID: data.recordID,
+        date: new Date(data.date),
+        foodList: [],
+        exerciseList: []
+    }
+    var food_category = data.food_category.split(",").map(s => s.trim());
+    var food_amount = data.food_amount.split(",").map(s => s.trim());
+    var food_calorie = data.food_calorie.split(",").map(s => s.trim());
+    var exercise_category = data.exercise_category.split(",").map(s => s.trim());
+    var exercise_time = data.exercise_time.split(",").map(s => s.trim());
+    var exercise_calorie = data.exercise_calorie.split(",").map(s => s.trim());
+
+    for (var i = 0; i < food_category.length; i++) {
+        record.foodList.push(new Food(food_category[i], food_amount[i], food_calorie[i]));
+    }
+    for (var i = 0; i < exercise_category.length; i++) {
+        record.exerciseList.push(new Exercise(exercise_category[i], exercise_time[i], exercise_calorie[i]));
+    }
+    return record;
+}
