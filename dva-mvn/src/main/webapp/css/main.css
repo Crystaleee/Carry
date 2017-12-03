@@ -86,7 +86,7 @@
     zoom: 1;
     float: left;
     width: 300px;
-    padding: 70px 30px;
+    padding: 60px 30px;
     margin-right: -300px;
     background-color: #26333d;
 }
@@ -129,7 +129,7 @@
 }
 
 .profile {
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .profile div {
@@ -137,13 +137,13 @@
 }
 
 .buttons {
-    margin-top: 30px;
+    margin-top: 25px;
     text-align: center;
 }
 
 .buttons .btn {
     width: 70%;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     background: transparent;
     color: white;
 }
@@ -329,7 +329,7 @@ select.table-select {
 }
 
 .content table {
-    width: 90%;
+    width: 95%;
 }
 
 .record {
@@ -384,14 +384,27 @@ select.table-select {
     max-height: 125px;
 }
 
+.timeline-wrap table {
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
 .timeline-wrap td {
     width: 24%;
     text-align: center;
     line-height: 180%;
 }
 
+.timeline-wrap .prefix {
+    float: left;
+}
+
+.timeline-wrap .unit {
+    float: right;
+}
+
 .timeline-wrap td:nth-child(1) {
-    width: 15%;
+    width: 10%;
 }
 
 td img {
@@ -406,6 +419,7 @@ td img {
     position: absolute;
     right: 5%;
     top: 20px;
+    cursor: pointer;
 }
 
 .glyphicon-edit {
@@ -413,6 +427,7 @@ td img {
     bottom: 15px;
     right: 5%;
     top: unset;
+    cursor: pointer;
 }
 
 .form-to-update input, .form-to-update a, .form-to-update button {
