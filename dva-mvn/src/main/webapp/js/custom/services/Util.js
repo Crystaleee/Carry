@@ -88,24 +88,39 @@ function createRecordData(record, userID) {
 
 /* parse the data from server to record{recordID, date, foodList[], exerciseList[]}*/
 function parseRecordData(data) {
+	var resultCode=data.resultMessage.resultCode;
+	var exeList=data.exeList;
+	var foodList=data.foodList;
+	
     var record = {
         recordID: data.recordID,
         date: new Date(data.date),
         foodList: [],
         exerciseList: []
     }
-    var food_category = data.food_category.split(",").map(s => s.trim());
-    var food_amount = data.food_amount.split(",").map(s => s.trim());
-    var food_calorie = data.food_calorie.split(",").map(s => s.trim());
-    var exercise_category = data.exercise_category.split(",").map(s => s.trim());
-    var exercise_time = data.exercise_time.split(",").map(s => s.trim());
-    var exercise_calorie = data.exercise_calorie.split(",").map(s => s.trim());
+    var list=[]
+    for (var i =0; i<exeList.length; i++){
+    	
+    	var exedate=exeList[i].Date;
+    	for (var j =0; j<foodList.length;j++){
+    		var foodate=foodList[j].Date;
+    		if(foodate==exedate){
+    			var record={
+    					date:fooddate, 
+    					exercise_category:exeList[i].Exercise_category,
+    					exercise_time:exeList[i].Exercise_time, 
+    					food_category:foodList[j].Food_category,
+    					food_amount:foodList[j].Food_weight
+    						}
+    			list.push(record);
+    			}
+    		}
+    	}
+    console.log(list);
+    
+    	
+    
+    
+    
 
-    for (var i = 0; i < food_category.length; i++) {
-        record.foodList.push(new Food(food_category[i], food_amount[i], food_calorie[i]));
-    }
-    for (var i = 0; i < exercise_category.length; i++) {
-        record.exerciseList.push(new Exercise(exercise_category[i], exercise_time[i], exercise_calorie[i]));
-    }
-    return record;
 }
