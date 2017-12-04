@@ -6,19 +6,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.Food" id="FoodFileMap">
 		<id column="FoodName" property="FoodName" />
-		<result column="FoodName" property="FoodName" />
+		
 		<result column="Food_cal" property="Food_cal" />
 
-
-		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
-			select="edu.bupt.dmg.dao.UploadFileDao.findByFoodCategory" column="FoodCategory">
-		</collection>
-		<collection property="roles"
-			column="userId">
-		</collection>
 	</resultMap>
 
-	<select id="findById" parameterType="String" resultMap="FoodFileMap">
+	<select id="findByName" parameterType="String" resultMap="FoodFileMap">
 		SELECT *
 		FROM Food WHERE FoodName = #{FoodName}
 	</select>

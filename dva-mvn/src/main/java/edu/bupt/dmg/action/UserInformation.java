@@ -53,6 +53,8 @@ public class UserInformation {
                     exerciseRecord.setExercise_category(exercise_category);
                     exerciseRecord.setExercise_time(exercise_time);
                     exerciseRecord.setUserID(userId);
+                    String cal=fileService.getExeTotalCal(exercise_category, exercise_time);
+                    exerciseRecord.setCal(cal);
                     if(!fileService.createExeRec(exerciseRecord)){
                     	EXESUCCESS=0;
                     }
@@ -69,6 +71,8 @@ public class UserInformation {
                 	foodRecord.setFood_category(food_category);
                 	foodRecord.setFood_weight(food_amount);
                 	foodRecord.setUserID(userId);
+                	String cal=fileService.getFoodTotalCal(exercise_category, exercise_time);
+                	foodRecord.setCal(cal);
                 	if(!fileService.createFoodRec(foodRecord)){
                 		FOODSUCCESS=0;
                 	}	

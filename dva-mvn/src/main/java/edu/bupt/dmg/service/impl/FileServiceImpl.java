@@ -1,36 +1,23 @@
 package edu.bupt.dmg.service.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.bupt.dmg.adapter.FileAdapter;
+import edu.bupt.dmg.dao.ExerciseDao;
 import edu.bupt.dmg.dao.ExerciseRecordDao;
+import edu.bupt.dmg.dao.FoodDao;
 import edu.bupt.dmg.dao.FoodRecordDao;
-import edu.bupt.dmg.dao.UploadFileDao;
+
+import edu.bupt.dmg.domain.Exercise;
 import edu.bupt.dmg.domain.ExerciseRecord;
+import edu.bupt.dmg.domain.Food;
 import edu.bupt.dmg.domain.FoodRecord;
-import edu.bupt.dmg.domain.UploadFile;
-import edu.bupt.dmg.domain.User;
-import edu.bupt.dmg.formbean.FileVo;
-import edu.bupt.dmg.formbean.Table;
+
 import edu.bupt.dmg.service.FileService;
 
 /**
@@ -48,6 +35,10 @@ public class FileServiceImpl implements FileService {
 	ExerciseRecordDao exerciseRecordDao;
 	@Autowired
 	FoodRecordDao foodRecordDao;
+	@Autowired
+	FoodDao foodDao;
+	@Autowired
+	ExerciseDao exerciseDao;
 	@Autowired
 	HashMap<String, FileAdapter> adapterMap;
 
@@ -110,6 +101,37 @@ public class FileServiceImpl implements FileService {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	public String getExeTotalCal(String category, String time){
+		String[] resultCategory=category.split(";");
+		String[] resultTime=time.split(";");
+		for(int i=0;i<resultCategory.length;i++){
+			System.out.println(i+" : "+resultCategory[i]);
+		}
+		for(int i=0;i<resultTime.length;i++){
+			System.out.println(i+" : "+resultTime[i]);
+		}
+		
+		double product= 0;
+		for(int i=0;i<resultCategory.length;i++){
+			Exercise exe = exerciseDao.findByName(resultCategory[i]);
+			System.out.println("exe.getEx_cal(): "+exe.getEx_cal());
+			System.out.println("resultTime: "+resultTime[i]);
+			product =product+Double.valueOf(exe.getEx_cal()) * Double.valueOf(resultTime[i]);
+		}
+		return Double.toString(product);
+	}
+	@Override
+	public String getFoodTotalCal(String category, String time){
+		String[] resultCategory=category.split(";");
+		String[] resultTime=time.split(";");
+		double product= 0;
+		for(int i=0;i<resultCategory.length;i++){
+			Food food = foodDao.findByName(resultCategory[i]);
+			product =product+Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i]);
+		}
+		return Double.toString(product);
 	}
 }
 

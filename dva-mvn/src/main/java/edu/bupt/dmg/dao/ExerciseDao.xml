@@ -6,20 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.Exercise" id="ExerciseFileMap">
 		<id column="ExName" property="ExName" />
-		<result column="ExName" property="ExName" />
 		<result column="Ex_cal" property="Ex_cal" />
-
-
-		<collection property="uploadFiles" ofType="edu.bupt.dmg.domain.UploadFile"
-			select="edu.bupt.dmg.dao.UploadFileDao.findByExerciseCategory" column="ExerciseCategory">
-		</collection>
-		<collection property="roles"
-			ofType="edu.bupt.dmg.dao.RoleDao.RoleAuthorityMap" select="edu.bupt.dmg.dao.RoleDao.findByUserId"
-			column="userId">
-		</collection>
 	</resultMap>
 
-	<select id="findById" parameterType="String" resultMap="ExerciseFileMap">
+	<select id="findByName" parameterType="String" resultMap="ExerciseFileMap">
 		SELECT *
 		FROM Exercise WHERE ExName = #{ExName}
 	</select>

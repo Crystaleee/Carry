@@ -22,17 +22,16 @@ public class ExerciseRecord implements Serializable {
 //	@Pattern(regexp = "^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$", message = "Make sure your record id meet the requirement!")
 	private String RecordID;
 
-	@NotBlank(message = "UserID should not be blank!")
+	
 	private String UserID;
 	
-	@NotBlank(message = "Date should not be blank!")
 	private String Date;
 
-	@NotBlank(message = "Exercise category should not be blank!")
 	private String Exercise_category;
 	
-	@NotBlank(message = "Exercise time should not be blank!")
 	private String Exercise_time;
+	
+	private String Cal;
 
 
 	@Override
@@ -79,6 +78,14 @@ public class ExerciseRecord implements Serializable {
 
 	public void setExercise_time(String exercise_time) {
 		this.Exercise_time = exercise_time;
+	}
+
+	public String getCal() {
+		return Cal;
+	}
+
+	public void setCal(String cal) {
+		this.Cal = cal;
 	}
 
 

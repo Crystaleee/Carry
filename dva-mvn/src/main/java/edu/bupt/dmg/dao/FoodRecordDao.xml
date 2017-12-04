@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.FoodRecord" id="FoodRecFileMap">
 		<id column="RecordID" property="RecordID" />
-		
+		<result column="Cal" property="Cal" />
 		<result column="UserID" property="UserID" />
 		<result column="Date" property="Date" />
 		<result column="Food_category" property="Food_category" />
@@ -28,8 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="edu.bupt.dmg.domain.FoodRecord">
 		insert into
-		Food_record(UserID,Date,Food_category,Food_weight)
-		values(#{UserID},#{Date},#{Food_category},#{Food_weight})
+		Food_record(Cal,UserID,Date,Food_category,Food_weight)
+		values(#{Cal},#{UserID},#{Date},#{Food_category},#{Food_weight})
 	</insert>
 
 	<select id="findAll" resultMap="FoodRecFileMap">

@@ -89,13 +89,17 @@ public class UserAction {
                 exerciseRecord.setExercise_category("run;walk");
                 exerciseRecord.setExercise_time("1;3");
                 exerciseRecord.setUserID(user.getUserId());
+                String cal=fileService.getExeTotalCal("run;walk", "1;3");
+                exerciseRecord.setCal(cal);
                 
                 FoodRecord foodRecord = new FoodRecord();
                 foodRecord.setDate("2017/07/09");
                foodRecord.setFood_category("apple;peach");
-               foodRecord.setFood_weight("1:00");
+               foodRecord.setFood_weight("1;2");
                foodRecord.setUserID(user.getUserId());
-               
+               String call=fileService.getFoodTotalCal("apple;peach", "1;2");
+           		foodRecord.setCal(call);
+           	
               System.out.println("....>");
                fileService.createExeRec(exerciseRecord);
               fileService.createFoodRec(foodRecord);
@@ -109,13 +113,16 @@ public class UserAction {
 					System.out.println("Date: "+exeList.get(i).getDate());
 					System.out.println("Exercise_category: "+exeList.get(i).getExercise_category());
 					System.out.println("Exercise_time: "+exeList.get(i).getExercise_time());
+					System.out.println("cal: "+exeList.get(i).getCal());
 					System.out.println("userid: "+exeList.get(i).getUserID()+"\n");
+					
 				}
 				for(int i=0;i<foodList.size();i++){
 					System.out.println("exeid: "+foodList.get(i).getRecordID());
 					System.out.println("Date: "+foodList.get(i).getDate());
 					System.out.println("Food_category: "+foodList.get(i).getFood_category());
 					System.out.println("foodweight: "+foodList.get(i).getFood_weight());
+					System.out.println("cal: "+foodList.get(i).getCal());
 					System.out.println("userid: "+foodList.get(i).getUserID()+"\n");
 				}
 				

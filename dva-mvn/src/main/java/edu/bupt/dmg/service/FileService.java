@@ -31,5 +31,6 @@ public interface FileService {
 	public List<FoodRecord> findFoodFilesByUserId(String userId);
 	public boolean deleteExeFilesByDate(String date);
 	public boolean deleteFoodFilesByDate(String date);
-	
+	public String getExeTotalCal(String category, String time);
+	public String getFoodTotalCal(String category, String time);
 }

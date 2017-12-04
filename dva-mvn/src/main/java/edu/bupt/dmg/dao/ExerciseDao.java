@@ -17,7 +17,7 @@ public interface ExerciseDao extends Dao<Exercise>{
 	 * @param ExName
 	 * @return
 	 */
-	public Exercise findByExName(String ExName);
+	public Exercise findByName(String ExName);
 
 	public void updatedatebase();
 }

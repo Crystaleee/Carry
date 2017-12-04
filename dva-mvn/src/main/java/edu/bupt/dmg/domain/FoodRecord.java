@@ -34,7 +34,7 @@ public class FoodRecord implements Serializable {
 	@NotBlank(message = "Food weight should not be blank!")
 	private String Food_weight;
 
-
+	private String Cal;
 
 	@Override
 	public String toString() {
@@ -80,6 +80,14 @@ public class FoodRecord implements Serializable {
 
 	public void setFood_weight(String food_weight) {
 		this.Food_weight = food_weight;
+	}
+
+	public String getCal() {
+		return Cal;
+	}
+
+	public void setCal(String cal) {
+		this.Cal = cal;
 	}
 	
 }

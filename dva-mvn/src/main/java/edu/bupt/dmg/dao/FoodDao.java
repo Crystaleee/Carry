@@ -17,7 +17,7 @@ public interface FoodDao extends Dao<Food>{
 	 * @param FoodName
 	 * @return
 	 */
-	public Food findByFoodName(String FoodName);
+	public Food findByName(String FoodName);
 
 	public void updatedatebase();
 }
