@@ -121,31 +121,50 @@ public class UserInformation {
 	
 	
 	@RequestMapping(value = "/UpdateRecord")
-    public @ResponseBody ResultMessage UploadRecord(String recordId, String date, String exercise_category, String exercise_time, String food_category, String food_amount) throws Exception{
+    public @ResponseBody ResultMessage UpdateRecord(String recordId, String date, String exercise_category, String exercise_time, String food_category, String food_amount) throws Exception{
 		Subject subject = SecurityUtils.getSubject();
 		String userId = subject.getPrincipal().toString();
+		 int EXESUCCESS=1,FOODSUCCESS=1;
 		  if (userId != null && !"".equals(userId)) {
-	        	List<ExerciseRecord> exeList = fileService.findExeFilesByUserId(userId);
-	        	List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
-				// 组织回复数据
+			  
+			boolean a = fileService.deleteExeFilesByDate(date);
+			boolean b = fileService.deleteFoodFilesByDate(date);
+			  if(a&&b) {
+				  // 组织回复数据
 	        	    
 	        	   ExerciseRecord exerciseRecord = new ExerciseRecord();
+	        	   exerciseRecord.setUserID(userId);
 	        	   exerciseRecord.setDate(date);
 	        	   exerciseRecord.setExercise_category(exercise_category);
 	        	   exerciseRecord.setExercise_time(exercise_time);
 	        	   
 	        	   
 	        	   FoodRecord foodRecord = new FoodRecord();
+	        	   foodRecord.setUserID(userId);
 	        	   foodRecord.setDate(date);
 	        	   foodRecord.setFood_category(food_category);
 	        	   foodRecord.setFood_weight(food_amount);
-	        	   
-	        	   return new ResultMessage(1);
-	      
-	        }
-	        else {
-	            return new ResultMessage(-2);
-	        }
+	        	   if(!fileService.createExeRec(exerciseRecord)){
+                   	EXESUCCESS=0;
+                   }
+	        	   if(!fileService.createFoodRec(foodRecord)){
+	        		   FOODSUCCESS=0;
+	                   }
+	        	
+	        	   if(EXESUCCESS==1&&FOODSUCCESS==1){
+	               	return new ResultMessage(-1);
+	               }
+	               else if(EXESUCCESS==0&&FOODSUCCESS==1)
+	            	   return new ResultMessage(-15);
+	               else if(EXESUCCESS==1&&FOODSUCCESS==0)
+	               	return new ResultMessage(-16);
+	               else
+	               	return new ResultMessage(-17);
+	            
+	           
+	}
+		  }
+		return new ResultMessage(-2);
 	}
 	
 	
