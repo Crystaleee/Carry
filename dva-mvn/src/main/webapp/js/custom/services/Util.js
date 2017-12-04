@@ -119,6 +119,21 @@ function parseRecordData(data) {
     console.log(list);
     
     	
+//    var food_category = data.food_category.split(",").map(s => s.trim());
+//    var food_amount = data.food_amount.split(",").map(s => s.trim());
+//    var food_calorie = data.food_calorie.split(",").map(s => s.trim());
+//    var exercise_category = data.exercise_category.split(",").map(s => s.trim());
+//    var exercise_time = data.exercise_time.split(",").map(s => s.trim());
+//    var exercise_calorie = data.exercise_calorie.split(",").map(s => s.trim());
+//
+//    for (var i = 0; i < food_category.length; i++) {
+//        record.foodList.push(new Food(food_category[i], food_amount[i], food_calorie[i]));
+//    }
+//    for (var i = 0; i < exercise_category.length; i++) {
+//        record.exerciseList.push(new Exercise(exercise_category[i], exercise_time[i], exercise_calorie[i]));
+//    }
+//    return record;
+    
     
     
     
