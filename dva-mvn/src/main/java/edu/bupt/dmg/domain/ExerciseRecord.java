@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class ExerciseRecord implements Serializable {
 //	@NotBlank(message = "RecordID name should not be blank!")
 //	@Pattern(regexp = "^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$", message = "Make sure your record id meet the requirement!")
-//	private String RecordID;
+	private String RecordID;
 
 	@NotBlank(message = "UserID should not be blank!")
 	private String UserID;
@@ -41,13 +41,13 @@ public class ExerciseRecord implements Serializable {
 				", Exercise_category=" + Exercise_category + ", Exercise_time=" + Exercise_time + "]";
 	}
 
-//	public String getRecordID() {
-//		return RecordID;
-//	}
+	public String getRecordID() {
+		return RecordID;
+	}
 
-//	public void setRecordID(String recordID) {
-//		RecordID = recordID;
-//	}
+	public void setRecordID(String recordID) {
+		RecordID = recordID;
+	}
 
 	public String getUserID() {
 		return UserID;

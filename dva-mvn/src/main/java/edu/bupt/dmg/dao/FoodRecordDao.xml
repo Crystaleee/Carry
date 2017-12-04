@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="edu.bupt.dmg.domain.FoodRecord" id="FoodRecFileMap">
 		<id column="RecordID" property="RecordID" />
-		<result column="RecordID" property="RecordID" />
+		
 		<result column="UserID" property="UserID" />
 		<result column="Date" property="Date" />
 		<result column="Food_category" property="Food_category" />

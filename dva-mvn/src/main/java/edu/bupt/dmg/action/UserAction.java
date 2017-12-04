@@ -3,6 +3,7 @@ package edu.bupt.dmg.action;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -89,13 +90,31 @@ public class UserAction {
                 exerciseRecord.setUserID(user.getUserId());
                 FoodRecord foodRecord = new FoodRecord();
                 foodRecord.setDate("2017/08/09");
-                foodRecord.setFood_category("apple;peach");
-                foodRecord.setFood_weight("1:00");
-                foodRecord.setUserID(user.getUserId());
-                System.out.println("....>");
-                fileService.createExeRec(exerciseRecord);
-                fileService.createFoodRec(foodRecord);
+               foodRecord.setFood_category("apple;peach");
+               foodRecord.setFood_weight("1:00");
+               foodRecord.setUserID(user.getUserId());
+              System.out.println("....>");
+               fileService.createExeRec(exerciseRecord);
+              fileService.createFoodRec(foodRecord);
 				System.out.println("hehehe");
+				
+				
+				List<ExerciseRecord> exeList=fileService.findExeFilesByUserId(user.getUserId());
+				List<FoodRecord> foodList=fileService.findFoodFilesByUserId(user.getUserId());
+				for(int i=0;i<exeList.size()-1;i++){
+					System.out.println("exeid: "+exeList.get(i).getRecordID());
+					System.out.println("Date: "+exeList.get(i).getDate());
+					System.out.println("Exercise_category: "+exeList.get(i).getExercise_category());
+					System.out.println("Exercise_time: "+exeList.get(i).getExercise_time());
+					System.out.println("userid: "+exeList.get(i).getUserID()+"\n");
+				}
+				for(int i=0;i<foodList.size()-1;i++){
+					System.out.println("exeid: "+foodList.get(i).getRecordID());
+					System.out.println("Date: "+foodList.get(i).getDate());
+					System.out.println("Food_category: "+foodList.get(i).getFood_category());
+					System.out.println("foodweight: "+foodList.get(i).getFood_weight());
+					System.out.println("userid: "+foodList.get(i).getUserID()+"\n");
+				}
 				return new ResultMessage(1);
 			} else {
 				return new ResultMessage(-1);
