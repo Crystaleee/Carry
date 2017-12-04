@@ -1,5 +1,5 @@
 <div class="timeline">
-    <div class="record" ng-repeat="record in recordList">
+    <div class="record" ng-animate="'animate'" ng-repeat="record in recordList">
         <div class="date">{{record.date.toLocaleDateString('en-GB', { day : 'numeric', month : 'short', year : 'numeric' })}}
         </div>
         <div class="content">
@@ -8,7 +8,7 @@
                 <div class="timeline-wrap">
                     <table>
                         <tr ng-repeat="food in record.foodList">
-                            <td><img src="/dva-mvn/static/img/1.png"></td>
+                            <td><img ng-src="/dva-mvn/static/img/{{($index)%8+1}}.png"></td>
                             <td>{{food.food_category}}</td>
                             <td><span class="prefix">*</span> {{food.food_amount}} <span class="unit">g</span></td>
                             <td>{{food.food_calorie}} <span class="unit">KCal</span></td>
@@ -20,11 +20,11 @@
 
             <div class="exercise">
                 <div class="caption">Exercise
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deleteRecord(record)"></span></div>
                 <div class="timeline-wrap">
                     <table>
                         <tr ng-repeat="exercise in record.exerciseList">
-                            <td><img src="/dva-mvn/static/img/11.png"></td>
+                            <td><img ng-src="/dva-mvn/static/img/{{($index)%16+11}}.png"></td>
                             <td>{{exercise.exercise_category}}</td>
                             <td><span class="prefix">*</span> {{exercise.exercise_time}} <span class="unit">min</span></td>
                             <td>{{exercise.exercise_calorie}} <span class="unit">KCal</span></td>
