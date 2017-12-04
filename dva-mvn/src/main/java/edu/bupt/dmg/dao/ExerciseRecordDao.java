@@ -23,4 +23,5 @@ public interface ExerciseRecordDao extends Dao<ExerciseRecord>{
 	public ExerciseRecord findByRecordID(String RecordID);
 	public List<ExerciseRecord> findRecById(String id);
 	public void updatedatebase();
+	public void deleteByDate(String date);
 }

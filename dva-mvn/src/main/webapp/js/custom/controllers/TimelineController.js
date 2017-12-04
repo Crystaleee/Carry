@@ -9,7 +9,7 @@
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
-            $scope.recordList = [];
+            $rootScope.recordList = [];
             loadUserRecord();
         })();
 
@@ -42,15 +42,16 @@
                 ]
             };
             for (var i = 0; i < result.recordArray.length; i++) {
-                $scope.recordList.push(parseRecordData(result.recordArray[i]));
+                $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
             }
 
             UserService.LoadUserRecord(function(response) {
                 var result = $.parseJSON(response);
+                console.log("load user record: ");
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
                     for (var i = 0; i < result.recordArray.length; i++) {
-                        $scope.recordList.push(parseRecordData(result.recordArray[i]));
+                        $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
                     }
                 }
             });
@@ -60,6 +61,27 @@
             $scope.changeSelection("record");
             $rootScope.recordToEdit = record;
         };
+
+        $scope.deleteRecord = function(record) {
+            console.log("delete recordID: " + record.recordID);
+            $scope.recordList = $scope.recordList.filter(function(ele) {
+                return ele.recordID !== record.recordID;
+            });
+            // UserService.DeleteRecord(record.recordID, function(response) {
+            //     var result = $.parseJSON(response);
+            //     console.log(result);
+            //     if (result.resultMessage.resultCode == 1) {
+            //         $scope.recordList = $scope.recordList.filter(function(ele) {
+            //             return ele.recordID !== record.recordID;
+            //         });
+            //     }
+            // });
+        };
+
+        // return a random number between [1, bound]
+        $scope.random = function(bound) {
+            return Math.floor((Math.random() * bound) + 1);
+        }
 
     }
 

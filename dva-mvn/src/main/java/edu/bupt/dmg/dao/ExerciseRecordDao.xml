@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="updatedatebase" >
-		update dvamvn.ExerciseRec SET Enabled = '-1'    
+		update dvamvn.Ex_record SET Enabled = '-1'    
 		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
 	</select>
 
@@ -44,4 +44,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	
+	<delete id="deleteByDate" parameterType="String">
+		delete FROM Ex_record
+		WHERE
+		Date = #{date}
+	</delete>
+	
 </mapper>

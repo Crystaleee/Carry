@@ -46,4 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	
+		<delete id="deleteByDate" parameterType="String">
+		delete FROM Food_record
+		WHERE
+		Date = #{date}
+	</delete>
 </mapper>

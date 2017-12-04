@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 import edu.bupt.dmg.domain.ExerciseRecord;
 import edu.bupt.dmg.domain.FoodRecord;
 import edu.bupt.dmg.domain.UploadFile;
@@ -28,5 +29,7 @@ public interface FileService {
 	public boolean createFoodRec(FoodRecord foodRecord);
 	public List<ExerciseRecord> findExeFilesByUserId(String userId);
 	public List<FoodRecord> findFoodFilesByUserId(String userId);
+	public boolean deleteExeFilesByDate(String date);
+	public boolean deleteFoodFilesByDate(String date);
 	
 }
