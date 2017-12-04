@@ -116,5 +116,40 @@ public class UserInformation {
         }
         return responseMap;
 	}
+	
+	
+	
+	@RequestMapping(value = "/UpdateRecord")
+    public @ResponseBody ResultMessage UploadRecord(String recordId, String date, String exercise_category, String exercise_time, String food_category, String food_amount) throws Exception{
+		Subject subject = SecurityUtils.getSubject();
+		String userId = subject.getPrincipal().toString();
+		  if (userId != null && !"".equals(userId)) {
+	        	List<ExerciseRecord> exeList = fileService.findExeFilesByUserId(userId);
+	        	List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
+				// 组织回复数据
+	        	    
+	        	   ExerciseRecord exerciseRecord = new ExerciseRecord();
+	        	   exerciseRecord.setDate(date);
+	        	   exerciseRecord.setExercise_category(exercise_category);
+	        	   exerciseRecord.setExercise_time(exercise_time);
+	        	   
+	        	   
+	        	   FoodRecord foodRecord = new FoodRecord();
+	        	   foodRecord.setDate(date);
+	        	   foodRecord.setFood_category(food_category);
+	        	   foodRecord.setFood_weight(food_amount);
+	        	   
+	        	   return new ResultMessage(1);
+	      
+	        }
+	        else {
+	            return new ResultMessage(-2);
+	        }
+	}
+	
+	
+	
+	
+	
 
 }
