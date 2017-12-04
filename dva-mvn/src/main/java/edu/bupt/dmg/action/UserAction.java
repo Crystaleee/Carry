@@ -119,8 +119,8 @@ public class UserAction {
 					System.out.println("userid: "+foodList.get(i).getUserID()+"\n");
 				}
 				
-	        	boolean exeResult = fileService.deleteExeFilesByDate("2017/07/09");
-	        	boolean foodResult = fileService.deleteFoodFilesByDate("2017/07/09");
+	        	boolean exeResult = fileService.deleteExeFilesByDate("2017/08/09");
+	        	boolean foodResult = fileService.deleteFoodFilesByDate("2017/08/09");
 	        	System.out.println("food: "+foodResult+" exe: "+exeResult);
 
 				return new ResultMessage(1);
