@@ -11,16 +11,29 @@
 
         $scope.init = function(record) {
             $scope.foodOptions = [
-                "pork",
-                "beef",
-                "chicken",
-                "apple"
+                "Egg",
+                "Pork",
+                "Steak",
+                "Chicken",
+                "Broccoli",
+                "Carrot",
+                "Mushroom",
+                "Apple",
+                "Banana",
+                "Watermelon",
+                "Coca"
             ];
             $scope.exerciseOptions = [
-                "running",
-                "swimming",
-                "dancing",
-                "boxing"
+                "Swimming",
+                "Basketball",
+                "Fitness",
+                "Soccer",
+                "Jogging",
+                "Bicycling",
+                "rope skipping",
+                "squash",
+                "tennis",
+                "volleyball"
             ];
             if (record == undefined || record == null) { // if there's no reocrd to edit
                 $scope.record = {
@@ -42,8 +55,7 @@
 
             //if there's no recordID, upload new record
             if (data.recordID == undefined || data.recordID == null) {
-                UserService.UploadRecord(data, function(response) {
-                    var result = $.parseJSON(response);
+                UserService.UploadRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
 

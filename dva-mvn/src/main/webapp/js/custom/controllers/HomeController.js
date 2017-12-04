@@ -13,6 +13,7 @@
         (function initController() {
             loadUserProfile();
             $scope.selection = "timeline";
+            $scope.chosen = 'a';
         })();
 
         function loadUserProfile() {

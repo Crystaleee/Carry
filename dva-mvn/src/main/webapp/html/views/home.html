@@ -4,16 +4,16 @@
             <img src="/dva-mvn/static/img/user.png">
         </div>
         <div class="nick">
-            {{user.username}}
+            {{user.name}}
         </div>
         <div class="rating">
             <label>Fitness Rating</label>
             <div class="grade">
-                <span>S</span>
-                <span>A</span>
-                <span>B</span>
-                <span>C</span>
-                <span>F</span>
+                <span class="s" ng-class="{chosen: chosen=='s'}">S</span>
+                <span class="a" ng-class="{chosen: chosen=='a'}">A</span>
+                <span class="b" ng-class="{chosen: chosen=='b'}">B</span>
+                <span class="c" ng-class="{chosen: chosen=='c'}">C</span>
+                <span class="f" ng-class="{chosen: chosen=='f'}">F</span>
             </div>
         </div>
         <div class="profile">
