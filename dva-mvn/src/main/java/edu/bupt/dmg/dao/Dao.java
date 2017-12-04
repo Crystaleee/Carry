@@ -58,6 +58,7 @@ public interface Dao<T> {
 	 * @return 包含所有项的模型列表
 	 */
 	public List<T> findAll();
+	
 
 	/**
 	 * 根据条件查找表中的所有项

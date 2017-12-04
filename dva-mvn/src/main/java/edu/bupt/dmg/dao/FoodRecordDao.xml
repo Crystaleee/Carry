@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bupt.dmg.dao.FoodRecordDao">
+
+	<resultMap type="edu.bupt.dmg.domain.FoodRecord" id="FoodRecFileMap">
+		<id column="RecordID" property="RecordID" />
+		<result column="RecordID" property="RecordID" />
+		<result column="UserID" property="UserID" />
+		<result column="Date" property="Date" />
+		<result column="Food_category" property="Food_category" />
+		<result column="Food_weight" property="Food_weight" />
+		
+		
+	</resultMap>
+
+	<select id="findRecById" parameterType="String" resultMap="FoodRecFileMap">
+		SELECT *
+		FROM Food_record WHERE UserID = #{userId}
+	</select>
+	
+	
+	<select id="updatedatebase" >
+		update dvamvn.FoodRec SET Enabled = '-1'    
+		WHERE  CURRENT_DATE  > str_to_date(`ExpirationDate`,'%Y-%m-%d')
+	</select>
+
+	<insert id="insert" parameterType="edu.bupt.dmg.domain.FoodRecord">
+		insert into
+		Food_record(UserID,Date,Food_category,Food_weight)
+		values(#{UserID},#{Date},#{Food_category},#{Food_weight})
+	</insert>
+
+	<select id="findAll" resultMap="FoodRecFileMap">
+		SELECT * from Food_record
+	</select>
+
+	<!-- 此种方式查询password字段无效,且不对权限值做限制 -->
+	<select id="findByCondition" parameterType="edu.bupt.dmg.domain.FoodRecord"
+		resultMap="FoodRecFileMap">
+		SELECT * from Food_record
+		<where>
+			<if test="RecordID!=null and RecordID!=''">
+				and RecordID like '%${RecordID}%'
+			</if>
+		</where>
+	</select>
+</mapper>

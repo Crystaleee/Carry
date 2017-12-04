@@ -22,8 +22,10 @@ import com.google.code.kaptcha.Constants;
 
 import edu.bupt.dmg.commons.ResultMessage;
 import edu.bupt.dmg.domain.ExerciseRecord;
+import edu.bupt.dmg.domain.FoodRecord;
 import edu.bupt.dmg.domain.User;
 import edu.bupt.dmg.realm.UserRealm;
+import edu.bupt.dmg.service.FileService;
 import edu.bupt.dmg.service.UserService;
 
 
@@ -46,6 +48,8 @@ public class UserAction {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	FileService fileService;
 
 	@Autowired
 	UserRealm userRealm;
@@ -76,6 +80,22 @@ public class UserAction {
 				token.setRememberMe(rememberme);
 				subject.login(token);
 				logger.info("user " + user.getUserId() + " has logged in!");
+				
+				
+				ExerciseRecord exerciseRecord=new ExerciseRecord();
+        		    exerciseRecord.setDate("2017/07/09");
+                exerciseRecord.setExercise_category("run;walk");
+                exerciseRecord.setExercise_time("1;3");
+                exerciseRecord.setUserID(user.getUserId());
+                FoodRecord foodRecord = new FoodRecord();
+                foodRecord.setDate("2017/08/09");
+                foodRecord.setFood_category("apple;peach");
+                foodRecord.setFood_weight("1:00");
+                foodRecord.setUserID(user.getUserId());
+                System.out.println("....>");
+                fileService.createExeRec(exerciseRecord);
+                fileService.createFoodRec(foodRecord);
+				System.out.println("hehehe");
 				return new ResultMessage(1);
 			} else {
 				return new ResultMessage(-1);

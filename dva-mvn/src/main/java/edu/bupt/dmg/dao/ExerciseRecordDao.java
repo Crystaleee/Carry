@@ -1,5 +1,8 @@
 package edu.bupt.dmg.dao;
 
+import java.io.Serializable;
+import java.util.List;
+
 import edu.bupt.dmg.domain.*;
 /**
  * 用户的数据接入层接口
@@ -18,6 +21,6 @@ public interface ExerciseRecordDao extends Dao<ExerciseRecord>{
 	 * @return
 	 */
 	public ExerciseRecord findByRecordID(String RecordID);
-
+	public List<ExerciseRecord> findRecById(String id);
 	public void updatedatebase();
 }

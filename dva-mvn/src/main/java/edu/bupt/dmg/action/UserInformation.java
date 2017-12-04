@@ -48,8 +48,8 @@ public class UserInformation {
             	if(exercise_time!=null && !"".equals(exercise_time)){
             		//Calendar now = Calendar.getInstance();
             		//String todayDate=(new SimpleDateFormat("yyyy-MM-dd")).format(now.getTime());  
-            		ExerciseRecord exerciseRecord=new ExerciseRecord();
-            		exerciseRecord.setDate(date);
+            		ExerciseRecord exerciseRecord=new ExerciseRecord();		
+            		    exerciseRecord.setDate(date);
                     exerciseRecord.setExercise_category(exercise_category);
                     exerciseRecord.setExercise_time(exercise_time);
                     exerciseRecord.setUserID(userId);
@@ -102,12 +102,12 @@ public class UserInformation {
         String userId = subject.getPrincipal().toString();
         Map<String, Object> responseMap = new HashMap<>();
         if (userId != null && !"".equals(userId)) {
-        	List<ExerciseRecord> exeList = fileService.findExeFilesByUserId(userId);
-        	List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
+        	//ExerciseRecord exeList = fileService.findExeFilesByUserId(userId);
+        	//List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
 			// 组织回复数据
 			responseMap.put("resultMessage", new ResultMessage(1));
-			responseMap.put("exeList", exeList);
-			responseMap.put("foodList", foodList);
+			//responseMap.put("exeList", exeList);
+			//responseMap.put("foodList", foodList);
         }
         else {
             // 用户未登录数据

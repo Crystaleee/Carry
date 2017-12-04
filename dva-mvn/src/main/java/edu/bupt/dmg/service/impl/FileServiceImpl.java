@@ -54,11 +54,18 @@ public class FileServiceImpl implements FileService {
 
 	
 	@Override
-	public boolean createExeRec(ExerciseRecord exercideRecord ){
+	public boolean createExeRec(ExerciseRecord exerciseRecord ){
 		try{
-			exerciseRecordDao.insert(exercideRecord);
+			System.out.println("?id?:>"+exerciseRecord.getUserID());
+			System.out.println("?cat?:>" + exerciseRecord.getExercise_category());
+			System.out.println("?time?:>" + exerciseRecord.getExercise_time());
+			System.out.println("?date?:>" + exerciseRecord.getDate());
+			exerciseRecordDao.insert(exerciseRecord);
+			System.out.println("bbbbbbbbbbbbbbbbbbb");
 		}
 		catch(Exception e){
+			System.out.println("nononononono");
+			e.printStackTrace(); 
 			return false;
 		}
 		return true;
@@ -66,21 +73,26 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public boolean createFoodRec(FoodRecord foodRecord){
 		try{
+			System.out.println("??id"+ foodRecord.getUserID());
+			System.out.println("??cat"+ foodRecord.getFood_category());
+			System.out.println("??date"+foodRecord.getDate());
 			foodRecordDao.insert(foodRecord);
+			System.out.println("niceeee!");
 		}
 		catch(Exception e){
+			System.out.println("FOOOOOO");
 			return false;
 		}
 		return true;
 	}
 	@Override
 	public List<ExerciseRecord> findExeFilesByUserId(String userId){
-		return (List<ExerciseRecord>) exerciseRecordDao.findById(userId);
+		return  exerciseRecordDao.findRecById(userId);
 	}
-	@Override
-	public List<FoodRecord> findFoodFilesByUserId(String userId){
-		return (List<FoodRecord>) foodRecordDao.findById(userId);
-	}
+//	@Override
+//	public List<FoodRecord> findFoodFilesByUserId(String userId){
+//		return (List<FoodRecord>) foodRecordDao.findById(userId);
+//	}
 
 }
 

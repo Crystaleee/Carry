@@ -18,9 +18,9 @@ import org.hibernate.validator.constraints.NotBlank;
  * Version: @version 0.0.1
  */
 public class ExerciseRecord implements Serializable {
-	@NotBlank(message = "RecordID name should not be blank!")
-	@Pattern(regexp = "^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$", message = "Make sure your record id meet the requirement!")
-	private String RecordID;
+//	@NotBlank(message = "RecordID name should not be blank!")
+//	@Pattern(regexp = "^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$", message = "Make sure your record id meet the requirement!")
+//	private String RecordID;
 
 	@NotBlank(message = "UserID should not be blank!")
 	private String UserID;
@@ -37,24 +37,24 @@ public class ExerciseRecord implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Exercise_record [RecordID=" + RecordID + ", UserID=" + UserID  + ", Date=" + Date + 
+		return "Exercise_record [UserID=" + UserID  + ", Date=" + Date + 
 				", Exercise_category=" + Exercise_category + ", Exercise_time=" + Exercise_time + "]";
 	}
 
-	public String getRecordID() {
-		return RecordID;
-	}
+//	public String getRecordID() {
+//		return RecordID;
+//	}
 
-	public void setRecordID(String recordID) {
-		RecordID = recordID;
-	}
+//	public void setRecordID(String recordID) {
+//		RecordID = recordID;
+//	}
 
 	public String getUserID() {
 		return UserID;
 	}
 
 	public void setUserID(String userID) {
-		UserID = userID;
+		this.UserID = userID;
 	}
 
 	public String getDate() {
@@ -62,7 +62,7 @@ public class ExerciseRecord implements Serializable {
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.Date = date;
 	}
 
 	public String getExercise_category() {
@@ -70,7 +70,7 @@ public class ExerciseRecord implements Serializable {
 	}
 
 	public void setExercise_category(String exercise_category) {
-		Exercise_category = exercise_category;
+		this.Exercise_category = exercise_category;
 	}
 
 	public String getExercise_time() {
@@ -78,7 +78,7 @@ public class ExerciseRecord implements Serializable {
 	}
 
 	public void setExercise_time(String exercise_time) {
-		Exercise_time = exercise_time;
+		this.Exercise_time = exercise_time;
 	}
 
 

@@ -47,7 +47,7 @@ public class FoodRecord implements Serializable {
 	}
 
 	public void setRecordID(String recordID) {
-		RecordID = recordID;
+		this.RecordID = recordID;
 	}
 
 	public String getUserID() {
@@ -55,7 +55,7 @@ public class FoodRecord implements Serializable {
 	}
 
 	public void setUserID(String userID) {
-		UserID = userID;
+		this.UserID = userID;
 	}
 
 	public String getDate() {
@@ -63,7 +63,7 @@ public class FoodRecord implements Serializable {
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.Date = date;
 	}
 
 	public String getFood_category() {
@@ -71,7 +71,7 @@ public class FoodRecord implements Serializable {
 	}
 
 	public void setFood_category(String food_category) {
-		Food_category = food_category;
+		this.Food_category = food_category;
 	}
 
 	public String getFood_weight() {
@@ -79,7 +79,7 @@ public class FoodRecord implements Serializable {
 	}
 
 	public void setFood_weight(String food_weight) {
-		Food_weight = food_weight;
+		this.Food_weight = food_weight;
 	}
 	
 }
