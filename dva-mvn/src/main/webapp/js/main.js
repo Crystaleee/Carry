@@ -8350,6 +8350,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
+        service.DeleteRecord = DeleteRecord;
         service.TimeSlot = TimeSlot;
 
         return service;
@@ -8498,6 +8499,21 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 type: "POST",
                 url: "/dva-mvn/UserInformation/updateRecord.do",
                 date: record,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function DeleteRecord(recordID, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/deleteRecord.do",
+                date: recordID,
                 success: function(data) {
                     callback(data);
                 },
@@ -9095,7 +9111,7 @@ function parseRecordData(data) {
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
-            $scope.recordList = [];
+            $rootScope.recordList = [];
             loadUserRecord();
         })();
 
@@ -9128,15 +9144,16 @@ function parseRecordData(data) {
                 ]
             };
             for (var i = 0; i < result.recordArray.length; i++) {
-                $scope.recordList.push(parseRecordData(result.recordArray[i]));
+                $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
             }
 
             UserService.LoadUserRecord(function(response) {
                 var result = $.parseJSON(response);
+                console.log("load user record: ");
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
                     for (var i = 0; i < result.recordArray.length; i++) {
-                        $scope.recordList.push(parseRecordData(result.recordArray[i]));
+                        $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
                     }
                 }
             });
@@ -9146,6 +9163,27 @@ function parseRecordData(data) {
             $scope.changeSelection("record");
             $rootScope.recordToEdit = record;
         };
+
+        $scope.deleteRecord = function(record) {
+            console.log("delete recordID: " + record.recordID);
+            $scope.recordList = $scope.recordList.filter(function(ele) {
+                return ele.recordID !== record.recordID;
+            });
+            // UserService.DeleteRecord(record.recordID, function(response) {
+            //     var result = $.parseJSON(response);
+            //     console.log(result);
+            //     if (result.resultMessage.resultCode == 1) {
+            //         $scope.recordList = $scope.recordList.filter(function(ele) {
+            //             return ele.recordID !== record.recordID;
+            //         });
+            //     }
+            // });
+        };
+
+        // return a random number between [1, bound]
+        $scope.random = function(bound) {
+            return Math.floor((Math.random() * bound) + 1);
+        }
 
     }
 

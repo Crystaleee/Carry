@@ -19,6 +19,7 @@
         service.LoadUserRecord = LoadUserRecord;
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
+        service.DeleteRecord = DeleteRecord;
         service.TimeSlot = TimeSlot;
 
         return service;
@@ -167,6 +168,21 @@
                 type: "POST",
                 url: "/dva-mvn/UserInformation/updateRecord.do",
                 date: record,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError(XMLHttpRequest, textStatus, errorThrown);
+                }
+
+            });
+        }
+
+        function DeleteRecord(recordID, callback) {
+            $.ajax({
+                type: "POST",
+                url: "/dva-mvn/UserInformation/deleteRecord.do",
+                date: recordID,
                 success: function(data) {
                     callback(data);
                 },
