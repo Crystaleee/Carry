@@ -93,6 +93,23 @@ public class FileServiceImpl implements FileService {
 	public List<FoodRecord> findFoodFilesByUserId(String userId){
 		return  foodRecordDao.findRecById(userId);
 	}
-
+	@Override
+	public boolean deleteExeFilesByDate(String date){
+		try{
+			foodRecordDao.deleteByDate(date);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean deleteFoodFilesByDate(String date){
+		try{
+			foodRecordDao.deleteByDate(date);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+	}
 }
 

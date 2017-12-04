@@ -36,7 +36,7 @@ public class UserInformation {
 
 	
 	@RequestMapping(value = "/uploadRecord")
-	public @ResponseBody Map<String, Object> updateExeRecord(String date, String exercise_category, String exercise_time, String food_category, String food_amount ) throws Exception {
+	public @ResponseBody Map<String, Object> uploadRecord(String date, String exercise_category, String exercise_time, String food_category, String food_amount ) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
         String userId = subject.getPrincipal().toString();
         Map<String, Object> responseMap = new HashMap<>();
@@ -106,7 +106,7 @@ public class UserInformation {
         	List<FoodRecord> foodList = fileService.findFoodFilesByUserId(userId);
 			// 组织回复数据
 			responseMap.put("resultMessage", new ResultMessage(1));
-			responseMap.put("userID",userId );
+			
 			responseMap.put("exeList", exeList);
 			responseMap.put("foodList", foodList);
         }
@@ -116,5 +116,23 @@ public class UserInformation {
         }
         return responseMap;
 	}
-
+	@RequestMapping(value = "/deleteRecord")
+	public @ResponseBody Map<String, Object> deleteRecord(String date) throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+        String userId = subject.getPrincipal().toString();
+        Map<String, Object> responseMap = new HashMap<>();
+        if (userId != null && !"".equals(userId)) {
+        	boolean exeResult = fileService.deleteExeFilesByDate(date);
+        	boolean foodResult = fileService.deleteFoodFilesByDate(date);
+			// 组织回复数据
+			responseMap.put("resultMessage", new ResultMessage(1));
+			responseMap.put("exeResult", exeResult);
+			responseMap.put("foodResult", foodResult);
+        }
+        else {
+            // 用户未登录数据
+            responseMap.put("resultMessage", new ResultMessage(-2));
+        }
+        return responseMap;
+	}
 }

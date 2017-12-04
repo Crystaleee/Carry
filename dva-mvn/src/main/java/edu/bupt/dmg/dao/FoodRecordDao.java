@@ -22,4 +22,5 @@ public interface FoodRecordDao extends Dao<FoodRecord>{
 	public FoodRecord findByRecordID(String RecordID);
 	public List<FoodRecord> findRecById(String id);
 	public void updatedatebase();
+	public void deleteByDate(String date);
 }
