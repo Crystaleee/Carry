@@ -9,50 +9,17 @@
 
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
-            $rootScope.recordList = [];
             loadUserRecord();
+            console.log("rootScope.recordList:")
+            console.log($rootScope.recordList);
         })();
 
         function loadUserRecord() {
-            //for test
-            var result = {
-                resultMessage: {
-                    resultCode: 1
-                },
-                recordArray: [{
-                        recordID: "1",
-                        date: "2017/12/01",
-                        exercise_category: "running, swimming, boxing",
-                        exercise_time: "30, 20, 10",
-                        exercise_calorie: "1, 100, 100",
-                        food_category: "apple, pork, beef",
-                        food_amount: "1, 100, 100",
-                        food_calorie: "1, 100, 100"
-                    },
-                    {
-                        recordID: "2",
-                        date: "2017/12/02",
-                        exercise_category: "running, swimming, boxing",
-                        exercise_time: "30, 20, 10",
-                        exercise_calorie: "1, 100, 100",
-                        food_category: "apple, pork, beef",
-                        food_amount: "1, 100, 100",
-                        food_calorie: "1, 100, 100"
-                    }
-                ]
-            };
-            for (var i = 0; i < result.recordArray.length; i++) {
-                $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
-            }
-
-            UserService.LoadUserRecord(function(response) {
-                var result = $.parseJSON(response);
-                console.log("load user record: ");
+            UserService.LoadUserRecord(function(result) {
+                console.log("user record from server:");
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
-                    for (var i = 0; i < result.recordArray.length; i++) {
-                        $rootScope.recordList.push(parseRecordData(result.recordArray[i]));
-                    }
+                    $rootScope.recordList = parseRecordData(result);
                 }
             });
         };
@@ -62,26 +29,21 @@
             $rootScope.recordToEdit = record;
         };
 
-        $scope.deleteRecord = function(record) {
-            console.log("delete recordID: " + record.recordID);
-            $scope.recordList = $scope.recordList.filter(function(ele) {
-                return ele.recordID !== record.recordID;
+        $scope.deleteRecord = function(date) {
+            console.log("delete record date: " + date);
+            $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
+                return ele.date !== date;
             });
-            // UserService.DeleteRecord(record.recordID, function(response) {
-            //     var result = $.parseJSON(response);
-            //     console.log(result);
-            //     if (result.resultMessage.resultCode == 1) {
-            //         $scope.recordList = $scope.recordList.filter(function(ele) {
-            //             return ele.recordID !== record.recordID;
-            //         });
-            //     }
-            // });
+            UserService.DeleteRecord(date, function(response) {
+                var result = $.parseJSON(response);
+                console.log(result);
+                if (result.resultMessage.resultCode == 1) {
+                    $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
+                        return ele.date !== date;
+                    });
+                }
+            });
         };
-
-        // return a random number between [1, bound]
-        $scope.random = function(bound) {
-            return Math.floor((Math.random() * bound) + 1);
-        }
 
     }
 
