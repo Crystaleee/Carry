@@ -82,54 +82,55 @@ public class UserAction {
 				subject.login(token);
 				logger.info("user " + user.getUserId() + " has logged in!");
 
-				
-				
-				ExerciseRecord exerciseRecord=new ExerciseRecord();
-        		    exerciseRecord.setDate("2017/07/09");
-                exerciseRecord.setExercise_category("run;walk");
-                exerciseRecord.setExercise_time("1;3");
-                exerciseRecord.setUserID(user.getUserId());
-                String cal=fileService.getExeTotalCal("run;walk", "1;3");
-                exerciseRecord.setCal(cal);
-                
-                FoodRecord foodRecord = new FoodRecord();
-                foodRecord.setDate("2017/07/09");
-               foodRecord.setFood_category("apple;peach");
-               foodRecord.setFood_weight("1;2");
-               foodRecord.setUserID(user.getUserId());
-               String call=fileService.getFoodTotalCal("apple;peach", "1;2");
-           		foodRecord.setCal(call);
-           	
-              System.out.println("....>");
-               fileService.createExeRec(exerciseRecord);
-              fileService.createFoodRec(foodRecord);
-				System.out.println("hehehe");
-				
-				
-				List<ExerciseRecord> exeList=fileService.findExeFilesByUserId(user.getUserId());
-				List<FoodRecord> foodList=fileService.findFoodFilesByUserId(user.getUserId());
-				for(int i=0;i<exeList.size();i++){
-					System.out.println("exeid: "+exeList.get(i).getRecordID());
-					System.out.println("Date: "+exeList.get(i).getDate());
-					System.out.println("Exercise_category: "+exeList.get(i).getExercise_category());
-					System.out.println("Exercise_time: "+exeList.get(i).getExercise_time());
-					System.out.println("cal: "+exeList.get(i).getCal());
-					System.out.println("userid: "+exeList.get(i).getUserID()+"\n");
-					
-				}
-				for(int i=0;i<foodList.size();i++){
-					System.out.println("exeid: "+foodList.get(i).getRecordID());
-					System.out.println("Date: "+foodList.get(i).getDate());
-					System.out.println("Food_category: "+foodList.get(i).getFood_category());
-					System.out.println("foodweight: "+foodList.get(i).getFood_weight());
-					System.out.println("cal: "+foodList.get(i).getCal());
-					System.out.println("userid: "+foodList.get(i).getUserID()+"\n");
-				}
-				
-	        	boolean exeResult = fileService.deleteExeFilesByDate("2017/08/09");
-	        	boolean foodResult = fileService.deleteFoodFilesByDate("2017/08/09");
-	        	System.out.println("food: "+foodResult+" exe: "+exeResult);
+//				
+//				
+//				ExerciseRecord exerciseRecord=new ExerciseRecord();
+//        		    exerciseRecord.setDate("2017/07/09");
+//                exerciseRecord.setExercise_category("run;walk");
+//                exerciseRecord.setExercise_time("1;3");
+//                exerciseRecord.setUserID(user.getUserId());
+//                String cal=fileService.getExeTotalCal("run;walk", "1;3");
+//                exerciseRecord.setCal(cal);
+//                
+//                FoodRecord foodRecord = new FoodRecord();
+//                foodRecord.setDate("2017/07/09");
+//               foodRecord.setFood_category("apple;peach");
+//               foodRecord.setFood_weight("1;2");
+//               foodRecord.setUserID(user.getUserId());
+//               String call=fileService.getFoodTotalCal("apple;peach", "1;2");
+//           		foodRecord.setCal(call);
+//           	
+//              System.out.println("....>");
+//               fileService.createExeRec(exerciseRecord);
+//              fileService.createFoodRec(foodRecord);
+//				System.out.println("hehehe");
+//				
+//				
+//				List<ExerciseRecord> exeList=fileService.findExeFilesByUserId(user.getUserId());
+//				List<FoodRecord> foodList=fileService.findFoodFilesByUserId(user.getUserId());
+//				for(int i=0;i<exeList.size();i++){
+//					System.out.println("exeid: "+exeList.get(i).getRecordID());
+//					System.out.println("Date: "+exeList.get(i).getDate());
+//					System.out.println("Exercise_category: "+exeList.get(i).getExercise_category());
+//					System.out.println("Exercise_time: "+exeList.get(i).getExercise_time());
+//					System.out.println("cal: "+exeList.get(i).getCal());
+//					System.out.println("userid: "+exeList.get(i).getUserID()+"\n");
+//					
+//				}
+//				for(int i=0;i<foodList.size();i++){
+//					System.out.println("exeid: "+foodList.get(i).getRecordID());
+//					System.out.println("Date: "+foodList.get(i).getDate());
+//					System.out.println("Food_category: "+foodList.get(i).getFood_category());
+//					System.out.println("foodweight: "+foodList.get(i).getFood_weight());
+//					System.out.println("cal: "+foodList.get(i).getCal());
+//					System.out.println("userid: "+foodList.get(i).getUserID()+"\n");
+//				}
+//				
+//	        	boolean exeResult = fileService.deleteExeFilesByDate("2017/08/09");
+//	        	boolean foodResult = fileService.deleteFoodFilesByDate("2017/08/09");
+//	        	System.out.println("food: "+foodResult+" exe: "+exeResult);
 
+				
 				return new ResultMessage(1);
 			} else {
 				return new ResultMessage(-1);
