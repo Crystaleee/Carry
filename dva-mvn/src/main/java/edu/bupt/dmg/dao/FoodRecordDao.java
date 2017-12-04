@@ -1,5 +1,7 @@
 package edu.bupt.dmg.dao;
 
+import java.util.List;
+
 import edu.bupt.dmg.domain.*;
 /**
  * 用户的数据接入层接口
@@ -18,6 +20,6 @@ public interface FoodRecordDao extends Dao<FoodRecord>{
 	 * @return
 	 */
 	public FoodRecord findByRecordID(String RecordID);
-
+	public List<FoodRecord> findRecById(String id);
 	public void updatedatebase();
 }

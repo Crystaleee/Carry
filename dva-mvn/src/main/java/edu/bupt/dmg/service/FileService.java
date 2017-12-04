@@ -27,6 +27,6 @@ public interface FileService {
 	public boolean createExeRec(ExerciseRecord exerciseRecord );
 	public boolean createFoodRec(FoodRecord foodRecord);
 	public List<ExerciseRecord> findExeFilesByUserId(String userId);
-//	public List<FoodRecord> findFoodFilesByUserId(String userId);
+	public List<FoodRecord> findFoodFilesByUserId(String userId);
 	
 }
