@@ -96,7 +96,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public boolean deleteExeFilesByDate(String date){
 		try{
-			foodRecordDao.deleteByDate(date);
+			exerciseRecordDao.deleteByDate(date);
 		}catch(Exception e){
 			return false;
 		}

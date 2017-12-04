@@ -116,7 +116,7 @@ public class UserInformation {
         }
         return responseMap;
 	}
-<<<<<<< HEAD
+
 	
 	
 	
@@ -150,10 +150,7 @@ public class UserInformation {
 	
 	
 	
-	
-	
 
-=======
 	@RequestMapping(value = "/deleteRecord")
 	public @ResponseBody Map<String, Object> deleteRecord(String date) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
@@ -173,5 +170,5 @@ public class UserInformation {
         }
         return responseMap;
 	}
->>>>>>> 8896d803a0f0b129604d847717a3dc2957cff7c0
+
 }
