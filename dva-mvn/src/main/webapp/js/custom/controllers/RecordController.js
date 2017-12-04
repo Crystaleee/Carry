@@ -30,10 +30,10 @@
                 "Soccer",
                 "Jogging",
                 "Bicycling",
-                "rope skipping",
-                "squash",
-                "tennis",
-                "volleyball"
+                "Rope skipping",
+                "Squash",
+                "Tennis",
+                "Volleyball"
             ];
             if (record == undefined || record == null) { // if there's no reocrd to edit
                 $scope.record = {
@@ -45,8 +45,6 @@
                 console.log(record);
                 $scope.record = record;
             }
-
-
         };
 
         $scope.updateRecord = function() {

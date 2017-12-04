@@ -67,34 +67,82 @@
     max-height: 30px;
 }
 
-.animate-enter, .animate-leave {
-    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    position: relative;
+.my-animate.ng-enter {
+    -webkit-animation: enter 600ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    animation: enter 600ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
     display: block;
+    position: relative;
 }
 
-.animate-leave.animate-leave-active, .animate-enter {
-    -webkit-transform: rotateX(-180deg) translatez(30px);
-    -moz-transform: rotateX(-180deg) translatez(30px);
-    -ms-transform: rotateX(-180deg) translatez(30px);
-    -o-transform: rotateX(-180deg) translatez(30px);
-    transform: rotateX(-180deg) translatez(30px);
-    opacity: 0;
-    height: 0px;
+@-webkit-keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    75% {
+        left: 15px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
 }
 
-.animate-enter.animate-enter-active, .animate-leave {
-    -webkit-transform: rotateX(0deg) translatez(30px);
-    -moz-transform: rotateX(0deg) translatez(30px);
-    -ms-transform: rotateX(0deg) translatez(30px);
-    -o-transform: rotateX(0deg) translatez(30px);
-    transform: rotateX(0deg) translatez(30px);
-    opacity: 1;
-    height: 30px;
+@keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    75% {
+        left: 15px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+    }
+}
+
+.my-animate.ng-leave {
+    -webkit-animation: leave 600ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    animation: leave 600ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    display: block;
+    position: relative;
+}
+
+@-webkit-keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    25% {
+        left: 15px;
+    }
+    from {
+        opacity: 1;
+        height: 180px;
+        left: 0px;
+    }
+}
+
+@keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        left: -70px;
+    }
+    25% {
+        left: 15px;
+    }
+    from {
+        opacity: 1;
+        height: 180px;
+        left: 0px;
+    }
 }
 
 /*Home profile*/
@@ -202,7 +250,7 @@
     display: inline-block;
     vertical-align: middle;
     -webkit-filter: brightness(65%);
-filter: brightness(65%);
+    filter: brightness(65%);
 }
 
 .grade span.chosen {
@@ -210,7 +258,7 @@ filter: brightness(65%);
     height: 30px;
     line-height: 30px;
     -webkit-filter: brightness(100%);
-filter: brightness(100%);
+    filter: brightness(100%);
 }
 
 .grade span.s {
