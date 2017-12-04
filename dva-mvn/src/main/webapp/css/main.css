@@ -185,7 +185,7 @@
 
 .rating {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .rating label {
@@ -196,10 +196,41 @@
 .grade span {
     background: #fff;
     width: 25px;
-    color: black;
+    color: #fff;
     height: 25px;
     line-height: 25px;
     display: inline-block;
+    vertical-align: middle;
+    -webkit-filter: brightness(65%);
+filter: brightness(65%);
+}
+
+.grade span.chosen {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    -webkit-filter: brightness(100%);
+filter: brightness(100%);
+}
+
+.grade span.s {
+    background: #04a294;
+}
+
+.grade span.a {
+    background: #8ec350;
+}
+
+.grade span.b {
+    background: #b6c333;
+}
+
+.grade span.c {
+    background: #ceae10;
+}
+
+.grade span.f {
+    background: #fd5050;
 }
 
 .profile table {

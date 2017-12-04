@@ -8655,18 +8655,18 @@ function parseRecordData(data) {
         };
         var exercise_category = exeList[i].exercise_category.split(";").map(s => s.trim());
         var exercise_time = exeList[i].exercise_time.split(";").map(s => s.trim());
-        // var exercise_calorie = exeList[i].exercise_calorie.split(";").map(s => s.trim());
+        var exercise_calorie = exeList[i].exercise_calorie.split(";").map(s => s.trim());
         for (var j = 0; j < exercise_category.length; j++) {
-            record.exerciseList.push(new Exercise(exercise_category[j], exercise_time[j])); //, exercise_calorie[i]));
+            record.exerciseList.push(new Exercise(exercise_category[j], exercise_time[j], exercise_calorie[i]));
         }
 
         for (var k = 0; k < foodList.length; k++) {
             if (foodList[k].date == exedate) {
                 var food_category = foodList[k].food_category.split(";").map(s => s.trim());
                 var food_amount = foodList[k].food_weight.split(";").map(s => s.trim());
-                // var food_calorie = foodList[k].food_calorie.split(";").map(s => s.trim());
+                var food_calorie = foodList[k].food_calorie.split(";").map(s => s.trim());
                 for (var j = 0; j < food_category.length; j++) {
-                    record.foodList.push(new Food(food_category[j], food_amount[j])); //, food_calorie[i]));
+                    record.foodList.push(new Food(food_category[j], food_amount[j], food_calorie[i]));
                 }
                 break;
             }
@@ -8757,6 +8757,7 @@ function parseRecordData(data) {
         (function initController() {
             loadUserProfile();
             $scope.selection = "timeline";
+            $scope.chosen = 'a';
         })();
 
         function loadUserProfile() {
@@ -8850,16 +8851,29 @@ function parseRecordData(data) {
 
         $scope.init = function(record) {
             $scope.foodOptions = [
-                "pork",
-                "beef",
-                "chicken",
-                "apple"
+                "Egg",
+                "Pork",
+                "Steak",
+                "Chicken",
+                "Broccoli",
+                "Carrot",
+                "Mushroom",
+                "Apple",
+                "Banana",
+                "Watermelon",
+                "Coca"
             ];
             $scope.exerciseOptions = [
-                "running",
-                "swimming",
-                "dancing",
-                "boxing"
+                "Swimming",
+                "Basketball",
+                "Fitness",
+                "Soccer",
+                "Jogging",
+                "Bicycling",
+                "rope skipping",
+                "squash",
+                "tennis",
+                "volleyball"
             ];
             if (record == undefined || record == null) { // if there's no reocrd to edit
                 $scope.record = {
@@ -8881,8 +8895,7 @@ function parseRecordData(data) {
 
             //if there's no recordID, upload new record
             if (data.recordID == undefined || data.recordID == null) {
-                UserService.UploadRecord(data, function(response) {
-                    var result = $.parseJSON(response);
+                UserService.UploadRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
 

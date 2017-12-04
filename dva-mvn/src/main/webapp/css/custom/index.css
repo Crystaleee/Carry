@@ -116,7 +116,7 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     color: #fff;
 }
 
-.btn-link:hover {
+.main .btn-link:hover {
     color: #6fdaa1;
 }
 
