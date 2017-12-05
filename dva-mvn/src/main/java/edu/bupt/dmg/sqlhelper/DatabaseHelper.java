@@ -64,9 +64,57 @@ public class DatabaseHelper {
             String table_user = " CREATE TABLE IF NOT EXISTS user ( UserId varchar(45) ,UserName varchar(45) , UserPwd varchar(45) DEFAULT NULL, BirthDate varchar(45) DEFAULT NULL, Height float DEFAULT NULL, Weight float DEFAULT NULL,  BMI float DEFAULT NULL, BFR float DEFAULT NULL, Sex varchar(45) DEFAULT NULL, Email varchar(45) DEFAULT NULL, AccountNonLocked bool DEFAULT '0', Enabled bool DEFAULT '0', EnableCode varchar(45) DEFAULT NULL, ExpirationDate varchar(45) DEFAULT NULL) ;";
             String table_ex_rec = "CREATE TABLE IF NOT EXISTS Ex_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, Exercise_time varchar(45) NOT NULL,	UserID varchar(45) NOT NULL, Date varchar(45) NOT NULL,Exercise_category varchar(50) NOT NULL) ;";
             String drop_ex="drop table if exists Exercise;";
+            String drop_ex_rec="drop table if exists Ex_record;";
             String drop_food="drop table if exists Food;";
             String insert_ex="insert into Exercise(ExName,Ex_cal) VALUES('Swimming','400'),('Basketball','500'),('Fitness','550'),('Soccer','588'),('Jogging','600'),('Bicycling','330'),('Rope skipping','800'),('Squash','1000'),('Tennis','425'),('Volleyball','294');";
             String insert_food="insert into Food(FoodName, Food_cal)VALUES('Egg','86'),('Pork','241'),('Steak','250'),('Chicken','239'),('Broccoli','33.7'),('Carrot','41.3'),('Mushroom','22.2'),('Apple','54'),('Banana','88.7'),('Watermelon','30.4'),('Coca','37.5');";
+            String insert_ex_rec="insert into Ex_record(Cal,\n" + 
+            		"Exercise_time,\n" + 
+            		"UserID,\n" + 
+            		"Date,\n" + 
+            		"Exercise_category) VALUES \n" + 
+            		"('400' ,'1' ,'00','2017-12-04','Swimming' ),\n" + 
+            		"('500' ,'0.5' ,'01','2017-12-03','Basketball'),\n" + 
+            		"('825' ,'1.5' ,'02','2017-12-02','Fitness' ),\n" + 
+            		"('588' ,'1' ,'03','2017-12-01','Soccer' ),\n" + 
+            		"('300' ,'0.5' ,'04','2017-11-30','Jogging' ),\n" + 
+            		"('495' ,'1.5' ,'05','2017-11-29','Bicycling' ),\n" + 
+            		"('800' ,'1' ,'06','2017-11-28','Rope skipping' ),\n" + 
+            		"('500' ,'0.5' ,'07','2017-11-27','Squash ' ),\n" + 
+            		"('850' ,'1.5' ,'08','2017-11-26','Tennis' ),\n" + 
+            		"('294' ,'1' ,'09','2017-11-25','Volleyball' ),\n" + 
+            		"('200' ,'0.5' ,'010','2017-11-24','Swimming' ),\n" + 
+            		"('750','1.5' ,'011','2017-11-23','Basketball' ),\n" + 
+            		"('550','1' ,'012','2017-11-22','Fitness' ),\n" + 
+            		"('294' ,'0.5' ,'013','2017-11-21','Soccer' ),\n" + 
+            		"('900' ,'1.5' ,'014','2017-11-20','Jogging' ),\n" + 
+            		"('495' ,'1' ,'015','2017-11-19','Bicycling' ),\n" + 
+            		"('400' ,'0.5' ,'016','2017-11-18','Rope skipping' ),\n" + 
+            		"('1500','1.5' ,'017','2017-11-17','Squash' ),\n" + 
+            		"('425' ,'1' ,'018','2017-11-16','Tennis' ),\n" + 
+            		"('147','0.5' ,'019','2017-11-15','Volleyball' ),\n" + 
+            		"('600','1.5' ,'020','2017-11-14','Swimming' ),\n" + 
+            		"('500','1' ,'021','2017-11-13','Basketball' ),\n" + 
+            		"('225' ,'0.5' ,'022','2017-11-12','Fitness' ),\n" + 
+            		"('882' ,'1.5' ,'023','2017-11-11','Soccer' ),\n" + 
+            		"('600' ,'1' ,'024','2017-11-10','Jogging' ),\n" + 
+            		"('165' ,'0.5' ,'025','2017-11-09','Bicycling' ),\n" + 
+            		"('1200' ,'1.5' ,'026','2017-11-08','Rope skipping' ),\n" + 
+            		"('1000' ,'1' ,'027','2017-10-07','Squash'),\n" + 
+            		"('212.5','0.5' ,'028','2017-10-06','Tennis'),\n" + 
+            		"('588' ,'1.5' ,'029','2017-10-05','Volleyball'),\n" + 
+            		"('400' ,'1' ,'030','2017-10-04','Swimming'),\n" + 
+            		"('250' ,'0.5' ,'031','2017-10-03','Basketball'),\n" + 
+            		"('825' ,'1.5' ,'032','2017-10-02','Fitness'),\n" + 
+            		"('588' ,'1' ,'033','2017-10-01','Soccer ' ),\n" + 
+            		"('300' ,'0.5' ,'034','2017-10-08','Jogging ' ),\n" + 
+            		"('495' ,'1.5' ,'035','2017-10-09','Bicycling ' ),\n" + 
+            		"('800' ,'1' ,'036','2017-10-10','Rope skipping ' ),\n" + 
+            		"('500' ,'0.5' ,'037','2017-10-11','Squash ' ),\n" + 
+            		"('850' ,'1.5' ,'038','2017-10-12','Tennis ' );";
+            
+            
+            
             String table_ex="CREATE TABLE IF NOT EXISTS Exercise (ExName varchar(20) NOT NULL,Ex_cal  varchar(20) NOT NULL); ";
             String table_food_rec="CREATE TABLE IF NOT EXISTS Food_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, UserID varchar(256) NOT NULL,Date varchar(256) NOT NULL,Food_category varchar(50) NOT NULL,Food_weight varchar(50) NOT NULL) ;";
             String table_food="CREATE TABLE IF NOT EXISTS Food (FoodName varchar(20) NOT NULL,Food_cal varchar(20) NOT NULL);";
@@ -81,6 +129,7 @@ public class DatabaseHelper {
 
             stmt.executeUpdate(drop_food);
             stmt.executeUpdate(drop_ex);
+            stmt.executeUpdate(drop_ex_rec);
             stmt.executeUpdate(table_user);
             stmt.executeUpdate(table_food);
             stmt.executeUpdate(table_food_rec);
@@ -88,6 +137,8 @@ public class DatabaseHelper {
             stmt.executeUpdate(table_ex_rec);
             stmt.executeUpdate(insert_food);
             stmt.executeUpdate(insert_ex);
+            stmt.executeUpdate(insert_ex_rec);
+            
             System.out.println("Created table in given database...");
          
             statement.close();  
