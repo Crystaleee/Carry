@@ -112,7 +112,9 @@ public class DatabaseHelper {
             		"('495' ,'1.5' ,'bobby','2017-11-06','Bicycling' ),\n" + 
             		"('800' ,'1' ,'bobby','2017-11-07','Rope skipping' ),\n" + 
             		"('500' ,'0.5' ,'bobby','2017-11-08','Squash' ),\n" + 
-            		"('850' ,'1.5' ,'bobby','2017-11-09','Tennis' );";
+            		"('850' ,'1.5' ,'bobby','2017-11-09','Tennis' ),\n"+
+            		"('1750' ,'0.5' ,'bobby','2017-11-10','Fitness,Bicycling,Jogging,Volleyball' ),\n" + 
+            		"('1750' ,'0.5' ,'bobby','2017-11-11','Fitness,Bicycling,Jogging,Volleyball' );";
             String insert_food_rec="insert into Food_record(Cal,\n" + 
             		"UserID,\n" + 
             		"Date,\n" + 
