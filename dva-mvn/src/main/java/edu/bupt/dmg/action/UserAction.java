@@ -28,6 +28,7 @@ import edu.bupt.dmg.domain.User;
 import edu.bupt.dmg.realm.UserRealm;
 import edu.bupt.dmg.service.FileService;
 import edu.bupt.dmg.service.UserService;
+import edu.bupt.dmg.utils.PasswordEncoder;
 
 
 
@@ -246,7 +247,8 @@ public class UserAction {
 		if(userid !=null && !"".equals(userid)) {
 			User user=new User();
 			user.setName(name);
-			user.setPassword(password);
+			String newPassword = PasswordEncoder.encode(password);
+			user.setPassword(newPassword);
 			user.setSex(sex);
 			user.setBirthDate(birthday);
 			user.setHeight(height);
