@@ -113,8 +113,8 @@ public class DatabaseHelper {
             		"('800' ,'1' ,'bobby','2017-11-07','Rope skipping' ),\n" + 
             		"('500' ,'0.5' ,'bobby','2017-11-08','Squash' ),\n" + 
             		"('850' ,'1.5' ,'bobby','2017-11-09','Tennis' ),\n"+
-            		"('250,150,350,150' ,'0.5' ,'bobby','2017-11-10','Fitness,Bicycling,Jogging,Volleyball' ),\n" + 
-            		"('250,150,350,150' ,'0.5' ,'bobby','2017-11-11','Fitness,Bicycling,Jogging,Volleyball' );";
+            		"('250,150,350,150' ,'1,1.5,0.5,0.5' ,'bobby','2017-11-10','Fitness,Bicycling,Jogging,Volleyball' ),\n" + 
+            		"('250,150,350,150' ,'0.5,0.5,1.5,1' ,'bobby','2017-11-11','Fitness,Bicycling,Jogging,Volleyball' );";
             String insert_food_rec="insert into Food_record(Cal,\n" + 
             		"UserID,\n" + 
             		"Date,\n" + 
