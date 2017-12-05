@@ -1,6 +1,7 @@
 package edu.bupt.dmg.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -127,16 +128,25 @@ public class FileServiceImpl implements FileService {
 	public String getFoodTotalCal(String category, String time){
 		String[] resultCategory=category.split(",");
 		String[] resultTime=time.split(",");
-		double product= 0;
+		ArrayList result=new ArrayList();
 		for(int i=0;i<resultCategory.length;i++){
+			double product= 0;
 			System.out.println("????resultCategory[i]: "+resultCategory[i]);
 			Food food = foodDao.findByName(resultCategory[i]);
 			
 			System.out.println("food.getFood_cal():"+food.getFood_cal());
 			System.out.println("resultTime[i]: "+resultTime[i]);
-			product =product+Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i]);
+			product =Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i]);
+			result.add(Double.toString(product));
 		}
-		return Double.toString(product);
+		String cal="";
+		for (int i=0;i<result.size();i++){
+			cal=cal+(String)result.get(i)+",";
+			
+		}
+		cal=cal.substring(0, cal.length()-1);
+		System.out.println("callllllll: "+cal);
+		return cal;
 	}
 }
 
