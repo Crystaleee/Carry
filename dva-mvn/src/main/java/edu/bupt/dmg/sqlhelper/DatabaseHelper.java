@@ -62,7 +62,7 @@ public class DatabaseHelper {
             System.out.println("(");
             Statement stmt = null;
             String table_user = " CREATE TABLE IF NOT EXISTS user ( UserId varchar(45) ,UserName varchar(45) , UserPwd varchar(45) DEFAULT NULL, BirthDate varchar(45) DEFAULT NULL, Height float DEFAULT NULL, Weight float DEFAULT NULL,  BMI float DEFAULT NULL, BFR float DEFAULT NULL, Sex varchar(45) DEFAULT NULL, Email varchar(45) DEFAULT NULL, AccountNonLocked bool DEFAULT '0', Enabled bool DEFAULT '0', EnableCode varchar(45) DEFAULT NULL, ExpirationDate varchar(45) DEFAULT NULL) ;";
-            String table_ex_rec = "CREATE TABLE IF NOT EXISTS Ex_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, Exercise_time varchar(45) NOT NULL,	UserID varchar(45) NOT NULL, Date varchar(45) NOT NULL,Exercise_category varchar(50) NOT NULL) ;";
+            String table_ex_rec = "CREATE TABLE IF NOT EXISTS Ex_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, Exercise_time varchar(45) NOT NULL,	UserID varchar(45) NOT NULL, Date varchar(45) NOT NULL,Exercise_category varchar(200) NOT NULL) ;";
             String drop_ex="drop table if exists Exercise;";
             String drop_ex_rec="drop table if exists Ex_record;";
             String drop_food_rec="drop table if exists Food_record;";
@@ -163,7 +163,7 @@ public class DatabaseHelper {
             
             
             String table_ex="CREATE TABLE IF NOT EXISTS Exercise (ExName varchar(20) NOT NULL,Ex_cal  varchar(20) NOT NULL); ";
-            String table_food_rec="CREATE TABLE IF NOT EXISTS Food_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, UserID varchar(256) NOT NULL,Date varchar(256) NOT NULL,Food_category varchar(50) NOT NULL,Food_weight varchar(50) NOT NULL) ;";
+            String table_food_rec="CREATE TABLE IF NOT EXISTS Food_record (Cal varchar(20) NOT NULL, RecordID int auto_increment primary key, UserID varchar(256) NOT NULL,Date varchar(256) NOT NULL,Food_category varchar(200) NOT NULL,Food_weight varchar(50) NOT NULL) ;";
             String table_food="CREATE TABLE IF NOT EXISTS Food (FoodName varchar(20) NOT NULL,Food_cal varchar(20) NOT NULL);";
             String l1 = "CREATE database IF NOT EXISTS dvamvn; ";
             statement.executeUpdate(l1);
