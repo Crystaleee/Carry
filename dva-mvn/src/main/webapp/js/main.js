@@ -8501,6 +8501,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
                 data: record,
+                async: false,
                 success: function(data) {
                     callback(data);
                 },
@@ -8516,6 +8517,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 type: "POST",
                 url: "/dva-mvn/UserInformation/updateRecord.do",
                 data: record,
+                async: false,
                 success: function(data) {
                     callback(data);
                 },
@@ -8531,6 +8533,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 type: "POST",
                 url: "/dva-mvn/UserInformation/deleteRecord.do",
                 data: date,
+                async: false,
                 success: function(data) {
                     callback(data);
                 },
