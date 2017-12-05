@@ -223,11 +223,11 @@
         };
 
         $scope.deleteRecord = function(date) {
-            console.log("delete record date: " + date);
+            console.log("delete record date: " + formatDate(date));
             // $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
             //     return ele.date !== date;
             // });
-            UserService.DeleteRecord(date, function(result) {
+            UserService.DeleteRecord(formatDate(date), function(result) {
 
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
