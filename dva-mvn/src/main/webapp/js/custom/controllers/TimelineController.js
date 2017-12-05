@@ -233,8 +233,10 @@
                 if (result.resultMessage.resultCode == 1) {
                     $rootScope.showalert("Your record is deleted successfully!", "success");
                     $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
-                        return ele.date !== date;
+                        return ele.date != date;
                     });
+                    console.log("after filting:");
+                    console.log($rootScope.recordList);
                 }
             });
         };

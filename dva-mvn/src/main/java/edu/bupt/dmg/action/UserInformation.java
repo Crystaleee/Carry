@@ -131,8 +131,8 @@ public class UserInformation {
 	
 	
 	
-	@RequestMapping(value = "/UpdateRecord")
-    public @ResponseBody ResultMessage UpdateRecord(String recordId, String date, String exercise_category, String exercise_time, String food_category, String food_amount) throws Exception{
+	@RequestMapping(value = "/updateRecord")
+    public @ResponseBody ResultMessage updateRecord(String recordId, String date, String exercise_category, String exercise_time, String food_category, String food_amount) throws Exception{
 		Subject subject = SecurityUtils.getSubject();
 		String userId = subject.getPrincipal().toString();
 		 int EXESUCCESS=1,FOODSUCCESS=1;
