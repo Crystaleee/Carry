@@ -148,13 +148,16 @@ public class UserInformation {
 	        	   exerciseRecord.setDate(date);
 	        	   exerciseRecord.setExercise_category(exercise_category);
 	        	   exerciseRecord.setExercise_time(exercise_time);
-	        	   
+	        	   String cal=fileService.getExeTotalCal(exercise_category, exercise_time);
+                exerciseRecord.setCal(cal);
 	        	   
 	        	   FoodRecord foodRecord = new FoodRecord();
 	        	   foodRecord.setUserID(userId);
 	        	   foodRecord.setDate(date);
 	        	   foodRecord.setFood_category(food_category);
 	        	   foodRecord.setFood_weight(food_amount);
+	        	   String call=fileService.getFoodTotalCal(food_category, food_amount);
+               foodRecord.setCal(call);
 	        	   if(!fileService.createExeRec(exerciseRecord)){
                    	EXESUCCESS=0;
                    }
@@ -163,7 +166,7 @@ public class UserInformation {
 	                   }
 	        	
 	        	   if(EXESUCCESS==1&&FOODSUCCESS==1){
-	               	return new ResultMessage(-1);
+	               	return new ResultMessage(1);
 	               }
 	               else if(EXESUCCESS==0&&FOODSUCCESS==1)
 	            	   return new ResultMessage(-15);
