@@ -9020,7 +9020,7 @@ function parseRecordData(data) {
             if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) {
                 UserService.UploadRecord(data, function(result) {
                     console.log(result);
-                    if (result.resultCode == 1) {
+                    if (result.resultMessage.resultCode == 1) {
                         $rootScope.showalert("Your fitness is recorded successfully!", "success");
                         $scope.changeSelection("timeline");
                     } else {
@@ -9030,7 +9030,7 @@ function parseRecordData(data) {
             } else { // else update existing record
                 UserService.UpdateRecord(data, function(result) {
                     console.log(result);
-                    if (result.resultCode == 1) {
+                    if (result.resultMessage.resultCode == 1) {
                         $rootScope.recordToEdit = undefined;
                         $rootScope.showalert("Your record is updated successfully!", "success");
                         $scope.changeSelection("timeline");
