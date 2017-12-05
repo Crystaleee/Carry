@@ -8650,7 +8650,7 @@ function parseRecordData(data) {
         var exedate = exeList[i].date;
 
         var record = {
-            date: new Date(exedate),
+            date: moment(exedate).toDate(),
             foodList: [],
             exerciseList: []
         };
