@@ -188,6 +188,7 @@ public class UserInformation {
 
 	@RequestMapping(value = "/deleteRecord")
 	public @ResponseBody Map<String, Object> deleteRecord(String date) throws Exception {
+		System.out.println("date!!!!: "+date);
 		Subject subject = SecurityUtils.getSubject();
         String userId = subject.getPrincipal().toString();
         Map<String, Object> responseMap = new HashMap<>();

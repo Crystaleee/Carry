@@ -136,7 +136,7 @@ public class FileServiceImpl implements FileService {
 			
 			System.out.println("food.getFood_cal():"+food.getFood_cal());
 			System.out.println("resultTime[i]: "+resultTime[i]);
-			product =Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i]);
+			product =Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i])/100;
 			result.add(Double.toString(product));
 		}
 		String cal="";
