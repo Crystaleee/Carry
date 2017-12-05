@@ -58,11 +58,7 @@ data format
 function createRecordData(record, userID) {
     var data = {};
 
-    data.userID = userID;
     data.date = formatDate(record.date);
-
-    if (record.recordID != undefined)
-        data.recordID = record.recordID;
 
     var foodList = record.foodList;
     var exerciseList = record.exerciseList;
