@@ -37,6 +37,13 @@ public class UserInformation {
 	
 	@RequestMapping(value = "/uploadRecord")
 	public @ResponseBody Map<String, Object> uploadRecord(String date, String exercise_category, String exercise_time, String food_category, String food_amount ) throws Exception {
+		System.out.println("qwqwqwqwq");
+		System.out.println("date: "+date);
+		System.out.println("exercise_category: "+exercise_category);
+		System.out.println("exercise_time: "+exercise_time);
+		System.out.println("food_category: "+food_category);
+		System.out.println("food_amount: "+food_amount);
+		
 		Subject subject = SecurityUtils.getSubject();
         String userId = subject.getPrincipal().toString();
         Map<String, Object> responseMap = new HashMap<>();
@@ -71,7 +78,7 @@ public class UserInformation {
                 	foodRecord.setFood_category(food_category);
                 	foodRecord.setFood_weight(food_amount);
                 	foodRecord.setUserID(userId);
-                	String cal=fileService.getFoodTotalCal(exercise_category, exercise_time);
+                	String cal=fileService.getFoodTotalCal(food_category, food_amount);
                 	foodRecord.setCal(cal);
                 	if(!fileService.createFoodRec(foodRecord)){
                 		FOODSUCCESS=0;

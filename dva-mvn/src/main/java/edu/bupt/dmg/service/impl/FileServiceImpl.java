@@ -128,7 +128,11 @@ public class FileServiceImpl implements FileService {
 		String[] resultTime=time.split(",");
 		double product= 0;
 		for(int i=0;i<resultCategory.length;i++){
+			System.out.println("????resultCategory[i]: "+resultCategory[i]);
 			Food food = foodDao.findByName(resultCategory[i]);
+			
+			System.out.println("food.getFood_cal():"+food.getFood_cal());
+			System.out.println("resultTime[i]: "+resultTime[i]);
 			product =product+Double.valueOf(food.getFood_cal()) * Double.valueOf(resultTime[i]);
 		}
 		return Double.toString(product);

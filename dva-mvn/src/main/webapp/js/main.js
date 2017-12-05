@@ -8369,7 +8369,6 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
         service.DeleteRecord = DeleteRecord;
-        service.TimeSlot = TimeSlot;
 
         return service;
 
@@ -8501,7 +8500,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
-                date: record,
+                data: record,
                 success: function(data) {
                     callback(data);
                 },
@@ -8516,7 +8515,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/updateRecord.do",
-                date: record,
+                data: record,
                 success: function(data) {
                     callback(data);
                 },
@@ -8527,26 +8526,11 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
         }
 
-        function DeleteRecord(recordID, callback) {
+        function DeleteRecord(date, callback) {
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/deleteRecord.do",
-                date: recordID,
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
-                }
-
-            });
-        }
-
-        function TimeSlot(form, callback) {
-            $.ajax({
-                type: "POST",
-                url: "/dva-mvn/UserInformation/timeslotRecord.do",
-                async: false,
+                data: date,
                 success: function(data) {
                     callback(data);
                 },
@@ -8628,11 +8612,7 @@ data format
 function createRecordData(record, userID) {
     var data = {};
 
-    data.userID = userID;
     data.date = formatDate(record.date);
-
-    if (record.recordID != undefined)
-        data.recordID = record.recordID;
 
     var foodList = record.foodList;
     var exerciseList = record.exerciseList;
@@ -8671,18 +8651,18 @@ function parseRecordData(data) {
             foodList: [],
             exerciseList: []
         };
-        var exercise_category = exeList[i].exercise_category.split(";").map(s => s.trim());
-        var exercise_time = exeList[i].exercise_time.split(";").map(s => s.trim());
-        var exercise_calorie = exeList[i].exercise_calorie.split(";").map(s => s.trim());
+        var exercise_category = exeList[i].exercise_category.split(",").map(s => s.trim());
+        var exercise_time = exeList[i].exercise_time.split(",").map(s => s.trim());
+        var exercise_calorie = exeList[i].exercise_calorie.split(",").map(s => s.trim());
         for (var j = 0; j < exercise_category.length; j++) {
             record.exerciseList.push(new Exercise(exercise_category[j], exercise_time[j], exercise_calorie[i]));
         }
 
         for (var k = 0; k < foodList.length; k++) {
             if (foodList[k].date == exedate) {
-                var food_category = foodList[k].food_category.split(";").map(s => s.trim());
-                var food_amount = foodList[k].food_weight.split(";").map(s => s.trim());
-                var food_calorie = foodList[k].food_calorie.split(";").map(s => s.trim());
+                var food_category = foodList[k].food_category.split(",").map(s => s.trim());
+                var food_amount = foodList[k].food_weight.split(",").map(s => s.trim());
+                var food_calorie = foodList[k].food_calorie.split(",").map(s => s.trim());
                 for (var j = 0; j < food_category.length; j++) {
                     record.foodList.push(new Food(food_category[j], food_amount[j], food_calorie[i]));
                 }
@@ -8699,16 +8679,198 @@ function parseRecordData(data) {
 
 	angular.module('app').controller('FigureController', FigureController);
 
-	FigureController.$inject = [ '$location', '$scope', 'AuthenticationService' ];
+	FigureController.$inject = [ '$location', '$scope', 'AuthenticationService', '$rootScope' ];
 
-	function FigureController($location, $scope, AuthenticationService) {
+	function FigureController($location, $scope, AuthenticationService, $rootScope) {
 		// initilization function
 		(function initController() {
-
+			$scope.figure = {
+					starttime: null,
+					endtime: null
+			}
+			$scope.recordList = $rootScope.recordList;
+			
 		})();
 		
 		$scope.DrawFigure = function() {
+			var starttime = formatDate($scope.figure.starttime);
+			var endtime = formatDate($scope.figure.endtime);
+			var dateList = [];
+			var foodCalList = [];
+			var exCalList = [];
+			for (var i = 0; i < $scope.recordList.length; i++) {
+				var record = $scope.recordList[i];
+				var recordDate = formatDate(record.date);
+				if ((recordDate >= starttime) && (recordDate <= endtime)){
+					dateList.push(recordDate);
+
+					var exCal = 0;
+					for (var j = 0; j < record.exerciseList.length; j++) {
+						exCal += parseInt(record.exerciseList[j].exercise_calorie);
+					}
+					exCalList.push(exCal);
+
+					var foodCal = 0;
+					for (var j = 0; j < record.foodList.length; j++) {
+						foodCal += parseInt(record.foodList[j].food_calorie);
+					}
+					foodCalList.push(foodCal);
+				}
+			}
+			var totalCalList = [];
+			for (var i = 0; i < dateList.length; i++) {
+				totalCalList[i] = foodCalList[i] - exCalList[i];
+			}
 			
+			
+			var dom = document.getElementById("container");
+			console.log(dom);
+			console.log(totalCalList);
+
+			var myChart = echarts.init(dom);
+			var app = {};
+			var xAxisData = [];
+			var data1 = [];
+			var data2 = [];
+			for (var i = 0; i < 100; i++) {
+			    xAxisData.push('类目' + i);
+			    data1.push((Math.sin(i / 5) * (i / 5 -10) + i / 6) * 5);
+			    data2.push((Math.cos(i / 5) * (i / 5 -10) + i / 6) * 5);
+			}
+
+			var option = {
+			    title: {
+			        text: 'Record'
+			    },
+			    legend: {
+			        data: ['food_cal', 'ex_cal', 'total_cal'],
+			        align: 'left'
+			    },
+			    toolbox: {
+			        // y: 'bottom',
+			        feature: {
+			            magicType: {
+			                type: ['stack', 'tiled']
+			            },
+//			            dataView: {},
+			            saveAsImage: {
+			                pixelRatio: 2
+			            }
+			        }
+			    },
+			    tooltip: {},
+			    xAxis: {
+//			        data: xAxisData,
+			    		data: [1, 2, 3, 4, 5, 6, 7],
+			        silent: false,
+			        splitLine: {
+			            show: false
+			        }
+			    },
+			    yAxis: {
+			    },
+			    series: [{
+			        name: 'food_cal',
+			        type: 'bar',
+//			        data: data1,
+			        data: [ 150, 232, 201, 154, 190, 330, 410 ],
+			        animationDelay: function (idx) {
+			            return idx * 10;
+			        }
+			    }, {
+			        name: 'ex_cal',
+			        type: 'bar',
+//			        data: data2,
+			        data: [ -120, -132, -101, -134, -90, -230, -210 ],
+			        animationDelay: function (idx) {
+			            return idx * 10 + 100;
+			        }
+			    }, {
+			        name: 'total_cal',
+			        type: 'bar',
+			        data: [ 30, 100, 100, 20, 100, 100, 200 ],
+			        animationDelay: function (idx) {
+			            return idx * 10;
+			        }
+			    }],
+			    animationEasing: 'elasticOut',
+			    animationDelayUpdate: function (idx) {
+			        return idx * 5;
+			    }
+			};;
+			if (option && typeof option === "object") {
+			    myChart.setOption(option, true);
+			}
+			
+			
+//			var myChart = echarts.init(document.getElementById('main'));
+//			var option = {
+//					title : {
+//						text : 'Record'
+//					},
+//					tooltip : {
+//						trigger : 'axis',
+//						axisPointer : {
+//							type : 'cross',
+//							label : {
+//								backgroundColor : '#6a7985'
+//							}
+//						}
+//					},
+//					legend : {
+//						data : [ 'food_cal', 'ex_cal', 'total_cal' ]
+//					},
+//					grid : {
+//						left : '3%',
+//						right : '4%',
+//						bottom : '3%',
+//						containLabel : true
+//					},
+//					xAxis : [ {
+//						type : 'category',
+//						boundaryGap : false,
+////						data : [ '10.1', '10.8', '10.15', '10.21', '10.28', '11.4', '11.11' ]
+//						data : dateList
+//					} ],
+//					yAxis : [ {
+//						type : 'value'
+//					} ],
+//					series : [ {
+//						name : 'food_cal',
+//						type : 'line',
+//						stack : '总量',
+//						areaStyle : {
+//							normal : {}
+//						},
+////						data : [ 120, 132, 101, 134, 90, 230, 210 ]
+////						data : foodCalList
+//						data : [50, 50]
+//					}, {
+//						name : 'ex_cal',
+//						type : 'line',
+//						stack : '总量',
+//						areaStyle : {
+//							normal : {}
+//						},
+////						data : [ 220, 182, 191, 234, 290, 330, 310 ]
+////						data : exCalList
+//						data : [150 , 200]
+//					}, {
+//						name : 'total_cal',
+//						type : 'line',
+//						stack : '总量',
+//						areaStyle : {
+//							normal : {}
+//						},
+////						data : [ 150, 232, 201, 154, 190, 330, 410 ]
+////						data : totalCalList
+//						data : [-100 , -150]
+//					} ]
+//				};
+//
+//				// 使用刚指定的配置项和数据显示图表。
+//				myChart.setOption(option);
+//			
 		};
 
 		$scope.inlineOptions = {
@@ -8908,6 +9070,7 @@ function parseRecordData(data) {
 
         $scope.updateRecord = function() {
             var data = createRecordData($scope.record, $scope.user.userID);
+            console.log("update/upload record:")
             console.log(data);
 
             //if there's no record to edit, upload new record
@@ -9161,199 +9324,199 @@ function parseRecordData(data) {
     function TimelineController($location, $scope, AuthenticationService, UserService, $rootScope) {
         (function initController() {
             loadUserRecord();
-            // $rootScope.recordList = [{
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         date: new Date(),
-            //         foodList: [{
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             },
-            //             {
-            //                 food_category: "Apple",
-            //                 food_amount: "1",
-            //                 food_calorie: "100"
-            //             }
-            //         ],
-            //         exerciseList: [{
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             },
-            //             {
-            //                 exercise_category: "Run",
-            //                 exercise_time: "30",
-            //                 exercise_calorie: "300"
-            //             }
-            //         ]
-            //     }
-            //
-            //
-            // ]
+            $rootScope.recordList = [{
+                    date: new Date("2017-11-01"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                },
+                {
+                    date: new Date("2017-11-02"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                },
+                {
+                    date: new Date("2017-11-03"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                },
+                {
+                    date: new Date("2017-11-04"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                },
+                {
+                    date: new Date("2017-11-05"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                },
+                {
+                    date: new Date("2017-11-06"),
+                    foodList: [{
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        },
+                        {
+                            food_category: "Apple",
+                            food_amount: "1",
+                            food_calorie: "100"
+                        }
+                    ],
+                    exerciseList: [{
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        },
+                        {
+                            exercise_category: "Run",
+                            exercise_time: "30",
+                            exercise_calorie: "300"
+                        }
+                    ]
+                }
+
+
+            ]
             console.log("rootScope.recordList:")
             console.log($rootScope.recordList);
         })();

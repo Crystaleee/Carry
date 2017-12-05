@@ -48,6 +48,7 @@
 
         $scope.updateRecord = function() {
             var data = createRecordData($scope.record, $scope.user.userID);
+            console.log("update/upload record:")
             console.log(data);
 
             //if there's no record to edit, upload new record
