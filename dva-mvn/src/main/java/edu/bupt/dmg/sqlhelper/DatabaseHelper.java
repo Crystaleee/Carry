@@ -157,8 +157,8 @@ public class DatabaseHelper {
             		"('22.2' ,'bobby','2017-11-07','Mushroom','100'),\n" + 
             		"('27' ,'bobby','2017-11-08','Apple','50' ),\n" + 
             		"('18.75'  ,'bobby','2017-11-09','Coca','50' ),\n" + 
-            		"('37.5' ,'bobby','2017-11-10','Coca' ,'100'),\n" + 
-            		"('56.25' ,'bobby','2017-11-11','Coca' ,'150' );";
+            		"('1500' ,'bobby','2017-11-10','Coca,Apple,Mushroom,Carrot,Broccoli,Chicken,Egg,Watermelon' ,'100,50,50,50,50,50,50,50'),\n" + 
+            		"('1450' ,'bobby','2017-11-11','Coca,Apple,Mushroom,Carrot,Broccoli,Chicken,Egg,Watermelon' ,'150,50,50,50,50,50,50,50' );";
             
             
             
