@@ -20,7 +20,6 @@
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
         service.DeleteRecord = DeleteRecord;
-        service.TimeSlot = TimeSlot;
 
         return service;
 
@@ -178,26 +177,11 @@
             });
         }
 
-        function DeleteRecord(recordID, callback) {
+        function DeleteRecord(date, callback) {
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/deleteRecord.do",
-                date: recordID,
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    handleError(XMLHttpRequest, textStatus, errorThrown);
-                }
-
-            });
-        }
-
-        function TimeSlot(form, callback) {
-            $.ajax({
-                type: "POST",
-                url: "/dva-mvn/UserInformation/timeslotRecord.do",
-                async: false,
+                data: date,
                 success: function(data) {
                     callback(data);
                 },
