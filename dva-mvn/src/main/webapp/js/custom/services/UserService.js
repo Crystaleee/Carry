@@ -183,7 +183,9 @@
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/deleteRecord.do",
-                data: date,
+                data: {
+                    date: date
+                },
                 async: false,
                 success: function(data) {
                     callback(data);
