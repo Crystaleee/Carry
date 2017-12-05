@@ -104,8 +104,8 @@ public class FileServiceImpl implements FileService {
 	}
 	@Override
 	public String getExeTotalCal(String category, String time){
-		String[] resultCategory=category.split(";");
-		String[] resultTime=time.split(";");
+		String[] resultCategory=category.split(",");
+		String[] resultTime=time.split(",");
 		for(int i=0;i<resultCategory.length;i++){
 			System.out.println(i+" : "+resultCategory[i]);
 		}
@@ -124,8 +124,8 @@ public class FileServiceImpl implements FileService {
 	}
 	@Override
 	public String getFoodTotalCal(String category, String time){
-		String[] resultCategory=category.split(";");
-		String[] resultTime=time.split(";");
+		String[] resultCategory=category.split(",");
+		String[] resultTime=time.split(",");
 		double product= 0;
 		for(int i=0;i<resultCategory.length;i++){
 			Food food = foodDao.findByName(resultCategory[i]);
