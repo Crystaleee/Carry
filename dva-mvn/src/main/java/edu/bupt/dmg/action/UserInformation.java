@@ -149,7 +149,8 @@ public class UserInformation {
 	        	   exerciseRecord.setExercise_category(exercise_category);
 	        	   exerciseRecord.setExercise_time(exercise_time);
 	        	   String cal=fileService.getExeTotalCal(exercise_category, exercise_time);
-                exerciseRecord.setCal(cal);
+	        	   System.out.println("cal:"+cal);
+	        	   exerciseRecord.setCal(cal);
 	        	   
 	        	   FoodRecord foodRecord = new FoodRecord();
 	        	   foodRecord.setUserID(userId);
@@ -157,7 +158,8 @@ public class UserInformation {
 	        	   foodRecord.setFood_category(food_category);
 	        	   foodRecord.setFood_weight(food_amount);
 	        	   String call=fileService.getFoodTotalCal(food_category, food_amount);
-               foodRecord.setCal(call);
+	        	   System.out.println("call:"+call);
+	        	   foodRecord.setCal(call);
 	        	   if(!fileService.createExeRec(exerciseRecord)){
                    	EXESUCCESS=0;
                    }

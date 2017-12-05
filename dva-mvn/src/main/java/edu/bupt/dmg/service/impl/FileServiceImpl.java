@@ -51,6 +51,7 @@ public class FileServiceImpl implements FileService {
 			System.out.println("?cat?:>" + exerciseRecord.getExercise_category());
 			System.out.println("?time?:>" + exerciseRecord.getExercise_time());
 			System.out.println("?date?:>" + exerciseRecord.getDate());
+			System.out.println("?cal: "+exerciseRecord.getCal());
 			exerciseRecordDao.insert(exerciseRecord);
 			System.out.println("bbbbbbbbbbbbbbbbbbb");
 		}
