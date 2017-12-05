@@ -8,8 +8,7 @@
     RecordController.$inject = ['$scope', 'UserService', '$rootScope'];
 
     function RecordController($scope, UserService, $rootScope) {
-
-        $scope.init = function(record) {
+        (function initController() {
             $scope.foodOptions = [
                 "Egg",
                 "Pork",
@@ -35,37 +34,37 @@
                 "Tennis",
                 "Volleyball"
             ];
-            if (record == undefined || record == null) { // if there's no reocrd to edit
+            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) { // if there's no reocrd to edit
                 $scope.record = {
                     date: null,
                     foodList: [new Food()],
                     exerciseList: [new Exercise()]
                 }
             } else {
-                console.log(record);
-                $scope.record = record;
+                console.log($rootScope.recordToEdit);
+                $scope.record = $rootScope.recordToEdit;
             }
-        };
+        })();
 
         $scope.updateRecord = function() {
             var data = createRecordData($scope.record, $scope.user.userID);
             console.log(data);
 
-            //if there's no recordID, upload new record
-            if (data.recordID == undefined || data.recordID == null) {
+            //if there's no record to edit, upload new record
+            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) {
                 UserService.UploadRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
-
+                        $rootScope.showalert("Your fitness is recorded successfully!", "success");
                         $scope.changeSelection("timeline");
                     }
                 });
             } else { // else update existing record
-                UserService.UpdateRecord(data, function(response) {
-                    var result = $.parseJSON(response);
+                UserService.UpdateRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
                         $rootScope.recordToEdit = undefined;
+                        $rootScope.showalert("Your record is updated successfully!", "success");
                         $scope.changeSelection("timeline");
                     }
                 });
@@ -74,6 +73,11 @@
             // $rootScope.recordToEdit = undefined;
             // $scope.changeSelection("timeline");
         };
+
+        $scope.cancelRecord = function() {
+            $scope.changeSelection('timeline');
+            $rootScope.recordToEdit = undefined;
+        }
 
         $scope.addFood = function() {
             $scope.record.foodList.push(new Food());

@@ -50,7 +50,7 @@
                             <input type="password" name="repeatPassword" ng-class="{'has-error': password!=repeatPassword}" ng-model="repeatPassword" placeholder="RepeatPassword" class="form-repeat-password form-control" id="repeatPassword" required>
                         </div>
                         <div class="form-actions">
-                            <button type="button" ng-disabled="form.userId.$invalid || form.password.$invalid || password !=repeatPassword" ng-click="step=step+1" class="btn btn-primary btn-next">Next</button>
+                            <button type="button" ng-disabled="form.userId.$invalid || form.password.$invalid || password !=repeatPassword" ng-click="step=step+1" class="btn btn-primary btn-next btn-blue">Next</button>
                             <a href="#!/login" class="btn btn-link">Cancel</a>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="form-actions">
                             <button type="button" class="btn btn-default btn-previous" ng-click="step=step-1">Previous</button>
-                            <button type="button" class="btn btn-primary btn-submit" ng-disabled="form.name.$invalid || form.height.$invalid || form.weight.$invalid || form.email.$invalid" ng-click="signup()">Sign up now</button>
+                            <button type="button" class="btn btn-primary btn-submit btn-blue" ng-disabled="form.name.$invalid || form.height.$invalid || form.weight.$invalid || form.email.$invalid" ng-click="signup()">Sign up now</button>
                         </div>
 
                     </div>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <a ng-href="http://www.{{email|split:'@':1}}" class="btn btn-primary btn-jump">Go to my email</a>
+                        <a ng-href="http://www.{{email|split:'@':1}}" class="btn btn-primary btn-jump btn-blue">Go to my email</a>
                     </div>
                 </fieldset>
             </form>

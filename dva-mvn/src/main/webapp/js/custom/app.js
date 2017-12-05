@@ -42,6 +42,24 @@
     run.$inject = ['$rootScope', '$location', '$cookieStore'];
 
     function run($rootScope, $location, $cookieStore) {
+        //add global alert function
+        $rootScope.alert = {
+            type: null,
+            message: null
+        }
+        $rootScope.showalert = function showalert(message, alerttype) {
+            $rootScope.alert.type = alerttype;
+            $rootScope.alert.message = message;
+
+            $("#alertdiv").slideDown(300, function() {
+                //automatic close
+                setTimeout(function() {
+                    $("#alertdiv").slideUp(300, function() {});
+                }, 2000);
+            });
+        };
+
+
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
 

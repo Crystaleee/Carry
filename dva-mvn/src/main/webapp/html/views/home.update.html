@@ -5,7 +5,7 @@
     <div class="form-bottom">
         <div class="form-group">
             <label for="userId_L">Username</label>
-            <input type="text" name="userId" class="form-control" id="userId" ng-model="user.nameUpdate" placeholder="Username">
+            <input type="text" name="name" class="form-control" id="userId" ng-model="user.nameUpdate" placeholder="Username">
         </div>
 
         <div class="form-group">
@@ -42,7 +42,7 @@
 
     </div>
     <div class="form-actions">
-        <button type="button" class="btn btn-primary btn-green" ng-click="updateProfile()">Update</button>
+        <button type="button" class="btn btn-primary btn-green" ng-disabled="form.$invalid || !form.$dirty" ng-click="updateProfile()">Update</button>
         <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
     </div>
 </form>

@@ -36,7 +36,7 @@
                 } else {
                     //set input userId as invalid
                     $scope.form.userId.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }
@@ -53,7 +53,7 @@
                 } else {
                     //set input email as invalid
                     $scope.form.email.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }

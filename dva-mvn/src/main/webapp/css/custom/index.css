@@ -179,3 +179,19 @@ td>.btn[disabled] {
 th>.ng-binding {
     color: #000;
 }
+
+.alert {
+    margin-bottom: 0;
+    position: absolute;
+    left: 350px;
+    width: 50%;
+    display: none;
+    z-index: 100;
+    border-radius: 3px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.btn-sm, .btn-group-sm>.btn {
+    line-height: 2;
+}

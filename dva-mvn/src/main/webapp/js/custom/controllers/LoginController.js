@@ -33,8 +33,7 @@
                     $location.path('/');
 
                 } else {
-                    alert(result.resultTips);
-                    console.log("error");
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }

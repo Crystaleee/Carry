@@ -26,8 +26,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="table-input" id="food-amount" ng-model="food.food_amount" placeholder="Food Amount" required>
-                                    <span class="unit">g</span>
+                                    <div>
+                                    <input type="text" class="table-input" id="food-amount" ng-model="food.food_amount" placeholder="Amount (g)" required>
+                                </div>
                                 </td>
                                 <td>
                                     <div class="remove" ng-click="deleteFood($index)">X</div>
@@ -53,8 +54,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="table-input" id="exercise-amount" ng-model="exercise.exercise_time" placeholder="Exercise Time" required>
-                                    <span class="unit">min</span>
+                                    <input type="text" class="table-input" id="exercise-amount" ng-model="exercise.exercise_time" placeholder="Time (min)" required>
                                 </td>
                                 <td>
                                     <div class="remove" ng-click="deleteExercise($index)">X</div>
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="form-actions">
-        <button type="button" ng-disabled="form.$invalid || record.foodList.length+record.exerciseList.length==0" class="btn btn-primary btn-green" ng-click="updateRecord()">Update</button>
-        <a class="btn btn-link" ng-click="changeSelection('timeline')">Cancel</a>
+        <button type="button" ng-disabled="!form.$dirty || form.$invalid || record.foodList.length+record.exerciseList.length==0" class="btn btn-primary btn-green" ng-click="updateRecord()">Update</button>
+        <a class="btn btn-link" ng-click="cancelRecord()">Cancel</a>
     </div>
 </form>

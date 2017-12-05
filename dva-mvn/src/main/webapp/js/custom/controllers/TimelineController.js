@@ -13,23 +13,23 @@
             // $rootScope.recordList = [{
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -38,23 +38,23 @@
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -63,23 +63,23 @@
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -88,63 +88,63 @@
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -153,23 +153,23 @@
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -178,23 +178,23 @@
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -231,6 +231,7 @@
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
+                    $rootScope.showalert("Your record is deleted successfully!", "success");
                     $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
                         return ele.date !== date;
                     });

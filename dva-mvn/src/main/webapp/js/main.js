@@ -8267,6 +8267,24 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
     run.$inject = ['$rootScope', '$location', '$cookieStore'];
 
     function run($rootScope, $location, $cookieStore) {
+        //add global alert function
+        $rootScope.alert = {
+            type: null,
+            message: null
+        }
+        $rootScope.showalert = function showalert(message, alerttype) {
+            $rootScope.alert.type = alerttype;
+            $rootScope.alert.message = message;
+
+            $("#alertdiv").slideDown(300, function() {
+                //automatic close
+                setTimeout(function() {
+                    $("#alertdiv").slideUp(300, function() {});
+                }, 2000);
+            });
+        };
+
+
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
 
@@ -8762,7 +8780,7 @@ function parseRecordData(data) {
 
         function loadUserProfile() {
             var user = $scope.user = {};
-            user.userID = user.usernameUpdate = $rootScope.globals.currentUser.userID;
+            user.userID = $rootScope.globals.currentUser.userID;
 
             UserService.LoadUserProfile(function(result) {
                 console.log(result);
@@ -8776,16 +8794,19 @@ function parseRecordData(data) {
                     user.sex = user.sexUpdate = result.sex;
                 }
             });
-        }
+
+        };
 
         $scope.logout = function() {
             AuthenticationService.ClearCredentials();
             $location.path('/login');
-        }
+        };
 
         $scope.changeSelection = function(select) {
             $scope.selection = select;
-        }
+        };
+
+
     }
 
 })();
@@ -8825,8 +8846,7 @@ function parseRecordData(data) {
                     $location.path('/');
 
                 } else {
-                    alert(result.resultTips);
-                    console.log("error");
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }
@@ -8848,8 +8868,7 @@ function parseRecordData(data) {
     RecordController.$inject = ['$scope', 'UserService', '$rootScope'];
 
     function RecordController($scope, UserService, $rootScope) {
-
-        $scope.init = function(record) {
+        (function initController() {
             $scope.foodOptions = [
                 "Egg",
                 "Pork",
@@ -8875,37 +8894,37 @@ function parseRecordData(data) {
                 "Tennis",
                 "Volleyball"
             ];
-            if (record == undefined || record == null) { // if there's no reocrd to edit
+            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) { // if there's no reocrd to edit
                 $scope.record = {
                     date: null,
                     foodList: [new Food()],
                     exerciseList: [new Exercise()]
                 }
             } else {
-                console.log(record);
-                $scope.record = record;
+                console.log($rootScope.recordToEdit);
+                $scope.record = $rootScope.recordToEdit;
             }
-        };
+        })();
 
         $scope.updateRecord = function() {
             var data = createRecordData($scope.record, $scope.user.userID);
             console.log(data);
 
-            //if there's no recordID, upload new record
-            if (data.recordID == undefined || data.recordID == null) {
+            //if there's no record to edit, upload new record
+            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) {
                 UserService.UploadRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
-
+                        $rootScope.showalert("Your fitness is recorded successfully!", "success");
                         $scope.changeSelection("timeline");
                     }
                 });
             } else { // else update existing record
-                UserService.UpdateRecord(data, function(response) {
-                    var result = $.parseJSON(response);
+                UserService.UpdateRecord(data, function(result) {
                     console.log(result);
                     if (result.resultCode == 1) {
                         $rootScope.recordToEdit = undefined;
+                        $rootScope.showalert("Your record is updated successfully!", "success");
                         $scope.changeSelection("timeline");
                     }
                 });
@@ -8914,6 +8933,11 @@ function parseRecordData(data) {
             // $rootScope.recordToEdit = undefined;
             // $scope.changeSelection("timeline");
         };
+
+        $scope.cancelRecord = function() {
+            $scope.changeSelection('timeline');
+            $rootScope.recordToEdit = undefined;
+        }
 
         $scope.addFood = function() {
             $scope.record.foodList.push(new Food());
@@ -9010,7 +9034,7 @@ function parseRecordData(data) {
                 } else {
                     //set input userId as invalid
                     $scope.form.userId.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }
@@ -9027,7 +9051,7 @@ function parseRecordData(data) {
                 } else {
                     //set input email as invalid
                     $scope.form.email.$setValidity("unique", false);
-                    console.log(result.resultTips);
+                    $scope.showalert(result.resultTips, "danger");
                 }
             });
         }
@@ -9140,23 +9164,23 @@ function parseRecordData(data) {
             // $rootScope.recordList = [{
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9165,23 +9189,23 @@ function parseRecordData(data) {
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9190,23 +9214,23 @@ function parseRecordData(data) {
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9215,63 +9239,63 @@ function parseRecordData(data) {
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9280,23 +9304,23 @@ function parseRecordData(data) {
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9305,23 +9329,23 @@ function parseRecordData(data) {
             //     {
             //         date: new Date(),
             //         foodList: [{
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             },
             //             {
-            //                 food_category: "apple",
+            //                 food_category: "Apple",
             //                 food_amount: "1",
             //                 food_calorie: "100"
             //             }
             //         ],
             //         exerciseList: [{
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             },
             //             {
-            //                 exercise_category: "run",
+            //                 exercise_category: "Run",
             //                 exercise_time: "30",
             //                 exercise_calorie: "300"
             //             }
@@ -9358,6 +9382,7 @@ function parseRecordData(data) {
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultMessage.resultCode == 1) {
+                    $rootScope.showalert("Your record is deleted successfully!", "success");
                     $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
                         return ele.date !== date;
                     });
@@ -9376,9 +9401,9 @@ function parseRecordData(data) {
         .module('app')
         .controller('UpdateProfileController', UpdateProfileController);
 
-    UpdateProfileController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
+    UpdateProfileController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
 
-    function UpdateProfileController($location, $scope, AuthenticationService, UserService, $rootScope) {
+    function UpdateProfileController($location, $scope, AuthenticationService, UserService) {
 
         $scope.updateProfile = function() {
             var form = $('#update-profile-form');
@@ -9390,27 +9415,15 @@ function parseRecordData(data) {
                     user.height = user.heightUpdate;
                     user.weight = user.weightUpdate;
                     user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-                    user.username = user.usernameUpdate;
+                    user.name = user.nameUpdate;
                     user.sex = user.sexUpdate;
 
+                    $scope.showalert("Profile updated successfully!", "success");
                     $scope.changeSelection("timeline");
                 }
             });
 
-
-            // //just for development
-            // var user = $scope.user;
-            // user.height = user.heightUpdate;
-            // user.weight = user.weightUpdate;
-            // user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-            // user.username = user.usernameUpdate;
-            // user.sex = user.sexUpdate;
-            //
-            // $scope.changeSelection("timeline");
-
         }
-
-
 
         $scope.inlineOptions = {
             minDate: new Date(),

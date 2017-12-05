@@ -18,7 +18,7 @@
 
         function loadUserProfile() {
             var user = $scope.user = {};
-            user.userID = user.usernameUpdate = $rootScope.globals.currentUser.userID;
+            user.userID = $rootScope.globals.currentUser.userID;
 
             UserService.LoadUserProfile(function(result) {
                 console.log(result);
@@ -32,16 +32,19 @@
                     user.sex = user.sexUpdate = result.sex;
                 }
             });
-        }
+
+        };
 
         $scope.logout = function() {
             AuthenticationService.ClearCredentials();
             $location.path('/login');
-        }
+        };
 
         $scope.changeSelection = function(select) {
             $scope.selection = select;
-        }
+        };
+
+
     }
 
 })();

@@ -5,9 +5,9 @@
         .module('app')
         .controller('UpdateProfileController', UpdateProfileController);
 
-    UpdateProfileController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService', '$rootScope'];
+    UpdateProfileController.$inject = ['$location', '$scope', 'AuthenticationService', 'UserService'];
 
-    function UpdateProfileController($location, $scope, AuthenticationService, UserService, $rootScope) {
+    function UpdateProfileController($location, $scope, AuthenticationService, UserService) {
 
         $scope.updateProfile = function() {
             var form = $('#update-profile-form');
@@ -19,27 +19,15 @@
                     user.height = user.heightUpdate;
                     user.weight = user.weightUpdate;
                     user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-                    user.username = user.usernameUpdate;
+                    user.name = user.nameUpdate;
                     user.sex = user.sexUpdate;
 
+                    $scope.showalert("Profile updated successfully!", "success");
                     $scope.changeSelection("timeline");
                 }
             });
 
-
-            // //just for development
-            // var user = $scope.user;
-            // user.height = user.heightUpdate;
-            // user.weight = user.weightUpdate;
-            // user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
-            // user.username = user.usernameUpdate;
-            // user.sex = user.sexUpdate;
-            //
-            // $scope.changeSelection("timeline");
-
         }
-
-
 
         $scope.inlineOptions = {
             minDate: new Date(),
