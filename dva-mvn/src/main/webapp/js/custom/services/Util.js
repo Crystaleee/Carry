@@ -88,16 +88,33 @@ function parseRecordData(data) {
 
     var exeList = data.exeList;
     var foodList = data.foodList;
-    var timeline=[]
-    
-    for (var i = 0; i < exeList.length; i++) {
-    	var exedate = exeList[i].date;
-    	timeline.push(exedate);
-    }
-    
+    var timeline = []
+
     for (var i = 0; i < exeList.length; i++) {
         var exedate = exeList[i].date;
-        
+        timeline.push(exedate);
+    }
+
+    for (var k = 0; k < foodList.length; k++) {
+        if (timeline.includes(foodList[k].date) == false) {
+            var record = {
+                date: moment(foodList[k].date).toDate(),
+                foodList: [],
+                exerciseList: []
+            };
+            var food_category = foodList[k].food_category.split(",").map(s => s.trim());
+            var food_amount = foodList[k].food_weight.split(",").map(s => s.trim());
+            var food_calorie = foodList[k].cal.split(",").map(s => s.trim());
+            for (var j = 0; j < food_category.length; j++) {
+                record.foodList.push(new Food(food_category[j], food_amount[j], food_calorie[j]));
+            }
+            recordList.push(record);
+        }
+    }
+
+    for (var i = 0; i < exeList.length; i++) {
+        var exedate = exeList[i].date;
+
         var record = {
             date: moment(exedate).toDate(),
             foodList: [],
@@ -109,28 +126,10 @@ function parseRecordData(data) {
         for (var j = 0; j < exercise_category.length; j++) {
             record.exerciseList.push(new Exercise(exercise_category[j], exercise_time[j], exercise_calorie[j]));
         }
-        
-        for(var k=0; k<foodList.length;k++){
-        	if (timeline.includes(foodList[k].date)==false){
-    			var record = {
-    		            date: moment(foodList[k].date).toDate(),
-    		            foodList: [],
-    		            exerciseList: []
-    		        };
-    			 var food_category = foodList[k].food_category.split(",").map(s => s.trim());
-                 var food_amount = foodList[k].food_weight.split(",").map(s => s.trim());
-                 var food_calorie = foodList[k].cal.split(",").map(s => s.trim());
-                 for (var j = 0; j < food_category.length; j++) {
-                     record.foodList.push(new Food(food_category[j], food_amount[j], food_calorie[j]));
-                 }
-                 recordList.push(record);
-    		}
-        }
 
-        
         for (var k = 0; k < foodList.length; k++) {
-            
-        	if (foodList[k].date == exedate) {
+
+            if (foodList[k].date == exedate) {
                 var food_category = foodList[k].food_category.split(",").map(s => s.trim());
                 var food_amount = foodList[k].food_weight.split(",").map(s => s.trim());
                 var food_calorie = foodList[k].cal.split(",").map(s => s.trim());
