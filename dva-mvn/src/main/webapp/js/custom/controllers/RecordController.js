@@ -58,6 +58,8 @@
                     if (result.resultCode == 1) {
                         $rootScope.showalert("Your fitness is recorded successfully!", "success");
                         $scope.changeSelection("timeline");
+                    } else {
+                        $rootScope.showalert(result.resultTips, "success");
                     }
                 });
             } else { // else update existing record
@@ -67,6 +69,8 @@
                         $rootScope.recordToEdit = undefined;
                         $rootScope.showalert("Your record is updated successfully!", "success");
                         $scope.changeSelection("timeline");
+                    } else {
+                        $rootScope.showalert(result.resultTips, "success");
                     }
                 });
             }
