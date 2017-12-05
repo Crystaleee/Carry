@@ -68,7 +68,7 @@ public class DatabaseHelper {
             String drop_food_rec="drop table if exists Food_record;";
             String drop_food="drop table if exists Food;";
             String insert_ex="insert into Exercise(ExName,Ex_cal) VALUES('Swimming','400'),('Basketball','500'),('Fitness','550'),('Soccer','588'),('Jogging','600'),('Bicycling','330'),('Rope skipping','800'),('Squash','1000'),('Tennis','425'),('Volleyball','294');";
-            String insert_food="insert into Food(FoodName, Food_cal)VALUES('Egg','86'),('Pork','241'),('Steak','250'),('Chicken','239'),('Broccoli','33.7'),('Carrot','41.3'),('Mushroom','22.2'),('Apple','54'),('Banana','88.7'),('Watermelon','30.4'),('Coca','37.5');";
+            String insert_food="insert into Food(FoodName, Food_cal)VALUES('Egg','86'),('Pork','241'),('Steak','250'),('Chicken','239'),('Broccoli','33.7'),('Sushi','105')('Carrot','41.3'),('Mushroom','22.2'),('Apple','54'),('Banana','88.7'),('Watermelon','30.4'),('Coca','37.5');";
             String insert_ex_rec="insert into Ex_record(Cal,\n" + 
             		"Exercise_time,\n" + 
             		"UserID,\n" + 
