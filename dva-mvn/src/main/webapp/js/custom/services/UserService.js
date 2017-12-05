@@ -152,7 +152,7 @@
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/uploadRecord.do",
-                date: record,
+                data: record,
                 success: function(data) {
                     callback(data);
                 },
@@ -167,7 +167,7 @@
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/updateRecord.do",
-                date: record,
+                data: record,
                 success: function(data) {
                     callback(data);
                 },
