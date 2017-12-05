@@ -17,7 +17,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findRecById" parameterType="String" resultMap="FoodRecFileMap">
 		SELECT *
-		FROM Food_record WHERE UserID = #{userId}
+		FROM Food_record WHERE UserID = #{userId} order by
+		Date
+		desc
 	</select>
 	
 	

@@ -15,7 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="findRecById" parameterType="String" resultMap="ExerciseRecFileMap">
 		SELECT *
-		FROM Ex_record WHERE UserID = #{UserID}
+		FROM Ex_record WHERE UserID = #{UserID} order by
+		Date
+		desc
 	</select>
 	
 	
