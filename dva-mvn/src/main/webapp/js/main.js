@@ -8369,7 +8369,6 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
         service.DeleteRecord = DeleteRecord;
-        service.TimeSlot = TimeSlot;
 
         return service;
 

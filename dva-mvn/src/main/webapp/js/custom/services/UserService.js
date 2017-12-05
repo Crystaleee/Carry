@@ -20,7 +20,6 @@
         service.UploadRecord = UploadRecord;
         service.UpdateRecord = UpdateRecord;
         service.DeleteRecord = DeleteRecord;
-        service.TimeSlot = TimeSlot;
 
         return service;
 
