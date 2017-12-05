@@ -10,6 +10,7 @@
     function RecordController($scope, UserService, $rootScope) {
         (function initController() {
             $scope.foodOptions = [
+                "Sushi",
                 "Egg",
                 "Pork",
                 "Steak",

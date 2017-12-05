@@ -8532,7 +8532,9 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             $.ajax({
                 type: "POST",
                 url: "/dva-mvn/UserInformation/deleteRecord.do",
-                data: {date: date},
+                data: {
+                    date: date
+                },
                 async: false,
                 success: function(data) {
                     callback(data);
@@ -8975,6 +8977,7 @@ function parseRecordData(data) {
     function RecordController($scope, UserService, $rootScope) {
         (function initController() {
             $scope.foodOptions = [
+                "Sushi",
                 "Egg",
                 "Pork",
                 "Steak",
