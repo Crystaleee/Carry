@@ -332,13 +332,11 @@ link:function(a,b,d,c){if(c){var e=-1;d.$observe("maxlength",function(a){a=Z(a);
 (Be(),Ee($),$.module("ngLocale",[],["$provide",function(a){function b(a){a+="";var b=a.indexOf(".");return-1==b?0:a.length-b-1}a.value("$locale",{DATETIME_FORMATS:{AMPMS:["AM","PM"],DAY:"Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),ERANAMES:["Before Christ","Anno Domini"],ERAS:["BC","AD"],FIRSTDAYOFWEEK:6,MONTH:"January February March April May June July August September October November December".split(" "),SHORTDAY:"Sun Mon Tue Wed Thu Fri Sat".split(" "),SHORTMONTH:"Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
 STANDALONEMONTH:"January February March April May June July August September October November December".split(" "),WEEKENDRANGE:[5,6],fullDate:"EEEE, MMMM d, y",longDate:"MMMM d, y",medium:"MMM d, y h:mm:ss a",mediumDate:"MMM d, y",mediumTime:"h:mm:ss a","short":"M/d/yy h:mm a",shortDate:"M/d/yy",shortTime:"h:mm a"},NUMBER_FORMATS:{CURRENCY_SYM:"$",DECIMAL_SEP:".",GROUP_SEP:",",PATTERNS:[{gSize:3,lgSize:3,maxFrac:3,minFrac:0,minInt:1,negPre:"-",negSuf:"",posPre:"",posSuf:""},{gSize:3,lgSize:3,maxFrac:2,
 minFrac:2,minInt:1,negPre:"-\u00a4",negSuf:"",posPre:"\u00a4",posSuf:""}]},id:"en-us",localeID:"en_US",pluralCat:function(a,c){var e=a|0,f=c;void 0===f&&(f=Math.min(b(a),3));Math.pow(10,f);return 1==e&&0==f?"one":"other"}})}]),B(function(){we(u.document,Uc)}))})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-//# sourceMappingURL=angular.min.js.map
+// # sourceMappingURL=angular.min.js.map
 
 /*
- AngularJS v1.6.6
- (c) 2010-2017 Google, Inc. http://angularjs.org
- License: MIT
-*/
+ * AngularJS v1.6.6 (c) 2010-2017 Google, Inc. http://angularjs.org License: MIT
+ */
 (function(J,d){'use strict';function A(d){k&&d.get("$route")}function B(t,u,g){return{restrict:"ECA",terminal:!0,priority:400,transclude:"element",link:function(a,f,b,c,m){function v(){l&&(g.cancel(l),l=null);n&&(n.$destroy(),n=null);p&&(l=g.leave(p),l.done(function(a){!1!==a&&(l=null)}),p=null)}function E(){var b=t.current&&t.current.locals;if(d.isDefined(b&&b.$template)){var b=a.$new(),c=t.current;p=m(b,function(b){g.enter(b,null,p||f).done(function(b){!1===b||!d.isDefined(w)||w&&!a.$eval(w)||u()});
 v()});n=c.scope=b;n.$emit("$viewContentLoaded");n.$eval(k)}else v()}var n,p,l,w=b.autoscroll,k=b.onload||"";a.$on("$routeChangeSuccess",E);E()}}}function C(d,k,g){return{restrict:"ECA",priority:-400,link:function(a,f){var b=g.current,c=b.locals;f.html(c.$template);var m=d(f.contents());if(b.controller){c.$scope=a;var v=k(b.controller,c);b.controllerAs&&(a[b.controllerAs]=v);f.data("$ngControllerController",v);f.children().data("$ngControllerController",v)}a[b.resolveAs||"$resolve"]=c;m(a)}}}var x,
 y,F,G,z=d.module("ngRoute",[]).info({angularVersion:"1.6.6"}).provider("$route",function(){function t(a,f){return d.extend(Object.create(a),f)}function u(a,d){var b=d.caseInsensitiveMatch,c={originalPath:a,regexp:a},g=c.keys=[];a=a.replace(/([().])/g,"\\$1").replace(/(\/)?:(\w+)(\*\?|[?*])?/g,function(a,b,d,c){a="?"===c||"*?"===c?"?":null;c="*"===c||"*?"===c?"*":null;g.push({name:d,optional:!!a});b=b||"";return""+(a?"":b)+"(?:"+(a?b:"")+(c&&"(.+?)"||"([^/]+)")+(a||"")+")"+(a||"")}).replace(/([/$*])/g,
@@ -350,23 +348,19 @@ function z(a){var b=!0;if(a.route!==q.current)b=!1;else if(a.hasRedirection){var
 (c=c(a.params)),d.isDefined(c)&&(a.loadedTemplateUrl=u.valueOf(c),b=k(c)));return b}function C(){var a,b;d.forEach(g,function(c,g){var r;if(r=!b){var k=f.path();r=c.keys;var m={};if(c.regexp)if(k=c.regexp.exec(k)){for(var l=1,n=k.length;l<n;++l){var p=r[l-1],q=k[l];p&&q&&(m[p.name]=q)}r=m}else r=null;else r=null;r=a=r}r&&(b=t(c,{params:d.extend({},f.search(),a),pathParams:a}),b.$$route=c)});return b||g[null]&&t(g[null],{params:{},pathParams:{}})}function x(a,b){var c=[];d.forEach((a||"").split(":"),
 function(a,d){if(0===d)c.push(a);else{var e=a.match(/(\w+)(?:[?*])?(.*)/),f=e[1];c.push(b[f]);c.push(e[2]||"");delete b[f]}});return c.join("")}var D=!1,s,y,q={routes:g,reload:function(){D=!0;var b={defaultPrevented:!1,preventDefault:function(){this.defaultPrevented=!0;D=!1}};a.$evalAsync(function(){p(b);b.defaultPrevented||l()})},updateParams:function(a){if(this.current&&this.current.$$route)a=d.extend({},this.current.params,a),f.path(x(this.current.$$route.originalPath,a)),f.search(a);else throw I("norout");
 }};a.$on("$locationChangeStart",p);a.$on("$locationChangeSuccess",l);return q}]}).run(A),I=d.$$minErr("ngRoute"),k;A.$inject=["$injector"];z.provider("$routeParams",function(){this.$get=function(){return{}}});z.directive("ngView",B);z.directive("ngView",C);B.$inject=["$route","$anchorScroll","$animate"];C.$inject=["$compile","$controller","$route"]})(window,window.angular);
-//# sourceMappingURL=angular-route.min.js.map
+// # sourceMappingURL=angular-route.min.js.map
 
 /*
- AngularJS v1.6.6
- (c) 2010-2017 Google, Inc. http://angularjs.org
- License: MIT
-*/
+ * AngularJS v1.6.6 (c) 2010-2017 Google, Inc. http://angularjs.org License: MIT
+ */
 (function(n,c){'use strict';function l(b,a,g){var d=g.baseHref(),k=b[0];return function(b,e,f){var g,h;f=f||{};h=f.expires;g=c.isDefined(f.path)?f.path:d;c.isUndefined(e)&&(h="Thu, 01 Jan 1970 00:00:00 GMT",e="");c.isString(h)&&(h=new Date(h));e=encodeURIComponent(b)+"="+encodeURIComponent(e);e=e+(g?";path="+g:"")+(f.domain?";domain="+f.domain:"");e+=h?";expires="+h.toUTCString():"";e+=f.secure?";secure":"";f=e.length+1;4096<f&&a.warn("Cookie '"+b+"' possibly not set or overflowed because it was too large ("+
 f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).info({angularVersion:"1.6.6"}).provider("$cookies",[function(){var b=this.defaults={};this.$get=["$$cookieReader","$$cookieWriter",function(a,g){return{get:function(d){return a()[d]},getObject:function(d){return(d=this.get(d))?c.fromJson(d):d},getAll:function(){return a()},put:function(d,a,m){g(d,a,m?c.extend({},b,m):b)},putObject:function(d,b,a){this.put(d,c.toJson(b),a)},remove:function(a,k){g(a,void 0,k?c.extend({},b,k):b)}}}]}]);c.module("ngCookies").factory("$cookieStore",
 ["$cookies",function(b){return{get:function(a){return b.getObject(a)},put:function(a,c){b.putObject(a,c)},remove:function(a){b.remove(a)}}}]);l.$inject=["$document","$log","$browser"];c.module("ngCookies").provider("$$cookieWriter",function(){this.$get=l})})(window,window.angular);
-//# sourceMappingURL=angular-cookies.min.js.map
+// # sourceMappingURL=angular-cookies.min.js.map
 
 /*
- AngularJS v1.6.6
- (c) 2010-2017 Google, Inc. http://angularjs.org
- License: MIT
-*/
+ * AngularJS v1.6.6 (c) 2010-2017 Google, Inc. http://angularjs.org License: MIT
+ */
 (function(S,q){'use strict';function Ea(a,b,c){if(!a)throw Pa("areq",b||"?",c||"required");return a}function Fa(a,b){if(!a&&!b)return"";if(!a)return b;if(!b)return a;V(a)&&(a=a.join(" "));V(b)&&(b=b.join(" "));return a+" "+b}function Qa(a){var b={};a&&(a.to||a.from)&&(b.to=a.to,b.from=a.from);return b}function W(a,b,c){var d="";a=V(a)?a:a&&C(a)&&a.length?a.split(/\s+/):[];t(a,function(a,f){a&&0<a.length&&(d+=0<f?" ":"",d+=c?b+a:a+b)});return d}function Ga(a){if(a instanceof A)switch(a.length){case 0:return a;
 case 1:if(1===a[0].nodeType)return a;break;default:return A(ua(a))}if(1===a.nodeType)return A(a)}function ua(a){if(!a[0])return a;for(var b=0;b<a.length;b++){var c=a[b];if(1===c.nodeType)return c}}function Ra(a,b,c){t(b,function(b){a.addClass(b,c)})}function Sa(a,b,c){t(b,function(b){a.removeClass(b,c)})}function X(a){return function(b,c){c.addClass&&(Ra(a,b,c.addClass),c.addClass=null);c.removeClass&&(Sa(a,b,c.removeClass),c.removeClass=null)}}function oa(a){a=a||{};if(!a.$$prepared){var b=a.domOperation||
 O;a.domOperation=function(){a.$$domOperationFired=!0;b();b=O};a.$$prepared=!0}return a}function ha(a,b){Ha(a,b);Ia(a,b)}function Ha(a,b){b.from&&(a.css(b.from),b.from=null)}function Ia(a,b){b.to&&(a.css(b.to),b.to=null)}function T(a,b,c){var d=b.options||{};c=c.options||{};var e=(d.addClass||"")+" "+(c.addClass||""),f=(d.removeClass||"")+" "+(c.removeClass||"");a=Ta(a.attr("class"),e,f);c.preparationClasses&&(d.preparationClasses=ca(c.preparationClasses,d.preparationClasses),delete c.preparationClasses);
@@ -418,14 +412,12 @@ d,e,"addClass"));k&&(g=g.concat(k));l&&(g=g.concat(l))}if(0!==g.length)return fu
 b.substr(1),K=b);"enter"!==b&&"move"!==b&&(H=v(a,b,s,x,J));I=v(a,b,s,x,K)}if(H||I){var m;return{$$willAnimate:!0,end:function(){m?m.end():(E=!0,q(),ha(a,s),m=new c,m.complete(!0));return m},start:function(){function b(c){E=!0;q();ha(a,s);m.complete(c)}if(m)return m;m=new c;var d,e=[];H&&e.push(function(a){d=H(a)});e.length?e.push(function(a){q();a(!0)}):q();I&&e.push(function(a){d=I(a)});m.setHost({end:function(){E||((d||O)(void 0),b(void 0))},cancel:function(){E||((d||O)(!0),b(!0))}});c.chain(e,
 b);return m}}}}}]}]).provider("$$animateJsDriver",["$$animationProvider",function(a){a.drivers.push("$$animateJsDriver");this.$get=["$$animateJs","$$AnimateRunner",function(a,c){function d(c){return a(c.element,c.event,c.classes,c.options)}return function(a){if(a.from&&a.to){var b=d(a.from),n=d(a.to);if(b||n)return{start:function(){function a(){return function(){t(d,function(a){a.end()})}}var d=[];b&&d.push(b.start());n&&d.push(n.start());c.all(d,function(a){e.complete(a)});var e=new c({end:a(),cancel:a()});
 return e}}}else return d(a)}}]}])})(window,window.angular);
-//# sourceMappingURL=angular-animate.min.js.map
+// # sourceMappingURL=angular-animate.min.js.map
 
 /*
- * angular-ui-bootstrap
- * http://angular-ui.github.io/bootstrap/
-
- * Version: 2.5.6 - 2017-10-14
- * License: MIT
+ * angular-ui-bootstrap http://angular-ui.github.io/bootstrap/
+ * 
+ * Version: 2.5.6 - 2017-10-14 License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.tabindex","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.datepicker","ui.bootstrap.position","ui.bootstrap.datepickerPopup","ui.bootstrap.debounce","ui.bootstrap.multiMap","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/year.html","uib/template/datepickerPopup/popup.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
 angular.module('ui.bootstrap.collapse', [])
@@ -520,11 +512,13 @@ angular.module('ui.bootstrap.collapse', [])
           $q.resolve(collapsingExpr(scope))
             .then(function() {
               element
-              // IMPORTANT: The width must be set before adding "collapsing" class.
+              // IMPORTANT: The width must be set before adding "collapsing"
+				// class.
               // Otherwise, the browser attempts to animate from width 0 (in
               // collapsing class) to the given width here.
                 .css(getScrollFromElement(element[0]))
-                // initially all panel collapse have the collapse class, this removal
+                // initially all panel collapse have the collapse class, this
+				// removal
                 // prevents the animation from jumping to collapsed state
                 .removeClass('collapse')
                 .addClass('collapsing')
@@ -545,7 +539,8 @@ angular.module('ui.bootstrap.collapse', [])
         }
 
         function collapseDone() {
-          element.css(cssTo); // Required so that collapse works when animation is disabled
+          element.css(cssTo); // Required so that collapse works when
+								// animation is disabled
           element.removeClass('collapsing')
             .addClass('collapse');
           collapsedExpr(scope);
@@ -585,7 +580,8 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
   // This array keeps track of the accordion groups
   this.groups = [];
 
-  // Ensure that all the groups in this accordion are closed, unless close-others explicitly says not to
+  // Ensure that all the groups in this accordion are closed, unless
+	// close-others explicitly says not to
   this.closeOthers = function(openGroup) {
     var closeOthers = angular.isDefined($attrs.closeOthers) ?
       $scope.$eval($attrs.closeOthers) : accordionConfig.closeOthers;
@@ -598,7 +594,8 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
     }
   };
 
-  // This is called from the accordion-group directive to add itself to the accordion
+  // This is called from the accordion-group directive to add itself to the
+	// accordion
   this.addGroup = function(groupScope) {
     var that = this;
     this.groups.push(groupScope);
@@ -630,17 +627,21 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
   };
 })
 
-// The accordion-group directive indicates a block of html that will expand and collapse in an accordion
+// The accordion-group directive indicates a block of html that will expand and
+// collapse in an accordion
 .directive('uibAccordionGroup', function() {
   return {
-    require: '^uibAccordion',         // We need this directive to be inside an accordion
-    transclude: true,              // It transcludes the contents of the directive into the template
+    require: '^uibAccordion',         // We need this directive to be inside
+										// an accordion
+    transclude: true,              // It transcludes the contents of the
+									// directive into the template
     restrict: 'A',
     templateUrl: function(element, attrs) {
       return attrs.templateUrl || 'uib/template/accordion/accordion-group.html';
     },
     scope: {
-      heading: '@',               // Interpolate the heading attribute onto this scope
+      heading: '@',               // Interpolate the heading attribute onto
+									// this scope
       panelClass: '@?',           // Ditto with panelClass
       isOpen: '=?',
       isDisabled: '=?'
@@ -678,7 +679,8 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
   };
 })
 
-// Use accordion-heading below an accordion-group to provide a heading containing HTML
+// Use accordion-heading below an accordion-group to provide a heading
+// containing HTML
 .directive('uibAccordionHeading', function() {
   return {
     transclude: true,   // Grab the contents to be used as the heading
@@ -688,14 +690,17 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
     link: function(scope, element, attrs, accordionGroupCtrl, transclude) {
       // Pass the heading to the accordion-group controller
       // so that it can be transcluded into the right place in the template
-      // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
+      // [The second parameter to transclude causes the elements to be cloned
+		// so that they work in ng-repeat]
       accordionGroupCtrl.setHeading(transclude(scope, angular.noop));
     }
   };
 })
 
-// Use in the accordion-group template to indicate where you want the heading to be transcluded
-// You must provide the property on the accordion-group controller that will hold the transcluded element
+// Use in the accordion-group template to indicate where you want the heading to
+// be transcluded
+// You must provide the property on the accordion-group controller that will
+// hold the transcluded element
 .directive('uibAccordionTransclude', function() {
   return {
     require: '^uibAccordionGroup',
@@ -779,12 +784,12 @@ angular.module('ui.bootstrap.buttons', [])
 
       element.find('input').css({display: 'none'});
 
-      //model -> UI
+      // model -> UI
       ngModelCtrl.$render = function() {
         element.toggleClass(buttonsCtrl.activeClass, angular.equals(ngModelCtrl.$modelValue, scope.$eval(attrs.uibBtnRadio)));
       };
 
-      //ui->model
+      // ui->model
       element.on(buttonsCtrl.toggleEvent, function() {
         if (attrs.disabled) {
           return;
@@ -831,12 +836,12 @@ angular.module('ui.bootstrap.buttons', [])
         return angular.isDefined(attribute) ? scope.$eval(attribute) : defaultValue;
       }
 
-      //model -> UI
+      // model -> UI
       ngModelCtrl.$render = function() {
         element.toggleClass(buttonsCtrl.activeClass, angular.equals(ngModelCtrl.$modelValue, getTrueValue()));
       };
 
-      //ui->model
+      // ui->model
       element.on(buttonsCtrl.toggleEvent, function() {
         if (attrs.disabled) {
           return;
@@ -871,7 +876,7 @@ angular.module('ui.bootstrap.carousel', [])
     slides.sort(function(a, b) {
       return +a.slide.index - +b.slide.index;
     });
-    //if this is the first slide or the slide is set to active, select it
+    // if this is the first slide or the slide is set to active, select it
     if (slide.index === $scope.active || slides.length === 1 && !angular.isNumber($scope.active)) {
       if ($scope.$currentTransition) {
         $scope.$currentTransition = null;
@@ -920,7 +925,7 @@ angular.module('ui.bootstrap.carousel', [])
   self.removeSlide = function(slide) {
     var index = findSlideIndex(slide);
 
-    //get the index of the slide inside the carousel
+    // get the index of the slide inside the carousel
     slides.splice(index, 1);
     if (slides.length > 0 && currentIndex === index) {
       if (index >= slides.length) {
@@ -939,7 +944,7 @@ angular.module('ui.bootstrap.carousel', [])
       $scope.active = currentIndex;
     }
 
-    //clean the active value when no more slide
+    // clean the active value when no more slide
     if (slides.length === 0) {
       currentIndex = null;
       $scope.active = null;
@@ -949,11 +954,12 @@ angular.module('ui.bootstrap.carousel', [])
   /* direction: "prev" or "next" */
   self.select = $scope.select = function(nextSlide, direction) {
     var nextIndex = findSlideIndex(nextSlide.slide);
-    //Decide direction if it's not given
+    // Decide direction if it's not given
     if (direction === undefined) {
       direction = nextIndex > self.getCurrentIndex() ? 'next' : 'prev';
     }
-    //Prevent this user-triggered transition from occurring if there is already one in progress
+    // Prevent this user-triggered transition from occurring if there is already
+	// one in progress
     if (nextSlide.slide.index !== currentIndex &&
       !$scope.$currentTransition) {
       goNext(nextSlide.slide, nextIndex, direction);
@@ -1068,7 +1074,7 @@ angular.module('ui.bootstrap.carousel', [])
     currentIndex = slide.index;
     setActive(index);
 
-    //every time you change slides, reset the timer
+    // every time you change slides, reset the timer
     restartTimer();
   }
 
@@ -1145,7 +1151,8 @@ angular.module('ui.bootstrap.carousel', [])
     link: function (scope, element, attrs, carouselCtrl) {
       element.addClass('item');
       carouselCtrl.addSlide(scope, element);
-      //when the scope is destroyed then remove the slide from the current slides array
+      // when the scope is destroyed then remove the slide from the current
+		// slides array
       scope.$on('$destroy', function() {
         carouselCtrl.removeSlide(scope);
       });
@@ -1211,7 +1218,8 @@ function($animateCss) {
 angular.module('ui.bootstrap.dateparser', [])
 
 .service('uibDateParser', ['$log', '$locale', 'dateFilter', 'orderByFilter', 'filterFilter', function($log, $locale, dateFilter, orderByFilter, filterFilter) {
-  // Pulled from https://github.com/mbostock/d3/blob/master/src/format/requote.js
+  // Pulled from
+	// https://github.com/mbostock/d3/blob/master/src/format/requote.js
   var SPECIAL_CHARACTERS_REGEXP = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
   var localeId;
@@ -1481,7 +1489,9 @@ angular.module('ui.bootstrap.dateparser', [])
       for (var i = quoteIndex; i < format.length; i++) {
         if (inLiteral) {
           if (format[i] === '\'') {
-            if (i + 1 < format.length && format[i+1] === '\'') { // escaped single quote
+            if (i + 1 < format.length && format[i+1] === '\'') { // escaped
+																	// single
+																	// quote
               format[i+1] = '$';
               regex[i+1] = '';
             } else { // end of literal
@@ -1509,7 +1519,8 @@ angular.module('ui.bootstrap.dateparser', [])
         format = format.split('');
 
         regex[index] = '(' + data.regex + ')';
-        format[index] = '$'; // Custom symbol to define consumed part of format
+        format[index] = '$'; // Custom symbol to define consumed part of
+								// format
         for (var i = index + 1, n = index + data.key.length; i < n; i++) {
           regex[i] = '';
           format[i] = '$';
@@ -1727,7 +1738,7 @@ angular.module('ui.bootstrap.dateparser', [])
     return date && timezone ? convertTimezoneToLocal(date, timezone, true) : date;
   }
 
-  //https://github.com/angular/angular.js/blob/622c42169699ec07fc6daaa19fe6d224e5d2f70e/src/Angular.js#L1207
+  // https://github.com/angular/angular.js/blob/622c42169699ec07fc6daaa19fe6d224e5d2f70e/src/Angular.js#L1207
   function timezoneToOffset(timezone, fallback) {
     timezone = timezone.replace(/:/g, '');
     var requestedTimezoneOffset = Date.parse('Jan 01, 1970 00:00:00 ' + timezone) / 60000;
@@ -1748,15 +1759,16 @@ angular.module('ui.bootstrap.dateparser', [])
   }
 }]);
 
-// Avoiding use of ng-class as it creates a lot of watchers when a class is to be applied to
+// Avoiding use of ng-class as it creates a lot of watchers when a class is to
+// be applied to
 // at most one element.
 angular.module('ui.bootstrap.isClass', [])
 .directive('uibIsClass', [
          '$animate',
 function ($animate) {
-  //                    11111111          22222222
+  // 11111111 22222222
   var ON_REGEXP = /^\s*([\s\S]+?)\s+on\s+([\s\S]+?)\s*$/;
-  //                    11111111           22222222
+  // 11111111 22222222
   var IS_REGEXP = /^\s*([\s\S]+?)\s+for\s+([\s\S]+?)\s*$/;
 
   var dataPerTracked = {};
@@ -2188,7 +2200,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   });
 
   $scope.$on('$destroy', function() {
-    //Clear all watch listeners on destroy
+    // Clear all watch listeners on destroy
     while (watchListeners.length) {
       watchListeners.shift()();
     }
@@ -2202,7 +2214,8 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   function extractOptions(ngModelCtrl) {
     var ngModelOptions;
 
-    if (angular.version.minor < 6) { // in angular < 1.6 $options could be missing
+    if (angular.version.minor < 6) { // in angular < 1.6 $options could be
+										// missing
       // guarantee a value
       ngModelOptions = ngModelCtrl.$options ||
         $scope.datepickerOptions.ngModelOptions ||
@@ -2214,17 +2227,20 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
         return ngModelOptions[key];
       };
     } else { // in angular >=1.6 $options is always present
-      // ng-model-options defaults timezone to null; don't let its precedence squash a non-null value
+      // ng-model-options defaults timezone to null; don't let its precedence
+		// squash a non-null value
       var timezone = ngModelCtrl.$options.getOption('timezone') ||
         ($scope.datepickerOptions.ngModelOptions ? $scope.datepickerOptions.ngModelOptions.timezone : null) ||
         (datepickerConfig.ngModelOptions ? datepickerConfig.ngModelOptions.timezone : null);
 
       // values passed to createChild override existing values
-      ngModelOptions = ngModelCtrl.$options // start with a ModelOptions instance
+      ngModelOptions = ngModelCtrl.$options // start with a ModelOptions
+											// instance
         .createChild(datepickerConfig.ngModelOptions) // lowest precedence
         .createChild($scope.datepickerOptions.ngModelOptions)
         .createChild(ngModelCtrl.$options) // highest precedence
-        .createChild({timezone: timezone}); // to keep from squashing a non-null value
+        .createChild({timezone: timezone}); // to keep from squashing a non-null
+											// value
     }
 
     return ngModelOptions;
@@ -2534,21 +2550,20 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 angular.module('ui.bootstrap.position', [])
 
 /**
- * A set of utility methods for working with the DOM.
- * It is meant to be used where we need to absolute-position elements in
- * relation to another element (this is the case for tooltips, popovers,
- * typeahead suggestions etc.).
+ * A set of utility methods for working with the DOM. It is meant to be used
+ * where we need to absolute-position elements in relation to another element
+ * (this is the case for tooltips, popovers, typeahead suggestions etc.).
  */
   .factory('$uibPosition', ['$document', '$window', function($document, $window) {
     /**
-     * Used by scrollbarWidth() function to cache scrollbar's width.
-     * Do not access this variable directly, use scrollbarWidth() instead.
-     */
+	 * Used by scrollbarWidth() function to cache scrollbar's width. Do not
+	 * access this variable directly, use scrollbarWidth() instead.
+	 */
     var SCROLLBAR_WIDTH;
     /**
-     * scrollbar on body and html element in IE and Edge overlay
-     * content and should be considered 0 width.
-     */
+	 * scrollbar on body and html element in IE and Edge overlay content and
+	 * should be considered 0 width.
+	 */
     var BODY_SCROLLBAR_WIDTH;
     var OVERFLOW_REGEX = {
       normal: /(auto|scroll)/,
@@ -2565,36 +2580,39 @@ angular.module('ui.bootstrap.position', [])
     return {
 
       /**
-       * Provides a raw DOM element from a jQuery/jQLite element.
-       *
-       * @param {element} elem - The element to convert.
-       *
-       * @returns {element} A HTML element.
-       */
+		 * Provides a raw DOM element from a jQuery/jQLite element.
+		 * 
+		 * @param {element}
+		 *            elem - The element to convert.
+		 * 
+		 * @returns {element} A HTML element.
+		 */
       getRawNode: function(elem) {
         return elem.nodeName ? elem : elem[0] || elem;
       },
 
       /**
-       * Provides a parsed number for a style property.  Strips
-       * units and casts invalid numbers to 0.
-       *
-       * @param {string} value - The style value to parse.
-       *
-       * @returns {number} A valid number.
-       */
+		 * Provides a parsed number for a style property. Strips units and casts
+		 * invalid numbers to 0.
+		 * 
+		 * @param {string}
+		 *            value - The style value to parse.
+		 * 
+		 * @returns {number} A valid number.
+		 */
       parseStyle: function(value) {
         value = parseFloat(value);
         return isFinite(value) ? value : 0;
       },
 
       /**
-       * Provides the closest positioned ancestor.
-       *
-       * @param {element} element - The element to get the offest parent for.
-       *
-       * @returns {element} The closest positioned ancestor.
-       */
+		 * Provides the closest positioned ancestor.
+		 * 
+		 * @param {element}
+		 *            element - The element to get the offest parent for.
+		 * 
+		 * @returns {element} The closest positioned ancestor.
+		 */
       offsetParent: function(elem) {
         elem = this.getRawNode(elem);
 
@@ -2612,13 +2630,13 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides the scrollbar width, concept from TWBS measureScrollbar()
-       * function in https://github.com/twbs/bootstrap/blob/master/js/modal.js
-       * In IE and Edge, scollbar on body and html element overlay and should
-       * return a width of 0.
-       *
-       * @returns {number} The width of the browser scollbar.
-       */
+		 * Provides the scrollbar width, concept from TWBS measureScrollbar()
+		 * function in https://github.com/twbs/bootstrap/blob/master/js/modal.js
+		 * In IE and Edge, scollbar on body and html element overlay and should
+		 * return a width of 0.
+		 * 
+		 * @returns {number} The width of the browser scollbar.
+		 */
       scrollbarWidth: function(isBody) {
         if (isBody) {
           if (angular.isUndefined(BODY_SCROLLBAR_WIDTH)) {
@@ -2643,19 +2661,24 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides the padding required on an element to replace the scrollbar.
-       *
-       * @returns {object} An object with the following properties:
-       *   <ul>
-       *     <li>**scrollbarWidth**: the width of the scrollbar</li>
-       *     <li>**widthOverflow**: whether the the width is overflowing</li>
-       *     <li>**right**: the amount of right padding on the element needed to replace the scrollbar</li>
-       *     <li>**rightOriginal**: the amount of right padding currently on the element</li>
-       *     <li>**heightOverflow**: whether the the height is overflowing</li>
-       *     <li>**bottom**: the amount of bottom padding on the element needed to replace the scrollbar</li>
-       *     <li>**bottomOriginal**: the amount of bottom padding currently on the element</li>
-       *   </ul>
-       */
+		 * Provides the padding required on an element to replace the scrollbar.
+		 * 
+		 * @returns {object} An object with the following properties:
+		 *          <ul>
+		 *          <li>**scrollbarWidth**: the width of the scrollbar</li>
+		 *          <li>**widthOverflow**: whether the the width is overflowing</li>
+		 *          <li>**right**: the amount of right padding on the element
+		 *          needed to replace the scrollbar</li>
+		 *          <li>**rightOriginal**: the amount of right padding
+		 *          currently on the element</li>
+		 *          <li>**heightOverflow**: whether the the height is
+		 *          overflowing</li>
+		 *          <li>**bottom**: the amount of bottom padding on the element
+		 *          needed to replace the scrollbar</li>
+		 *          <li>**bottomOriginal**: the amount of bottom padding
+		 *          currently on the element</li>
+		 *          </ul>
+		 */
       scrollbarPadding: function(elem) {
         elem = this.getRawNode(elem);
 
@@ -2677,14 +2700,16 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Checks to see if the element is scrollable.
-       *
-       * @param {element} elem - The element to check.
-       * @param {boolean=} [includeHidden=false] - Should scroll style of 'hidden' be considered,
-       *   default is false.
-       *
-       * @returns {boolean} Whether the element is scrollable.
-       */
+		 * Checks to see if the element is scrollable.
+		 * 
+		 * @param {element}
+		 *            elem - The element to check.
+		 * @param {boolean=}
+		 *            [includeHidden=false] - Should scroll style of 'hidden' be
+		 *            considered, default is false.
+		 * 
+		 * @returns {boolean} Whether the element is scrollable.
+		 */
       isScrollable: function(elem, includeHidden) {
         elem = this.getRawNode(elem);
 
@@ -2694,18 +2719,21 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides the closest scrollable ancestor.
-       * A port of the jQuery UI scrollParent method:
-       * https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
-       *
-       * @param {element} elem - The element to find the scroll parent of.
-       * @param {boolean=} [includeHidden=false] - Should scroll style of 'hidden' be considered,
-       *   default is false.
-       * @param {boolean=} [includeSelf=false] - Should the element being passed be
-       * included in the scrollable llokup.
-       *
-       * @returns {element} A HTML element.
-       */
+		 * Provides the closest scrollable ancestor. A port of the jQuery UI
+		 * scrollParent method:
+		 * https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
+		 * 
+		 * @param {element}
+		 *            elem - The element to find the scroll parent of.
+		 * @param {boolean=}
+		 *            [includeHidden=false] - Should scroll style of 'hidden' be
+		 *            considered, default is false.
+		 * @param {boolean=}
+		 *            [includeSelf=false] - Should the element being passed be
+		 *            included in the scrollable llokup.
+		 * 
+		 * @returns {element} A HTML element.
+		 */
       scrollParent: function(elem, includeHidden, includeSelf) {
         elem = this.getRawNode(elem);
 
@@ -2738,22 +2766,25 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides read-only equivalent of jQuery's position function:
-       * http://api.jquery.com/position/ - distance to closest positioned
-       * ancestor.  Does not account for margins by default like jQuery position.
-       *
-       * @param {element} elem - The element to caclulate the position on.
-       * @param {boolean=} [includeMargins=false] - Should margins be accounted
-       * for, default is false.
-       *
-       * @returns {object} An object with the following properties:
-       *   <ul>
-       *     <li>**width**: the width of the element</li>
-       *     <li>**height**: the height of the element</li>
-       *     <li>**top**: distance to top edge of offset parent</li>
-       *     <li>**left**: distance to left edge of offset parent</li>
-       *   </ul>
-       */
+		 * Provides read-only equivalent of jQuery's position function:
+		 * http://api.jquery.com/position/ - distance to closest positioned
+		 * ancestor. Does not account for margins by default like jQuery
+		 * position.
+		 * 
+		 * @param {element}
+		 *            elem - The element to caclulate the position on.
+		 * @param {boolean=}
+		 *            [includeMargins=false] - Should margins be accounted for,
+		 *            default is false.
+		 * 
+		 * @returns {object} An object with the following properties:
+		 *          <ul>
+		 *          <li>**width**: the width of the element</li>
+		 *          <li>**height**: the height of the element</li>
+		 *          <li>**top**: distance to top edge of offset parent</li>
+		 *          <li>**left**: distance to left edge of offset parent</li>
+		 *          </ul>
+		 */
       position: function(elem, includeMagins) {
         elem = this.getRawNode(elem);
 
@@ -2781,21 +2812,21 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides read-only equivalent of jQuery's offset function:
-       * http://api.jquery.com/offset/ - distance to viewport.  Does
-       * not account for borders, margins, or padding on the body
-       * element.
-       *
-       * @param {element} elem - The element to calculate the offset on.
-       *
-       * @returns {object} An object with the following properties:
-       *   <ul>
-       *     <li>**width**: the width of the element</li>
-       *     <li>**height**: the height of the element</li>
-       *     <li>**top**: distance to top edge of viewport</li>
-       *     <li>**right**: distance to bottom edge of viewport</li>
-       *   </ul>
-       */
+		 * Provides read-only equivalent of jQuery's offset function:
+		 * http://api.jquery.com/offset/ - distance to viewport. Does not
+		 * account for borders, margins, or padding on the body element.
+		 * 
+		 * @param {element}
+		 *            elem - The element to calculate the offset on.
+		 * 
+		 * @returns {object} An object with the following properties:
+		 *          <ul>
+		 *          <li>**width**: the width of the element</li>
+		 *          <li>**height**: the height of the element</li>
+		 *          <li>**top**: distance to top edge of viewport</li>
+		 *          <li>**right**: distance to bottom edge of viewport</li>
+		 *          </ul>
+		 */
       offset: function(elem) {
         elem = this.getRawNode(elem);
 
@@ -2809,28 +2840,35 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides offset distance to the closest scrollable ancestor
-       * or viewport.  Accounts for border and scrollbar width.
-       *
-       * Right and bottom dimensions represent the distance to the
-       * respective edge of the viewport element.  If the element
-       * edge extends beyond the viewport, a negative value will be
-       * reported.
-       *
-       * @param {element} elem - The element to get the viewport offset for.
-       * @param {boolean=} [useDocument=false] - Should the viewport be the document element instead
-       * of the first scrollable element, default is false.
-       * @param {boolean=} [includePadding=true] - Should the padding on the offset parent element
-       * be accounted for, default is true.
-       *
-       * @returns {object} An object with the following properties:
-       *   <ul>
-       *     <li>**top**: distance to the top content edge of viewport element</li>
-       *     <li>**bottom**: distance to the bottom content edge of viewport element</li>
-       *     <li>**left**: distance to the left content edge of viewport element</li>
-       *     <li>**right**: distance to the right content edge of viewport element</li>
-       *   </ul>
-       */
+		 * Provides offset distance to the closest scrollable ancestor or
+		 * viewport. Accounts for border and scrollbar width.
+		 * 
+		 * Right and bottom dimensions represent the distance to the respective
+		 * edge of the viewport element. If the element edge extends beyond the
+		 * viewport, a negative value will be reported.
+		 * 
+		 * @param {element}
+		 *            elem - The element to get the viewport offset for.
+		 * @param {boolean=}
+		 *            [useDocument=false] - Should the viewport be the document
+		 *            element instead of the first scrollable element, default
+		 *            is false.
+		 * @param {boolean=}
+		 *            [includePadding=true] - Should the padding on the offset
+		 *            parent element be accounted for, default is true.
+		 * 
+		 * @returns {object} An object with the following properties:
+		 *          <ul>
+		 *          <li>**top**: distance to the top content edge of viewport
+		 *          element</li>
+		 *          <li>**bottom**: distance to the bottom content edge of
+		 *          viewport element</li>
+		 *          <li>**left**: distance to the left content edge of viewport
+		 *          element</li>
+		 *          <li>**right**: distance to the right content edge of
+		 *          viewport element</li>
+		 *          </ul>
+		 */
       viewportOffset: function(elem, useDocument, includePadding) {
         elem = this.getRawNode(elem);
         includePadding = includePadding !== false ? true : false;
@@ -2867,38 +2905,48 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides an array of placement values parsed from a placement string.
-       * Along with the 'auto' indicator, supported placement strings are:
-       *   <ul>
-       *     <li>top: element on top, horizontally centered on host element.</li>
-       *     <li>top-left: element on top, left edge aligned with host element left edge.</li>
-       *     <li>top-right: element on top, lerightft edge aligned with host element right edge.</li>
-       *     <li>bottom: element on bottom, horizontally centered on host element.</li>
-       *     <li>bottom-left: element on bottom, left edge aligned with host element left edge.</li>
-       *     <li>bottom-right: element on bottom, right edge aligned with host element right edge.</li>
-       *     <li>left: element on left, vertically centered on host element.</li>
-       *     <li>left-top: element on left, top edge aligned with host element top edge.</li>
-       *     <li>left-bottom: element on left, bottom edge aligned with host element bottom edge.</li>
-       *     <li>right: element on right, vertically centered on host element.</li>
-       *     <li>right-top: element on right, top edge aligned with host element top edge.</li>
-       *     <li>right-bottom: element on right, bottom edge aligned with host element bottom edge.</li>
-       *   </ul>
-       * A placement string with an 'auto' indicator is expected to be
-       * space separated from the placement, i.e: 'auto bottom-left'  If
-       * the primary and secondary placement values do not match 'top,
-       * bottom, left, right' then 'top' will be the primary placement and
-       * 'center' will be the secondary placement.  If 'auto' is passed, true
-       * will be returned as the 3rd value of the array.
-       *
-       * @param {string} placement - The placement string to parse.
-       *
-       * @returns {array} An array with the following values
-       * <ul>
-       *   <li>**[0]**: The primary placement.</li>
-       *   <li>**[1]**: The secondary placement.</li>
-       *   <li>**[2]**: If auto is passed: true, else undefined.</li>
-       * </ul>
-       */
+		 * Provides an array of placement values parsed from a placement string.
+		 * Along with the 'auto' indicator, supported placement strings are:
+		 * <ul>
+		 * <li>top: element on top, horizontally centered on host element.</li>
+		 * <li>top-left: element on top, left edge aligned with host element
+		 * left edge.</li>
+		 * <li>top-right: element on top, lerightft edge aligned with host
+		 * element right edge.</li>
+		 * <li>bottom: element on bottom, horizontally centered on host
+		 * element.</li>
+		 * <li>bottom-left: element on bottom, left edge aligned with host
+		 * element left edge.</li>
+		 * <li>bottom-right: element on bottom, right edge aligned with host
+		 * element right edge.</li>
+		 * <li>left: element on left, vertically centered on host element.</li>
+		 * <li>left-top: element on left, top edge aligned with host element
+		 * top edge.</li>
+		 * <li>left-bottom: element on left, bottom edge aligned with host
+		 * element bottom edge.</li>
+		 * <li>right: element on right, vertically centered on host element.</li>
+		 * <li>right-top: element on right, top edge aligned with host element
+		 * top edge.</li>
+		 * <li>right-bottom: element on right, bottom edge aligned with host
+		 * element bottom edge.</li>
+		 * </ul>
+		 * A placement string with an 'auto' indicator is expected to be space
+		 * separated from the placement, i.e: 'auto bottom-left' If the primary
+		 * and secondary placement values do not match 'top, bottom, left,
+		 * right' then 'top' will be the primary placement and 'center' will be
+		 * the secondary placement. If 'auto' is passed, true will be returned
+		 * as the 3rd value of the array.
+		 * 
+		 * @param {string}
+		 *            placement - The placement string to parse.
+		 * 
+		 * @returns {array} An array with the following values
+		 *          <ul>
+		 *          <li>**[0]**: The primary placement.</li>
+		 *          <li>**[1]**: The secondary placement.</li>
+		 *          <li>**[2]**: If auto is passed: true, else undefined.</li>
+		 *          </ul>
+		 */
       parsePlacement: function(placement) {
         var autoPlace = PLACEMENT_REGEX.auto.test(placement);
         if (autoPlace) {
@@ -2927,43 +2975,49 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides coordinates for an element to be positioned relative to
-       * another element.  Passing 'auto' as part of the placement parameter
-       * will enable smart placement - where the element fits. i.e:
-       * 'auto left-top' will check to see if there is enough space to the left
-       * of the hostElem to fit the targetElem, if not place right (same for secondary
-       * top placement).  Available space is calculated using the viewportOffset
-       * function.
-       *
-       * @param {element} hostElem - The element to position against.
-       * @param {element} targetElem - The element to position.
-       * @param {string=} [placement=top] - The placement for the targetElem,
-       *   default is 'top'. 'center' is assumed as secondary placement for
-       *   'top', 'left', 'right', and 'bottom' placements.  Available placements are:
-       *   <ul>
-       *     <li>top</li>
-       *     <li>top-right</li>
-       *     <li>top-left</li>
-       *     <li>bottom</li>
-       *     <li>bottom-left</li>
-       *     <li>bottom-right</li>
-       *     <li>left</li>
-       *     <li>left-top</li>
-       *     <li>left-bottom</li>
-       *     <li>right</li>
-       *     <li>right-top</li>
-       *     <li>right-bottom</li>
-       *   </ul>
-       * @param {boolean=} [appendToBody=false] - Should the top and left values returned
-       *   be calculated from the body element, default is false.
-       *
-       * @returns {object} An object with the following properties:
-       *   <ul>
-       *     <li>**top**: Value for targetElem top.</li>
-       *     <li>**left**: Value for targetElem left.</li>
-       *     <li>**placement**: The resolved placement.</li>
-       *   </ul>
-       */
+		 * Provides coordinates for an element to be positioned relative to
+		 * another element. Passing 'auto' as part of the placement parameter
+		 * will enable smart placement - where the element fits. i.e: 'auto
+		 * left-top' will check to see if there is enough space to the left of
+		 * the hostElem to fit the targetElem, if not place right (same for
+		 * secondary top placement). Available space is calculated using the
+		 * viewportOffset function.
+		 * 
+		 * @param {element}
+		 *            hostElem - The element to position against.
+		 * @param {element}
+		 *            targetElem - The element to position.
+		 * @param {string=}
+		 *            [placement=top] - The placement for the targetElem,
+		 *            default is 'top'. 'center' is assumed as secondary
+		 *            placement for 'top', 'left', 'right', and 'bottom'
+		 *            placements. Available placements are:
+		 *            <ul>
+		 *            <li>top</li>
+		 *            <li>top-right</li>
+		 *            <li>top-left</li>
+		 *            <li>bottom</li>
+		 *            <li>bottom-left</li>
+		 *            <li>bottom-right</li>
+		 *            <li>left</li>
+		 *            <li>left-top</li>
+		 *            <li>left-bottom</li>
+		 *            <li>right</li>
+		 *            <li>right-top</li>
+		 *            <li>right-bottom</li>
+		 *            </ul>
+		 * @param {boolean=}
+		 *            [appendToBody=false] - Should the top and left values
+		 *            returned be calculated from the body element, default is
+		 *            false.
+		 * 
+		 * @returns {object} An object with the following properties:
+		 *          <ul>
+		 *          <li>**top**: Value for targetElem top.</li>
+		 *          <li>**left**: Value for targetElem left.</li>
+		 *          <li>**placement**: The resolved placement.</li>
+		 *          </ul>
+		 */
       positionElements: function(hostElem, targetElem, placement, appendToBody) {
         hostElem = this.getRawNode(hostElem);
         targetElem = this.getRawNode(targetElem);
@@ -3062,17 +3116,21 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides a way to adjust the top positioning after first
-       * render to correctly align element to top after content
-       * rendering causes resized element height
-       *
-       * @param {array} placementClasses - The array of strings of classes
-       * element should have.
-       * @param {object} containerPosition - The object with container
-       * position information
-       * @param {number} initialHeight - The initial height for the elem.
-       * @param {number} currentHeight - The current height for the elem.
-       */
+		 * Provides a way to adjust the top positioning after first render to
+		 * correctly align element to top after content rendering causes resized
+		 * element height
+		 * 
+		 * @param {array}
+		 *            placementClasses - The array of strings of classes element
+		 *            should have.
+		 * @param {object}
+		 *            containerPosition - The object with container position
+		 *            information
+		 * @param {number}
+		 *            initialHeight - The initial height for the elem.
+		 * @param {number}
+		 *            currentHeight - The current height for the elem.
+		 */
       adjustTop: function(placementClasses, containerPosition, initialHeight, currentHeight) {
         if (placementClasses.indexOf('top') !== -1 && initialHeight !== currentHeight) {
           return {
@@ -3082,13 +3140,14 @@ angular.module('ui.bootstrap.position', [])
       },
 
       /**
-       * Provides a way for positioning tooltip & dropdown
-       * arrows when using placement options beyond the standard
-       * left, right, top, or bottom.
-       *
-       * @param {element} elem - The tooltip/dropdown element.
-       * @param {string} placement - The placement for the elem.
-       */
+		 * Provides a way for positioning tooltip & dropdown arrows when using
+		 * placement options beyond the standard left, right, top, or bottom.
+		 * 
+		 * @param {element}
+		 *            elem - The tooltip/dropdown element.
+		 * @param {string}
+		 *            placement - The placement for the elem.
+		 */
       positionArrow: function(elem, placement) {
         elem = this.getRawNode(elem);
 
@@ -3216,7 +3275,8 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
       $attrs.$observe('uibDatepickerPopup', function(value, oldValue) {
         var newDateFormat = value || datepickerPopupConfig.datepickerPopup;
         // Invalidate the $modelValue to ensure that formatters re-run
-        // FIXME: Refactor when PR is merged: https://github.com/angular/angular.js/pull/10764
+        // FIXME: Refactor when PR is merged:
+		// https://github.com/angular/angular.js/pull/10764
         if (newDateFormat !== dateFormat) {
           dateFormat = newDateFormat;
           ngModel.$modelValue = null;
@@ -3296,7 +3356,8 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     $element.on('keydown', inputKeydownBind);
 
     $popup = $compile(popupEl)($scope);
-    // Prevent jQuery cache memory leak (template is now redundant after linking)
+    // Prevent jQuery cache memory leak (template is now redundant after
+	// linking)
     popupEl.remove();
 
     if (appendToBody) {
@@ -3322,7 +3383,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
       }
       angular.element($window).off('resize', positionPopup);
 
-      //Clear all watch listeners on destroy
+      // Clear all watch listeners on destroy
       while (watchListeners.length) {
         watchListeners.shift()();
       }
@@ -3365,7 +3426,16 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
   // Inner change
   $scope.dateSelection = function(dt) {
     $scope.date = dt;
-    var date = $scope.date ? dateParser.filter($scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
+    var date = $scope.date ? dateParser.filter($scope.date, dateFormat) : null; // Setting
+																				// to
+																				// NULL
+																				// is
+																				// necessary
+																				// for
+																				// form
+																				// validators
+																				// to
+																				// function
     $element.val(date);
     ngModel.$setViewValue(date);
 
@@ -3565,7 +3635,8 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
   function extractOptions(ngModelCtrl) {
     var ngModelOptions;
 
-    if (angular.version.minor < 6) { // in angular < 1.6 $options could be missing
+    if (angular.version.minor < 6) { // in angular < 1.6 $options could be
+										// missing
       // guarantee a value
       ngModelOptions = angular.isObject(ngModelCtrl.$options) ?
         ngModelCtrl.$options :
@@ -3814,7 +3885,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
   this.keybindFilter = function(evt) {
     if (!openScope) {
-      // see this.close as ESC could have been pressed which kills the scope so we can not proceed
+      // see this.close as ESC could have been pressed which kills the scope
+		// so we can not proceed
       return;
     }
 
@@ -3836,7 +3908,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
 .controller('UibDropdownController', ['$scope', '$element', '$attrs', '$parse', 'uibDropdownConfig', 'uibDropdownService', '$animate', '$uibPosition', '$document', '$compile', '$templateRequest', function($scope, $element, $attrs, $parse, dropdownConfig, uibDropdownService, $animate, $position, $document, $compile, $templateRequest) {
   var self = this,
-    scope = $scope.$new(), // create a child scope so we are not polluting original one
+    scope = $scope.$new(), // create a child scope so we are not polluting
+							// original one
     templateScope,
     appendToOpenClass = dropdownConfig.appendToOpenClass,
     openClass = dropdownConfig.openClass,
@@ -3881,7 +3954,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
   };
 
   scope.getAutoClose = function() {
-    return $attrs.autoClose || 'always'; //or 'outsideClick' or 'disabled'
+    return $attrs.autoClose || 'always'; // or 'outsideClick' or 'disabled'
   };
 
   scope.getElement = function() {
@@ -3893,7 +3966,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
   };
 
   scope.focusDropdownEntry = function(keyCode) {
-    var elems = self.dropdownMenu ? //If append to body is used.
+    var elems = self.dropdownMenu ? // If append to body is used.
       angular.element(self.dropdownMenu).find('a') :
       $element.find('ul').eq(0).find('a');
 
@@ -3995,7 +4068,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
           (pos.left + $element.prop('offsetWidth')) + 'px';
       }
 
-      // Need to adjust our positioning to be relative to the appendTo container
+      // Need to adjust our positioning to be relative to the appendTo
+		// container
       // if it's not the body element
       if (!appendToBody) {
         var appendOffset = $position.offset(appendTo);
@@ -4140,8 +4214,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
 
 angular.module('ui.bootstrap.stackedMap', [])
 /**
- * A helper, internal data structure that acts as a map but also allows getting / removing
- * elements in the LIFO order
+ * A helper, internal data structure that acts as a map but also allows getting /
+ * removing elements in the LIFO order
  */
   .factory('$$stackedMap', function() {
     return {
@@ -4194,8 +4268,8 @@ angular.module('ui.bootstrap.stackedMap', [])
   });
 angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.stackedMap', 'ui.bootstrap.position'])
 /**
- * Pluggable resolve mechanism for the modal resolve resolution
- * Supports UI Router's $resolve service
+ * Pluggable resolve mechanism for the modal resolve resolution Supports UI
+ * Router's $resolve service
  */
   .provider('$uibResolve', function() {
     var resolve = this;
@@ -4297,9 +4371,12 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
         // moved from template to fix issue #2280
         element.on('click', scope.close);
 
-        // This property is only added to the scope for the purpose of detecting when this directive is rendered.
-        // We can detect that by using this property in the template associated with this directive and then use
-        // {@link Attribute#$observe} on it. For more details please see {@link TableColumnResize}.
+        // This property is only added to the scope for the purpose of detecting
+		// when this directive is rendered.
+        // We can detect that by using this property in the template associated
+		// with this directive and then use
+        // {@link Attribute#$observe} on it. For more details please see {@link
+		// TableColumnResize}.
         scope.$isRendered = true;
 
         // Deferred object that will be resolved when this modal is rendered.
@@ -4334,19 +4411,22 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
             }
 
             /**
-             * If something within the freshly-opened modal already has focus (perhaps via a
-             * directive that causes focus) then there's no need to try to focus anything.
-             */
+			 * If something within the freshly-opened modal already has focus
+			 * (perhaps via a directive that causes focus) then there's no need
+			 * to try to focus anything.
+			 */
             if (!($document[0].activeElement && element[0].contains($document[0].activeElement))) {
               var inputWithAutofocus = element[0].querySelector('[autofocus]');
               /**
-               * Auto-focusing of a freshly-opened modal element causes any child elements
-               * with the autofocus attribute to lose focus. This is an issue on touch
-               * based devices which will show and then hide the onscreen keyboard.
-               * Attempts to refocus the autofocus element via JavaScript will not reopen
-               * the onscreen keyboard. Fixed by updated the focusing logic to only autofocus
-               * the modal element if the modal does not contain an autofocus element.
-               */
+				 * Auto-focusing of a freshly-opened modal element causes any
+				 * child elements with the autofocus attribute to lose focus.
+				 * This is an issue on touch based devices which will show and
+				 * then hide the onscreen keyboard. Attempts to refocus the
+				 * autofocus element via JavaScript will not reopen the onscreen
+				 * keyboard. Fixed by updated the focusing logic to only
+				 * autofocus the modal element if the modal does not contain an
+				 * autofocus element.
+				 */
               if (inputWithAutofocus) {
                 inputWithAutofocus.focus();
               } else {
@@ -4395,7 +4475,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
       var previousTopOpenedModal = null;
       var ARIA_HIDDEN_ATTRIBUTE_NAME = 'data-bootstrap-modal-aria-hidden-count';
 
-      //Modal focus behavior
+      // Modal focus behavior
       var tabbableSelector = 'a[href], area[href], input:not([disabled]):not([tabindex=\'-1\']), ' +
         'button:not([disabled]):not([tabindex=\'-1\']),select:not([disabled]):not([tabindex=\'-1\']), textarea:not([disabled]):not([tabindex=\'-1\']), ' +
         'iframe, object, embed, *[tabindex]:not([tabindex=\'-1\']), *[contenteditable=true]';
@@ -4443,7 +4523,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
         var modalWindow = openedWindows.get(modalInstance).value;
         var appendToElement = modalWindow.appendTo;
 
-        //clean up the stack
+        // clean up the stack
         openedWindows.remove(modalInstance);
         previousTopOpenedModal = openedWindows.top();
         if (previousTopOpenedModal) {
@@ -4467,7 +4547,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
         }, modalWindow.closedDeferred);
         checkRemoveBackdrop();
 
-        //move focus to specified element if available, or else to body
+        // move focus to specified element if available, or else to body
         if (elementToReceiveFocus && elementToReceiveFocus.focus) {
           elementToReceiveFocus.focus();
         } else if (appendToElement.focus) {
@@ -4486,7 +4566,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
       }
 
       function checkRemoveBackdrop() {
-        //remove backdrop if no longer needed
+        // remove backdrop if no longer needed
         if (backdropDomEl && backdropIndex() === -1) {
           var backdropScopeRef = backdropScope;
           removeAfterAnimate(backdropDomEl, backdropScope, function() {
@@ -4846,7 +4926,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
     var $modalProvider = {
       options: {
         animation: true,
-        backdrop: true, //can also be false or 'static'
+        backdrop: true, // can also be false or 'static'
         keyboard: true
       },
       $get: ['$rootScope', '$q', '$document', '$templateRequest', '$controller', '$uibResolve', '$uibModalStack',
@@ -4870,7 +4950,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
             var modalClosedDeferred = $q.defer();
             var modalRenderDeferred = $q.defer();
 
-            //prepare an instance of a modal to be injected into controllers and returned to a caller
+            // prepare an instance of a modal to be injected into controllers
+			// and returned to a caller
             var modalInstance = {
               result: modalResultDeferred.promise,
               opened: modalOpenedDeferred.promise,
@@ -4884,7 +4965,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
               }
             };
 
-            //merge and clean up options
+            // merge and clean up options
             modalOptions = angular.extend({}, $modalProvider.options, modalOptions);
             modalOptions.resolve = modalOptions.resolve || {};
             modalOptions.appendTo = modalOptions.appendTo || $document.find('body').eq(0);
@@ -4893,7 +4974,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
               throw new Error('appendTo element not found. Make sure that the element passed is in DOM.');
             }
 
-            //verify options
+            // verify options
             if (!modalOptions.component && !modalOptions.template && !modalOptions.templateUrl) {
               throw new Error('One of component or template or templateUrl options is required.');
             }
@@ -4911,9 +4992,11 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
             }
 
             // Wait for the resolution of the existing promise chain.
-            // Then switch to our own combined promise dependency (regardless of how the previous modal fared).
+            // Then switch to our own combined promise dependency (regardless of
+			// how the previous modal fared).
             // Then add to $modalStack and resolve opened.
-            // Finally clean up the chain variable if no subsequent modal has overwritten it.
+            // Finally clean up the chain variable if no subsequent modal has
+			// overwritten it.
             var samePromise;
             samePromise = promiseChain = $q.all([promiseChain])
               .then(resolveWithTemplate, resolveWithTemplate)
@@ -4959,8 +5042,10 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
                 } else if (modalOptions.controller) {
                   constructLocals(ctrlLocals, true, false, true);
 
-                  // the third param will make the controller instantiate later,private api
-                  // @see https://github.com/angular/angular.js/blob/master/src/ng/controller.js#L126
+                  // the third param will make the controller instantiate
+					// later,private api
+                  // @see
+					// https://github.com/angular/angular.js/blob/master/src/ng/controller.js#L126
                   ctrlInstantiate = $controller(modalOptions.controller, ctrlLocals, true, modalOptions.controllerAs);
                   if (modalOptions.controllerAs && modalOptions.bindToController) {
                     ctrlInstance = ctrlInstantiate.instance;
@@ -5098,7 +5183,8 @@ angular.module('ui.bootstrap.paging', [])
       };
 
       ctrl.updatePage = function() {
-        ctrl.setNumPages($scope.$parent, $scope.totalPages); // Readonly variable
+        ctrl.setNumPages($scope.$parent, $scope.totalPages); // Readonly
+																// variable
 
         if ($scope.page > $scope.totalPages) {
           $scope.selectPage($scope.totalPages);
@@ -5227,32 +5313,42 @@ angular.module('ui.bootstrap.pagination', ['ui.bootstrap.paging', 'ui.bootstrap.
     // Add links to move between page sets
     if (isMaxSized && maxSize > 0 && (!rotate || forceEllipses || boundaryLinkNumbers)) {
       if (startPage > 1) {
-        if (!boundaryLinkNumbers || startPage > 3) { //need ellipsis for all options unless range is too close to beginning
+        if (!boundaryLinkNumbers || startPage > 3) { // need ellipsis for all
+														// options unless range
+														// is too close to
+														// beginning
         var previousPageSet = makePage(startPage - 1, '...', false);
         pages.unshift(previousPageSet);
       }
         if (boundaryLinkNumbers) {
-          if (startPage === 3) { //need to replace ellipsis when the buttons would be sequential
+          if (startPage === 3) { // need to replace ellipsis when the buttons
+									// would be sequential
             var secondPageLink = makePage(2, '2', false);
             pages.unshift(secondPageLink);
           }
-          //add the first page
+          // add the first page
           var firstPageLink = makePage(1, '1', false);
           pages.unshift(firstPageLink);
         }
       }
 
       if (endPage < totalPages) {
-        if (!boundaryLinkNumbers || endPage < totalPages - 2) { //need ellipsis for all options unless range is too close to end
+        if (!boundaryLinkNumbers || endPage < totalPages - 2) { // need ellipsis
+																// for all
+																// options
+																// unless range
+																// is too close
+																// to end
         var nextPageSet = makePage(endPage + 1, '...', false);
         pages.push(nextPageSet);
       }
         if (boundaryLinkNumbers) {
-          if (endPage === totalPages - 2) { //need to replace ellipsis when the buttons would be sequential
+          if (endPage === totalPages - 2) { // need to replace ellipsis when the
+											// buttons would be sequential
             var secondToLastPageLink = makePage(totalPages - 1, totalPages - 1, false);
             pages.push(secondToLastPageLink);
           }
-          //add the last page
+          // add the last page
           var lastPageLink = makePage(totalPages, totalPages, false);
           pages.push(lastPageLink);
         }
@@ -5314,9 +5410,9 @@ angular.module('ui.bootstrap.pagination', ['ui.bootstrap.paging', 'ui.bootstrap.
 }]);
 
 /**
- * The following features are still outstanding: animation as a
- * function, placement as a function, inside, support for more triggers than
- * just mouse enter/leave, html tooltips, and selector delegation.
+ * The following features are still outstanding: animation as a function,
+ * placement as a function, inside, support for more triggers than just mouse
+ * enter/leave, html tooltips, and selector delegation.
  */
 angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.stackedMap'])
 
@@ -5348,30 +5444,29 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
   var globalOptions = {};
 
   /**
-   * `options({})` allows global configuration of all tooltips in the
-   * application.
-   *
-   *   var app = angular.module( 'App', ['ui.bootstrap.tooltip'], function( $tooltipProvider ) {
-   *     // place tooltips left instead of top by default
-   *     $tooltipProvider.options( { placement: 'left' } );
-   *   });
-   */
+	 * `options({})` allows global configuration of all tooltips in the
+	 * application.
+	 * 
+	 * var app = angular.module( 'App', ['ui.bootstrap.tooltip'], function(
+	 * $tooltipProvider ) { // place tooltips left instead of top by default
+	 * $tooltipProvider.options( { placement: 'left' } ); });
+	 */
 	this.options = function(value) {
 		angular.extend(globalOptions, value);
 	};
 
   /**
-   * This allows you to extend the set of trigger mappings available. E.g.:
-   *
-   *   $tooltipProvider.setTriggers( { 'openTrigger': 'closeTrigger' } );
-   */
+	 * This allows you to extend the set of trigger mappings available. E.g.:
+	 * 
+	 * $tooltipProvider.setTriggers( { 'openTrigger': 'closeTrigger' } );
+	 */
   this.setTriggers = function setTriggers(triggers) {
     angular.extend(triggerMap, triggers);
   };
 
   /**
-   * This is a helper function for translating camel-case to snake_case.
-   */
+	 * This is a helper function for translating camel-case to snake_case.
+	 */
   function snake_case(name) {
     var regexp = /[A-Z]/g;
     var separator = '-';
@@ -5381,9 +5476,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
   }
 
   /**
-   * Returns the actual instance of the $tooltip service.
-   * TODO support multiple triggers
-   */
+	 * Returns the actual instance of the $tooltip service. TODO support
+	 * multiple triggers
+	 */
   this.$get = ['$window', '$compile', '$timeout', '$document', '$uibPosition', '$interpolate', '$rootScope', '$parse', '$$stackedMap', function($window, $compile, $timeout, $document, $position, $interpolate, $rootScope, $parse, $$stackedMap) {
     var openedTooltips = $$stackedMap.createNew();
     $document.on('keyup', keypressListener);
@@ -5406,19 +5501,19 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
       options = angular.extend({}, defaultOptions, globalOptions, options);
 
       /**
-       * Returns an object of show and hide triggers.
-       *
-       * If a trigger is supplied,
-       * it is used to show the tooltip; otherwise, it will use the `trigger`
-       * option passed to the `$tooltipProvider.options` method; else it will
-       * default to the trigger supplied to this directive factory.
-       *
-       * The hide trigger is based on the show trigger. If the `trigger` option
-       * was passed to the `$tooltipProvider.options` method, it will use the
-       * mapped trigger from `triggerMap` or the passed trigger if the map is
-       * undefined; otherwise, it uses the `triggerMap` value of the show
-       * trigger; else it will just use the show trigger.
-       */
+		 * Returns an object of show and hide triggers.
+		 * 
+		 * If a trigger is supplied, it is used to show the tooltip; otherwise,
+		 * it will use the `trigger` option passed to the
+		 * `$tooltipProvider.options` method; else it will default to the
+		 * trigger supplied to this directive factory.
+		 * 
+		 * The hide trigger is based on the show trigger. If the `trigger`
+		 * option was passed to the `$tooltipProvider.options` method, it will
+		 * use the mapped trigger from `triggerMap` or the passed trigger if the
+		 * map is undefined; otherwise, it uses the `triggerMap` value of the
+		 * show trigger; else it will just use the show trigger.
+		 */
       function getTriggers(trigger) {
         var show = (trigger || options.trigger || defaultTriggerShow).split(' ');
         var hide = show.map(function(trigger) {
@@ -5532,7 +5627,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
             }
 
-            // Show the tooltip with delay if specified, otherwise show it immediately
+            // Show the tooltip with delay if specified, otherwise show it
+			// immediately
             function showTooltipBind() {
               if (hasEnableExp && !scope.$eval(attrs[prefix + 'Enable'])) {
                 return;
@@ -5543,7 +5639,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (ttScope.popupDelay) {
                 // Do nothing if the tooltip was already scheduled to pop-up.
-                // This happens if show is triggered multiple times before any hide is triggered.
+                // This happens if show is triggered multiple times before any
+				// hide is triggered.
                 if (!showTimeout) {
                   showTimeout = $timeout(show, ttScope.popupDelay, false);
                 }
@@ -5607,9 +5704,11 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                 if (ttScope) {
                   ttScope.isOpen = false;
                   assignIsOpen(false);
-                  // And now we remove it from the DOM. However, if we have animation, we
+                  // And now we remove it from the DOM. However, if we have
+					// animation, we
                   // need to wait for it to expire beforehand.
-                  // FIXME: this is a placeholder for a port of the transitions library.
+                  // FIXME: this is a placeholder for a port of the
+					// transitions library.
                   // The fade transition in TWBS is 150ms.
                   if (ttScope.animation) {
                     if (!transitionTimeout) {
@@ -5635,7 +5734,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             function createTooltip() {
-              // There can only be one tooltip element per directive shown at once.
+              // There can only be one tooltip element per directive shown at
+				// once.
               if (tooltip) {
                 return;
               }
@@ -5679,10 +5779,9 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             /**
-             * Set the initial scope values. Once
-             * the tooltip is created, the observers
-             * will be added to keep things in sync.
-             */
+			 * Set the initial scope values. Once the tooltip is created, the
+			 * observers will be added to keep things in sync.
+			 */
             function prepareTooltip() {
               ttScope.title = attrs[prefix + 'Title'];
               if (contentParse) {
@@ -5713,8 +5812,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             };
 
             /**
-             * Observe the relevant attributes.
-             */
+			 * Observe the relevant attributes.
+			 */
             attrs.$observe('disabled', function(val) {
               if (val) {
                 cancelShow();
@@ -5805,7 +5904,8 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               if (!ttScope || !ttScope.isOpen || !tooltip) {
                 return;
               }
-              // make sure the tooltip/popover link or tool tooltip/popover itself were not clicked
+              // make sure the tooltip/popover link or tool tooltip/popover
+				// itself were not clicked
               if (!element[0].contains(e.target) && !tooltip[0].contains(e.target)) {
                 hideTooltipBind();
               }
@@ -5936,8 +6036,9 @@ function ($animate, $sce, $compile, $templateRequest) {
         var thisChangeId = ++changeCounter;
 
         if (src) {
-          //set the 2nd param to true to ignore the template request error so that the inner
-          //contents and scope can be cleaned up.
+          // set the 2nd param to true to ignore the template request error so
+			// that the inner
+          // contents and scope can be cleaned up.
           $templateRequest(src, true).then(function(response) {
             if (thisChangeId !== changeCounter) { return; }
             var newScope = origScope.$new();
@@ -5970,9 +6071,9 @@ function ($animate, $sce, $compile, $templateRequest) {
 }])
 
 /**
- * Note that it's intentional that these classes are *not* applied through $animate.
- * They must not be animated as they're expected to be present on the tooltip on
- * initialization.
+ * Note that it's intentional that these classes are *not* applied through
+ * $animate. They must not be animated as they're expected to be present on the
+ * tooltip on initialization.
  */
 .directive('uibTooltipClasses', ['$uibPosition', function($uibPosition) {
   return {
@@ -6138,7 +6239,7 @@ angular.module('ui.bootstrap.progressbar', [])
     });
   };
 
-  //$attrs.$observe('maxParam', function(maxParam) {
+  // $attrs.$observe('maxParam', function(maxParam) {
   $scope.$watch('maxParam', function(maxParam) {
     self.bars.forEach(function(bar) {
       bar.max = getMaxOrDefault();
@@ -6437,12 +6538,13 @@ angular.module('ui.bootstrap.tabs', [])
       heading: '@',
       index: '=?',
       classes: '@?',
-      onSelect: '&select', //This callback is called in contentHeadingTransclude
-                          //once it inserts the tab's content into the dom
+      onSelect: '&select', // This callback is called in
+							// contentHeadingTransclude
+                          // once it inserts the tab's content into the dom
       onDeselect: '&deselect'
     },
     controller: function() {
-      //Empty controller so other directives can require being 'under' a tab
+      // Empty controller so other directives can require being 'under' a tab
     },
     controllerAs: 'tab',
     link: function(scope, elm, attrs, tabsetCtrl, transclude) {
@@ -6484,8 +6586,8 @@ angular.module('ui.bootstrap.tabs', [])
         tabsetCtrl.removeTab(scope);
       });
 
-      //We need to transclude later, once the content container is ready.
-      //when this link happens, we're inside a tab heading.
+      // We need to transclude later, once the content container is ready.
+      // when this link happens, we're inside a tab heading.
       scope.$transcludeFn = transclude;
     }
   };
@@ -6513,12 +6615,12 @@ angular.module('ui.bootstrap.tabs', [])
     link: function(scope, elm, attrs) {
       var tab = scope.$eval(attrs.uibTabContentTransclude).tab;
 
-      //Now our tab is ready to be transcluded: both the tab heading area
-      //and the tab content area are loaded.  Transclude 'em both.
+      // Now our tab is ready to be transcluded: both the tab heading area
+      // and the tab content area are loaded. Transclude 'em both.
       tab.$transcludeFn(tab.$parent, function(contents) {
         angular.forEach(contents, function(node) {
           if (isTabHeading(node)) {
-            //Let tabHeadingTransclude know.
+            // Let tabHeadingTransclude know.
             tab.headingElement = node;
           } else {
             elm.append(node);
@@ -6758,7 +6860,7 @@ angular.module('ui.bootstrap.timepicker', [])
       if (e.originalEvent) {
         e = e.originalEvent;
       }
-      //pick correct delta variable depending on event
+      // pick correct delta variable depending on event
       var delta = e.wheelDelta ? e.wheelDelta : -e.deltaY;
       return e.detail || delta > 0;
     };
@@ -7012,7 +7114,9 @@ angular.module('ui.bootstrap.timepicker', [])
         seconds = selected.getSeconds();
 
       if ($scope.showMeridian) {
-        hours = hours === 0 || hours === 12 ? 12 : hours % 12; // Convert 24 to 12 hour system
+        hours = hours === 0 || hours === 12 ? 12 : hours % 12; // Convert 24 to
+																// 12 hour
+																// system
       }
 
       $scope.hours = keyboardChange === 'h' ? hours : pad(hours, !padHours);
@@ -7140,7 +7244,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
  * Extracted to a separate service for ease of unit testing
  */
   .factory('uibTypeaheadParser', ['$parse', function($parse) {
-    //                      000001111111100000000000002222222200000000000000003333333333333330000000000044444444000
+    // 000001111111100000000000002222222200000000000000003333333333333330000000000044444444000
     var TYPEAHEAD_REGEXP = /^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+([\s\S]+?)$/;
     return {
       parse: function(input) {
@@ -7166,9 +7270,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     var HOT_KEYS = [9, 13, 27, 38, 40];
     var eventDebounceTime = 200;
     var modelCtrl, ngModelOptions;
-    //SUPPORTED ATTRIBUTES (OPTIONS)
+    // SUPPORTED ATTRIBUTES (OPTIONS)
 
-    //minimal no of characters that needs to be entered before typeahead kicks-in
+    // minimal no of characters that needs to be entered before typeahead
+	// kicks-in
     var minLength = originalScope.$eval(attrs.typeaheadMinLength);
     if (!minLength && minLength !== 0) {
       minLength = 1;
@@ -7178,31 +7283,33 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
         minLength = !newVal && newVal !== 0 ? 1 : newVal;
     });
 
-    //minimal wait time after last character typed before typeahead kicks-in
+    // minimal wait time after last character typed before typeahead kicks-in
     var waitTime = originalScope.$eval(attrs.typeaheadWaitMs) || 0;
 
-    //should it restrict model values to the ones selected from the popup only?
+    // should it restrict model values to the ones selected from the popup only?
     var isEditable = originalScope.$eval(attrs.typeaheadEditable) !== false;
     originalScope.$watch(attrs.typeaheadEditable, function (newVal) {
       isEditable = newVal !== false;
     });
 
-    //binding to a variable that indicates if matches are being retrieved asynchronously
+    // binding to a variable that indicates if matches are being retrieved
+	// asynchronously
     var isLoadingSetter = $parse(attrs.typeaheadLoading).assign || angular.noop;
 
-    //a function to determine if an event should cause selection
+    // a function to determine if an event should cause selection
     var isSelectEvent = attrs.typeaheadShouldSelect ? $parse(attrs.typeaheadShouldSelect) : function(scope, vals) {
       var evt = vals.$event;
       return evt.which === 13 || evt.which === 9;
     };
 
-    //a callback executed when a match is selected
+    // a callback executed when a match is selected
     var onSelectCallback = $parse(attrs.typeaheadOnSelect);
 
-    //should it select highlighted popup value when losing focus?
+    // should it select highlighted popup value when losing focus?
     var isSelectOnBlur = angular.isDefined(attrs.typeaheadSelectOnBlur) ? originalScope.$eval(attrs.typeaheadSelectOnBlur) : false;
 
-    //binding to a variable that indicates if there were no results after the query is completed
+    // binding to a variable that indicates if there were no results after the
+	// query is completed
     var isNoResultsSetter = $parse(attrs.typeaheadNoResults).assign || angular.noop;
 
     var inputFormatter = attrs.typeaheadInputFormatter ? $parse(attrs.typeaheadInputFormatter) : undefined;
@@ -7214,17 +7321,17 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
     var focusFirst = originalScope.$eval(attrs.typeaheadFocusFirst) !== false;
 
-    //If input matches an item of the list exactly, select it automatically
+    // If input matches an item of the list exactly, select it automatically
     var selectOnExact = attrs.typeaheadSelectOnExact ? originalScope.$eval(attrs.typeaheadSelectOnExact) : false;
 
-    //binding to a variable that indicates if dropdown is open
+    // binding to a variable that indicates if dropdown is open
     var isOpenSetter = $parse(attrs.typeaheadIsOpen).assign || angular.noop;
 
     var showHint = originalScope.$eval(attrs.typeaheadShowHint) || false;
 
-    //INTERNAL VARIABLES
+    // INTERNAL VARIABLES
 
-    //model setter executed upon match selection
+    // model setter executed upon match selection
     var parsedModel = $parse(attrs.ngModel);
     var invokeModelSetter = $parse(attrs.ngModel + '($$$p)');
     var $setModelValue = function(scope, newValue) {
@@ -7236,18 +7343,19 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       return parsedModel.assign(scope, newValue);
     };
 
-    //expressions used by typeahead
+    // expressions used by typeahead
     var parserResult = typeaheadParser.parse(attrs.uibTypeahead);
 
     var hasFocus;
 
-    //Used to avoid bug in iOS webview where iOS keyboard does not fire
-    //mousedown & mouseup events
-    //Issue #3699
+    // Used to avoid bug in iOS webview where iOS keyboard does not fire
+    // mousedown & mouseup events
+    // Issue #3699
     var selected;
 
-    //create a child scope for the typeahead directive so we are not polluting original scope
-    //with typeahead-specific data (matches, query etc.)
+    // create a child scope for the typeahead directive so we are not polluting
+	// original scope
+    // with typeahead-specific data (matches, query etc.)
     var scope = originalScope.$new();
     var offDestroy = originalScope.$on('$destroy', function() {
       scope.$destroy();
@@ -7263,7 +7371,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     });
 
     var inputsContainer, hintInputElem;
-    //add read-only input to show hint
+    // add read-only input to show hint
     if (showHint) {
       inputsContainer = angular.element('<div></div>');
       inputsContainer.css('position', 'relative');
@@ -7295,7 +7403,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       hintInputElem.after(element);
     }
 
-    //pop-up element used to display matches
+    // pop-up element used to display matches
     var popUpEl = angular.element('<div uib-typeahead-popup></div>');
     popUpEl.attr({
       id: popupId,
@@ -7308,7 +7416,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       'assign-is-open': 'assignIsOpen(isOpen)',
       debounce: 'debounceUpdate'
     });
-    //custom item template
+    // custom item template
     if (angular.isDefined(attrs.typeaheadTemplateUrl)) {
       popUpEl.attr('template-url', attrs.typeaheadTemplateUrl);
     }
@@ -7334,8 +7442,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       return popupId + '-option-' + index;
     };
 
-    // Indicate that the specified match is the active (pre-selected) item in the list owned by this typeahead.
-    // This attribute is added or removed automatically when the `activeIdx` changes.
+    // Indicate that the specified match is the active (pre-selected) item in
+	// the list owned by this typeahead.
+    // This attribute is added or removed automatically when the `activeIdx`
+	// changes.
     scope.$watch('activeIdx', function(index) {
       if (index < 0) {
         element.removeAttr('aria-activedescendant');
@@ -7357,8 +7467,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       isLoadingSetter(originalScope, true);
       isNoResultsSetter(originalScope, false);
       $q.when(parserResult.source(originalScope, locals)).then(function(matches) {
-        //it might happen that several async queries were in progress if a user were typing fast
-        //but we are interested only in responses that correspond to the current view value
+        // it might happen that several async queries were in progress if a user
+		// were typing fast
+        // but we are interested only in responses that correspond to the
+		// current view value
         var onCurrentRequest = inputValue === modelCtrl.$viewValue;
         if (onCurrentRequest && hasFocus) {
           if (matches && matches.length > 0) {
@@ -7366,7 +7478,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
             isNoResultsSetter(originalScope, false);
             scope.matches.length = 0;
 
-            //transform labels
+            // transform labels
             for (var i = 0; i < matches.length; i++) {
               locals[parserResult.itemName] = matches[i];
               scope.matches.push({
@@ -7377,14 +7489,16 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
             }
 
             scope.query = inputValue;
-            //position pop-up with matches - we need to re-calculate its position each time we are opening a window
-            //with matches as a pop-up might be absolute-positioned and position of an input might have changed on a page
-            //due to other elements being rendered
+            // position pop-up with matches - we need to re-calculate its
+			// position each time we are opening a window
+            // with matches as a pop-up might be absolute-positioned and
+			// position of an input might have changed on a page
+            // due to other elements being rendered
             recalculatePosition();
 
             element.attr('aria-expanded', true);
 
-            //Select the single remaining option if user input matches
+            // Select the single remaining option if user input matches
             if (selectOnExact && scope.matches.length === 1 && inputIsExactMatch(inputValue, 0)) {
               if (angular.isNumber(scope.debounceUpdate) || angular.isObject(scope.debounceUpdate)) {
                 $$debounce(function() {
@@ -7456,10 +7570,11 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       scope.position.top += element.prop('offsetHeight');
     }
 
-    //we need to propagate user's query so we can higlight matches
+    // we need to propagate user's query so we can higlight matches
     scope.query = undefined;
 
-    //Declare the timeout promise var outside the function scope so that stacked calls can be cancelled later
+    // Declare the timeout promise var outside the function scope so that
+	// stacked calls can be cancelled later
     var timeoutPromise;
 
     var scheduleSearchWithTimeout = function(inputValue) {
@@ -7481,7 +7596,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     };
 
     scope.select = function(activeIdx, evt) {
-      //called from within the $digest() cycle
+      // called from within the $digest() cycle
       var locals = {};
       var model, item;
 
@@ -7501,16 +7616,18 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
       resetMatches();
 
-      //return focus to the input element if a match was selected via a mouse click event
+      // return focus to the input element if a match was selected via a mouse
+		// click event
       // use timeout to avoid $rootScope:inprog error
       if (scope.$eval(attrs.typeaheadFocusOnSelect) !== false) {
         $timeout(function() { element[0].focus(); }, 0, false);
       }
     };
 
-    //bind keyboard events: arrows up(38) / down(40), enter(13) and tab(9), esc(27)
+    // bind keyboard events: arrows up(38) / down(40), enter(13) and tab(9),
+	// esc(27)
     element.on('keydown', function(evt) {
-      //typeahead is open and an "interesting" key was pressed
+      // typeahead is open and an "interesting" key was pressed
       if (scope.matches.length === 0 || HOT_KEYS.indexOf(evt.which) === -1) {
         return;
       }
@@ -7518,11 +7635,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       var shouldSelect = isSelectEvent(originalScope, {$event: evt});
 
       /**
-       * if there's nothing selected (i.e. focusFirst) and enter or tab is hit
-       * or
-       * shift + tab is pressed to bring focus to the previous element
-       * then clear the results
-       */
+		 * if there's nothing selected (i.e. focusFirst) and enter or tab is hit
+		 * or shift + tab is pressed to bring focus to the previous element then
+		 * clear the results
+		 */
       if (scope.activeIdx === -1 && shouldSelect || evt.which === 9 && !!evt.shiftKey) {
         resetMatches();
         scope.$digest();
@@ -7648,8 +7764,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
       scope.debounceUpdate = $parse(ngModelOptions.getOption('debounce'))(originalScope);
 
-      //plug into $parsers pipeline to open a typeahead on view changes initiated from DOM
-      //$parsers kick-in on all the changes coming from the view as well as manually triggered by $setViewValue
+      // plug into $parsers pipeline to open a typeahead on view changes
+		// initiated from DOM
+      // $parsers kick-in on all the changes coming from the view as well as
+		// manually triggered by $setViewValue
       modelCtrl.$parsers.unshift(function(inputValue) {
         hasFocus = true;
 
@@ -7696,8 +7814,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
           return inputFormatter(originalScope, locals);
         }
 
-        //it might happen that we don't have enough info to properly render input value
-        //we need to check for this situation and simply return model value if we can't apply custom formatting
+        // it might happen that we don't have enough info to properly render
+		// input value
+        // we need to check for this situation and simply return model value if
+		// we can't apply custom formatting
         locals[parserResult.itemName] = modelValue;
         candidateViewValue = parserResult.viewMapper(originalScope, locals);
         locals[parserResult.itemName] = undefined;
@@ -7710,7 +7830,8 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     function extractOptions(ngModelCtrl) {
       var ngModelOptions;
 
-      if (angular.version.minor < 6) { // in angular < 1.6 $options could be missing
+      if (angular.version.minor < 6) { // in angular < 1.6 $options could be
+										// missing
         // guarantee a value
         ngModelOptions = ngModelCtrl.$options || {};
 
@@ -7806,7 +7927,8 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     isSanitizePresent = $injector.has('$sanitize');
 
     function escapeRegexp(queryToEscape) {
-      // Regex: capture the whole query string and replace it with the string that will be used to match
+      // Regex: capture the whole query string and replace it with the string
+		// that will be used to match
       // the results, for example if the capture is "a" the result will be \a
       return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
     }
@@ -7817,11 +7939,30 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
     return function(matchItem, query) {
       if (!isSanitizePresent && containsHtml(matchItem)) {
-        $log.warn('Unsafe use of typeahead please use ngSanitize'); // Warn the user about the danger
+        $log.warn('Unsafe use of typeahead please use ngSanitize'); // Warn the
+																	// user
+																	// about the
+																	// danger
       }
-      matchItem = query ? ('' + matchItem).replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem; // Replaces the capture string with a the same string inside of a "strong" tag
+      matchItem = query ? ('' + matchItem).replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem; // Replaces
+																																// the
+																																// capture
+																																// string
+																																// with
+																																// a
+																																// the
+																																// same
+																																// string
+																																// inside
+																																// of a
+																																// "strong"
+																																// tag
       if (!isSanitizePresent) {
-        matchItem = $sce.trustAsHtml(matchItem); // If $sanitize is not present we pack the string in a $sce object for the ng-bind-html directive
+        matchItem = $sce.trustAsHtml(matchItem); // If $sanitize is not
+													// present we pack the
+													// string in a $sce object
+													// for the ng-bind-html
+													// directive
       }
       return matchItem;
     };
@@ -8263,11 +8404,11 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             });
     }
 
-    //user restriction of accessing pages
+    // user restriction of accessing pages
     run.$inject = ['$rootScope', '$location', '$cookieStore'];
 
     function run($rootScope, $location, $cookieStore) {
-        //add global alert function
+        // add global alert function
         $rootScope.alert = {
             type: null,
             message: null
@@ -8277,7 +8418,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
             $rootScope.alert.message = message;
 
             $("#alertdiv").slideDown(300, function() {
-                //automatic close
+                // automatic close
                 setTimeout(function() {
                     $("#alertdiv").slideUp(300, function() {});
                 }, 2000);
@@ -8289,14 +8430,16 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
         $rootScope.globals = $cookieStore.get('globals') || {};
 
         $rootScope.$on('$locationChangeStart', function(event, next, current) {
-            // redirect to login page if not logged in and trying to access a restricted page
+            // redirect to login page if not logged in and trying to access a
+			// restricted page
             var restrictedPage = $.inArray($location.path(), ['/login', '/signup']) === -1;
             var loggedIn = $rootScope.globals.currentUser;
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');
             }
 
-            //redirect to home page if already logged in nd trying to access login/signup page
+            // redirect to home page if already logged in nd trying to access
+			// login/signup page
             if (!restrictedPage && loggedIn) {
                 $location.path('/');
             }
@@ -8321,7 +8464,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
         return service;
 
-        //set cookie
+        // set cookie
         function SetCredentials(userID) {
 
             $rootScope.globals = {
@@ -8330,7 +8473,8 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
                 }
             };
 
-            // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
+            // store user details in globals cookie that keeps user logged in
+			// for 1 week (or until they logout)
             var cookieExp = new Date();
             cookieExp.setDate(cookieExp.getDate() + 7);
             $cookies.putObject('globals', $rootScope.globals, {
@@ -8568,7 +8712,7 @@ angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInli
 
 })();
 
-//the funtion to format date from a Date object
+// the funtion to format date from a Date object
 function formatDate(d) {
     var month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -8580,7 +8724,7 @@ function formatDate(d) {
     return [year, month, day].join('-');
 }
 
-//serialize form array to json
+// serialize form array to json
 function objectifyForm(formArray) {
 
     var returnArray = {};
@@ -8615,16 +8759,12 @@ function Exercise(category, time, calorie) {
 }
 
 
-/** create data to send from record{date, userID, recordID, foodList[], exerciseList[]}
-data format
-{
-     userID: "mingzi",
-     date: "2017/12/01",
-     exercise_category: "running, swimming, boxing",
-     exercise_time: "30, 20, 10",
-     food_category: "apple, pork, beef",
-     food_amount: "1, 100, 100"
-}*/
+/**
+ * create data to send from record{date, userID, recordID, foodList[],
+ * exerciseList[]} data format { userID: "mingzi", date: "2017/12/01",
+ * exercise_category: "running, swimming, boxing", exercise_time: "30, 20, 10",
+ * food_category: "apple, pork, beef", food_amount: "1, 100, 100" }
+ */
 function createRecordData(record, userID) {
     var data = {};
 
@@ -8652,7 +8792,10 @@ function createRecordData(record, userID) {
     return data;
 }
 
-/* parse the data from server to recordList[{date, foodList[], exerciseList[]},...]*/
+/*
+ * parse the data from server to recordList[{date, foodList[],
+ * exerciseList[]},...]
+ */
 function parseRecordData(data) {
     var recordList = [];
 
@@ -8714,6 +8857,7 @@ function parseRecordData(data) {
 			var dateList = [];
 			var foodCalList = [];
 			var exCalList = [];
+			var totalCalList = [];
 			for (var i = 0; i < $scope.recordList.length; i++) {
 				var record = $scope.recordList[i];
 				var recordDate = formatDate(record.date);
@@ -8722,7 +8866,7 @@ function parseRecordData(data) {
 
 					var exCal = 0;
 					for (var j = 0; j < record.exerciseList.length; j++) {
-						exCal += parseInt(record.exerciseList[j].exercise_calorie);
+						exCal -= parseInt(record.exerciseList[j].exercise_calorie);
 					}
 					exCalList.push(exCal);
 
@@ -8731,13 +8875,9 @@ function parseRecordData(data) {
 						foodCal += parseInt(record.foodList[j].food_calorie);
 					}
 					foodCalList.push(foodCal);
+					totalCalList.push(foodCal + exCal);
 				}
 			}
-			var totalCalList = [];
-			for (var i = 0; i < dateList.length; i++) {
-				totalCalList[i] = foodCalList[i] - exCalList[i];
-			}
-			
 			
 			var dom = document.getElementById("container");
 			console.log(dom);
@@ -8745,14 +8885,6 @@ function parseRecordData(data) {
 
 			var myChart = echarts.init(dom);
 			var app = {};
-			var xAxisData = [];
-			var data1 = [];
-			var data2 = [];
-			for (var i = 0; i < 100; i++) {
-			    xAxisData.push('类目' + i);
-			    data1.push((Math.sin(i / 5) * (i / 5 -10) + i / 6) * 5);
-			    data2.push((Math.cos(i / 5) * (i / 5 -10) + i / 6) * 5);
-			}
 
 			var option = {
 			    title: {
@@ -8768,7 +8900,6 @@ function parseRecordData(data) {
 			            magicType: {
 			                type: ['stack', 'tiled']
 			            },
-//			            dataView: {},
 			            saveAsImage: {
 			                pixelRatio: 2
 			            }
@@ -8776,8 +8907,7 @@ function parseRecordData(data) {
 			    },
 			    tooltip: {},
 			    xAxis: {
-//			        data: xAxisData,
-			    		data: [1, 2, 3, 4, 5, 6, 7],
+			    		data: dateList,
 			        silent: false,
 			        splitLine: {
 			            show: false
@@ -8788,23 +8918,21 @@ function parseRecordData(data) {
 			    series: [{
 			        name: 'food_cal',
 			        type: 'bar',
-//			        data: data1,
-			        data: [ 150, 232, 201, 154, 190, 330, 410 ],
+			        data: foodCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10;
 			        }
 			    }, {
 			        name: 'ex_cal',
 			        type: 'bar',
-//			        data: data2,
-			        data: [ -120, -132, -101, -134, -90, -230, -210 ],
+			        data: exCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10 + 100;
 			        }
 			    }, {
 			        name: 'total_cal',
 			        type: 'bar',
-			        data: [ 30, 100, 100, 20, 100, 100, 200 ],
+			        data: totalCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10;
 			        }
@@ -8817,76 +8945,6 @@ function parseRecordData(data) {
 			if (option && typeof option === "object") {
 			    myChart.setOption(option, true);
 			}
-			
-			
-//			var myChart = echarts.init(document.getElementById('main'));
-//			var option = {
-//					title : {
-//						text : 'Record'
-//					},
-//					tooltip : {
-//						trigger : 'axis',
-//						axisPointer : {
-//							type : 'cross',
-//							label : {
-//								backgroundColor : '#6a7985'
-//							}
-//						}
-//					},
-//					legend : {
-//						data : [ 'food_cal', 'ex_cal', 'total_cal' ]
-//					},
-//					grid : {
-//						left : '3%',
-//						right : '4%',
-//						bottom : '3%',
-//						containLabel : true
-//					},
-//					xAxis : [ {
-//						type : 'category',
-//						boundaryGap : false,
-////						data : [ '10.1', '10.8', '10.15', '10.21', '10.28', '11.4', '11.11' ]
-//						data : dateList
-//					} ],
-//					yAxis : [ {
-//						type : 'value'
-//					} ],
-//					series : [ {
-//						name : 'food_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 120, 132, 101, 134, 90, 230, 210 ]
-////						data : foodCalList
-//						data : [50, 50]
-//					}, {
-//						name : 'ex_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 220, 182, 191, 234, 290, 330, 310 ]
-////						data : exCalList
-//						data : [150 , 200]
-//					}, {
-//						name : 'total_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 150, 232, 201, 154, 190, 330, 410 ]
-////						data : totalCalList
-//						data : [-100 , -150]
-//					} ]
-//				};
-//
-//				// 使用刚指定的配置项和数据显示图表。
-//				myChart.setOption(option);
-//			
 		};
 
 		$scope.inlineOptions = {
@@ -8965,7 +9023,7 @@ function parseRecordData(data) {
                 if (result.resultMessage.resultCode == 1) {
                     user.height = user.heightUpdate = result.height;
                     user.weight = user.weightUpdate = result.weight;
-                    //date need convertion
+                    // date need convertion
                     user.birthday = result.birthday;
                     user.birthdayUpdate = new Date(result.birthday + "Z");
                     user.name = user.nameUpdate = result.name;
@@ -9072,7 +9130,12 @@ function parseRecordData(data) {
                 "Tennis",
                 "Volleyball"
             ];
-            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) { // if there's no reocrd to edit
+            if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) { // if
+																							// there's
+																							// no
+																							// reocrd
+																							// to
+																							// edit
                 $scope.record = {
                     date: null,
                     foodList: [new Food()],
@@ -9089,7 +9152,7 @@ function parseRecordData(data) {
             console.log("update/upload record:")
             console.log(data);
 
-            //if there's no record to edit, upload new record
+            // if there's no record to edit, upload new record
             if ($rootScope.recordToEdit == undefined || $rootScope.recordToEdit == null) {
                 UserService.UploadRecord(data, function(result) {
                     console.log(result);
@@ -9108,7 +9171,7 @@ function parseRecordData(data) {
                     }
                 });
             }
-            //for test
+            // for test
             // $rootScope.recordToEdit = undefined;
             // $scope.changeSelection("timeline");
         };
@@ -9134,7 +9197,7 @@ function parseRecordData(data) {
             $scope.record.exerciseList.splice(index, 1);
         };
 
-        /*  datetimepicker */
+        /* datetimepicker */
         $scope.inlineOptions = {
             minDate: new Date(),
             showWeeks: false
@@ -9207,11 +9270,11 @@ function parseRecordData(data) {
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultCode == 1) {
-                    //set input userId as valid
+                    // set input userId as valid
                     $scope.form.userId.$setValidity("unique", true);
 
                 } else {
-                    //set input userId as invalid
+                    // set input userId as invalid
                     $scope.form.userId.$setValidity("unique", false);
                     $scope.showalert(result.resultTips, "danger");
                 }
@@ -9224,11 +9287,11 @@ function parseRecordData(data) {
                 var result = $.parseJSON(response);
                 console.log(result);
                 if (result.resultCode == 1) {
-                    //set input email as valid
+                    // set input email as valid
                     $scope.form.email.$setValidity("unique", true);
 
                 } else {
-                    //set input email as invalid
+                    // set input email as invalid
                     $scope.form.email.$setValidity("unique", false);
                     $scope.showalert(result.resultTips, "danger");
                 }
@@ -9554,8 +9617,9 @@ function parseRecordData(data) {
 
         $scope.deleteRecord = function(date) {
             console.log("delete record date: " + date);
-            // $rootScope.recordList = $rootScope.recordList.filter(function(ele) {
-            //     return ele.date !== date;
+            // $rootScope.recordList =
+			// $rootScope.recordList.filter(function(ele) {
+            // return ele.date !== date;
             // });
             UserService.DeleteRecord(date, function(response) {
                 var result = $.parseJSON(response);
@@ -9593,7 +9657,9 @@ function parseRecordData(data) {
                     var user = $scope.user;
                     user.height = user.heightUpdate;
                     user.weight = user.weightUpdate;
-                    user.birthday = formatDate($scope.user.birthdayUpdate); //convert to string
+                    user.birthday = formatDate($scope.user.birthdayUpdate); // convert
+																			// to
+																			// string
                     user.name = user.nameUpdate;
                     user.sex = user.sexUpdate;
 
