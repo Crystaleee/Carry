@@ -65,7 +65,7 @@
             } else { // else update existing record
                 UserService.UpdateRecord(data, function(result) {
                     console.log(result);
-                    if (result.resultMessage.resultCode == 1) {
+                    if (result.resultCode == 1) {
                         $rootScope.recordToEdit = undefined;
                         $rootScope.showalert("Your record is updated successfully!", "success");
                         $scope.changeSelection("timeline");
