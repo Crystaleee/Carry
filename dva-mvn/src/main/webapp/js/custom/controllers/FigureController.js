@@ -22,6 +22,8 @@
 			var dateList = [];
 			var foodCalList = [];
 			var exCalList = [];
+			var totalCalList = [];
+			console.log($scope.recordList);
 			for (var i = 0; i < $scope.recordList.length; i++) {
 				var record = $scope.recordList[i];
 				var recordDate = formatDate(record.date);
@@ -30,7 +32,7 @@
 
 					var exCal = 0;
 					for (var j = 0; j < record.exerciseList.length; j++) {
-						exCal += parseInt(record.exerciseList[j].exercise_calorie);
+						exCal -= parseInt(record.exerciseList[j].exercise_calorie);
 					}
 					exCalList.push(exCal);
 
@@ -39,13 +41,9 @@
 						foodCal += parseInt(record.foodList[j].food_calorie);
 					}
 					foodCalList.push(foodCal);
+					totalCalList.push(foodCal + exCal);
 				}
 			}
-			var totalCalList = [];
-			for (var i = 0; i < dateList.length; i++) {
-				totalCalList[i] = foodCalList[i] - exCalList[i];
-			}
-			
 			
 			var dom = document.getElementById("container");
 			console.log(dom);
@@ -53,14 +51,6 @@
 
 			var myChart = echarts.init(dom);
 			var app = {};
-			var xAxisData = [];
-			var data1 = [];
-			var data2 = [];
-			for (var i = 0; i < 100; i++) {
-			    xAxisData.push('类目' + i);
-			    data1.push((Math.sin(i / 5) * (i / 5 -10) + i / 6) * 5);
-			    data2.push((Math.cos(i / 5) * (i / 5 -10) + i / 6) * 5);
-			}
 
 			var option = {
 			    title: {
@@ -76,7 +66,6 @@
 			            magicType: {
 			                type: ['stack', 'tiled']
 			            },
-//			            dataView: {},
 			            saveAsImage: {
 			                pixelRatio: 2
 			            }
@@ -84,8 +73,7 @@
 			    },
 			    tooltip: {},
 			    xAxis: {
-//			        data: xAxisData,
-			    		data: [1, 2, 3, 4, 5, 6, 7],
+			    		data: dateList,
 			        silent: false,
 			        splitLine: {
 			            show: false
@@ -96,23 +84,21 @@
 			    series: [{
 			        name: 'food_cal',
 			        type: 'bar',
-//			        data: data1,
-			        data: [ 150, 232, 201, 154, 190, 330, 410 ],
+			        data: foodCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10;
 			        }
 			    }, {
 			        name: 'ex_cal',
 			        type: 'bar',
-//			        data: data2,
-			        data: [ -120, -132, -101, -134, -90, -230, -210 ],
+			        data: exCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10 + 100;
 			        }
 			    }, {
 			        name: 'total_cal',
 			        type: 'bar',
-			        data: [ 30, 100, 100, 20, 100, 100, 200 ],
+			        data: totalCalList,
 			        animationDelay: function (idx) {
 			            return idx * 10;
 			        }
@@ -125,76 +111,6 @@
 			if (option && typeof option === "object") {
 			    myChart.setOption(option, true);
 			}
-			
-			
-//			var myChart = echarts.init(document.getElementById('main'));
-//			var option = {
-//					title : {
-//						text : 'Record'
-//					},
-//					tooltip : {
-//						trigger : 'axis',
-//						axisPointer : {
-//							type : 'cross',
-//							label : {
-//								backgroundColor : '#6a7985'
-//							}
-//						}
-//					},
-//					legend : {
-//						data : [ 'food_cal', 'ex_cal', 'total_cal' ]
-//					},
-//					grid : {
-//						left : '3%',
-//						right : '4%',
-//						bottom : '3%',
-//						containLabel : true
-//					},
-//					xAxis : [ {
-//						type : 'category',
-//						boundaryGap : false,
-////						data : [ '10.1', '10.8', '10.15', '10.21', '10.28', '11.4', '11.11' ]
-//						data : dateList
-//					} ],
-//					yAxis : [ {
-//						type : 'value'
-//					} ],
-//					series : [ {
-//						name : 'food_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 120, 132, 101, 134, 90, 230, 210 ]
-////						data : foodCalList
-//						data : [50, 50]
-//					}, {
-//						name : 'ex_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 220, 182, 191, 234, 290, 330, 310 ]
-////						data : exCalList
-//						data : [150 , 200]
-//					}, {
-//						name : 'total_cal',
-//						type : 'line',
-//						stack : '总量',
-//						areaStyle : {
-//							normal : {}
-//						},
-////						data : [ 150, 232, 201, 154, 190, 330, 410 ]
-////						data : totalCalList
-//						data : [-100 , -150]
-//					} ]
-//				};
-//
-//				// 使用刚指定的配置项和数据显示图表。
-//				myChart.setOption(option);
-//			
 		};
 
 		$scope.inlineOptions = {
