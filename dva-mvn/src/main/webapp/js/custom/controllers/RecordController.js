@@ -60,7 +60,7 @@
                         $rootScope.showalert("Your fitness is recorded successfully!", "success");
                         $scope.changeSelection("timeline");
                     } else {
-                        $rootScope.showalert(result.resultTips, "success");
+                        $rootScope.showalert(result.resultMessage.resultTips, "success");
                     }
                 });
             } else { // else update existing record
