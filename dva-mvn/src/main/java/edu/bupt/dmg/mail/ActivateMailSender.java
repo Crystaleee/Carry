@@ -43,7 +43,7 @@ public class ActivateMailSender {
 		helper.setFrom(mailSender.getUsername());
 		helper.setTo(user.getEmail());
 		System.out.println(user.getEmail());
-		helper.setText("Dear " + user.getName() + ",<br>Thank you for using VisAna. <br>Please Click <a href='"
+		helper.setText("Dear " + user.getName() + ",<br>Thank you for using Carry! <br>Please Click <a href='"
 				+ mailActivateAddress + "?UserId=" + user.getUserId() + "&EnableCode=" + user.getEnableCode()
 				+ "'>this link</a> to activated your account!", true);
 		System.out.println("where???");
