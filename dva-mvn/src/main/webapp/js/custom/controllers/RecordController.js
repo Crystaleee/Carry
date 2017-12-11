@@ -3,7 +3,20 @@
 
     angular
         .module('app')
-        .controller('RecordController', RecordController);
+        .controller('RecordController', RecordController)
+        .directive('stringToNumber', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, element, attrs, ngModel) {
+                    ngModel.$parsers.push(function(value) {
+                        return '' + value;
+                    });
+                    ngModel.$formatters.push(function(value) {
+                        return parseFloat(value);
+                    });
+                }
+            };
+        });
 
     RecordController.$inject = ['$scope', 'UserService', '$rootScope'];
 
@@ -42,6 +55,7 @@
                     exerciseList: [new Exercise()]
                 }
             } else {
+                console.log("recordToEdit");
                 console.log($rootScope.recordToEdit);
                 $scope.record = $rootScope.recordToEdit;
             }
