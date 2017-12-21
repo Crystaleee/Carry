@@ -49,11 +49,19 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     line-height: 36px;
 }
 
+.name {
+    display: inline-block;
+    font-family: 'Berkshire Swash', cursive;
+    position: relative;
+    top: 22px;
+    letter-spacing: 3px;
+}
+
 .left {
     color: #eee;
     background-color: #26333d;
     height: 100%;
-    padding-top: 8%;
+    padding-top: 7%;
 }
 
 .right {

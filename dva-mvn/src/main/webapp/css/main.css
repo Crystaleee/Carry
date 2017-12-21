@@ -237,6 +237,33 @@
     border-color: #6fdaa1;
 }
 
+.btn-primary.selected {
+    background: #6fdaa1;
+    border-color: #6fdaa1;
+    animation: button-animation 0.3s ease forwards;
+    -webkit-animation: button-animation 0.3s ease forwards;
+}
+
+/* Safari 4.0 - 8.0 */
+
+@-webkit-keyframes button-animation {
+    from {}
+    to {
+        width: 73%;
+        line-height: 1.7;
+    }
+}
+
+/* Standard syntax */
+
+@keyframes button-animation {
+    from {}
+    to {
+        width: 73%;
+        line-height: 1.7;
+    }
+}
+
 .rating {
     text-align: center;
     margin-top: 40px;
@@ -610,11 +637,19 @@ input.ng-dirty.ng-invalid:focus, input.ng-dirty.has-error:focus {
     line-height: 36px;
 }
 
+.name {
+    display: inline-block;
+    font-family: 'Berkshire Swash', cursive;
+    position: relative;
+    top: 22px;
+    letter-spacing: 3px;
+}
+
 .left {
     color: #eee;
     background-color: #26333d;
     height: 100%;
-    padding-top: 8%;
+    padding-top: 7%;
 }
 
 .right {

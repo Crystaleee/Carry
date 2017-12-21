@@ -50,10 +50,10 @@
             </div>
         </div>
         <div class="buttons">
-            <a class="btn btn-primary" ng-click="selection='timeline'">Timeline</a>
-            <a class="btn btn-primary" ng-click="selection='update'">Update</a>
-            <a class="btn btn-primary" ng-click="selection='record'">Record</a>
-            <a class="btn btn-primary" ng-click="selection='figure'">Figure</a>
+            <a class="btn btn-primary" ng-class="{selected: selection=='timeline'}" ng-click="selection='timeline'">Timeline</a>
+            <a class="btn btn-primary" ng-class="{selected: selection=='update'}" ng-click="selection='update'">Profile</a>
+            <a class="btn btn-primary" ng-class="{selected: selection=='record'}" ng-click="selection='record'">Record</a>
+            <a class="btn btn-primary" ng-class="{selected: selection=='figure'}" ng-click="selection='figure'">Figure</a>
             <a ng-click="logout()" class="btn btn-primary">Logout</a>
 
         </div>
