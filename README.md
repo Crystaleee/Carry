@@ -28,4 +28,4 @@ gulp start
 ![Screenshot of Carry](./login.png)
 ![Screenshot of Carry](./home.png)
 ![Screenshot of Carry](./graph.png)
-![Screenshot of Carry](./carry big.gif)
+![Carry Demo](./carry.gif)
