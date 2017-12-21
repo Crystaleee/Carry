@@ -41,11 +41,6 @@ Thumbs.db
 
 #npm
 node_modules/
-gulpfile.js
-package.json
-package-lock.json
-scripts.json
-styles.json
 
 #idea
 .idea/
