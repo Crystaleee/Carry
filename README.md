@@ -21,6 +21,7 @@ Carry is a personal fitness web application which can record users' daily diet a
 * For Backend: Maven build
 * For Frontend:
 ```
+cd ./src/main/webapp
 gulp start
 ```
 
